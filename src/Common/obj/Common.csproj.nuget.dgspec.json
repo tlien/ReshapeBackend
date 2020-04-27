@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\Common\\Common.csproj": {}
+    "C:\\Users\\tlc\\dev\\diplomprojekt\\ReshapeBackend\\src\\Common\\Common.csproj": {}
   },
   "projects": {
-    "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\Common\\Common.csproj": {
+    "C:\\Users\\tlc\\dev\\diplomprojekt\\ReshapeBackend\\src\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\Common\\Common.csproj",
+        "projectUniqueName": "C:\\Users\\tlc\\dev\\diplomprojekt\\ReshapeBackend\\src\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\Common\\Common.csproj",
-        "packagesPath": "C:\\Users\\twast\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\Common\\obj\\",
+        "projectPath": "C:\\Users\\tlc\\dev\\diplomprojekt\\ReshapeBackend\\src\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\tlc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tlc\\dev\\diplomprojekt\\ReshapeBackend\\src\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\twast\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tlc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,16 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

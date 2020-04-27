@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "DzL3npdgxIpoRlfW58LK2xkEtJZ+Rqxyfx+nZHUUuQ15A0O6Bpfleu0gQ9cNGAjjLLYnVOM54Yoxsu1eoAFErg==",
+  "dgSpecHash": "IvqBDXEz8OXVvpzMSCfkANzWM6ytQVphZp7NpzeJIZ/AcUPTIMp/jEruzg8DWyJrTrO4j3NoVBEXXXAhXlNKTQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\Common\\Common.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\tlc\\dev\\diplomprojekt\\ReshapeBackend\\src\\Common\\Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tlc\\.nuget\\packages\\mediatr\\8.0.1\\mediatr.8.0.1.nupkg.sha512",
+    "C:\\Users\\tlc\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\8.0.0\\mediatr.extensions.microsoft.dependencyinjection.8.0.0.nupkg.sha512",
+    "C:\\Users\\tlc\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.0.0\\microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
