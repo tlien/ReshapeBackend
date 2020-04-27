@@ -1,0 +1,9 @@
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\obj\Debug\netcoreapp3.1\BusinessManagementService.csprojAssemblyReference.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\obj\Debug\netcoreapp3.1\BusinessManagementService.AssemblyInfoInputs.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\obj\Debug\netcoreapp3.1\BusinessManagementService.AssemblyInfo.cs
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\obj\Debug\netcoreapp3.1\BusinessManagementService.RazorTargetAssemblyInfo.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\obj\Debug\netcoreapp3.1\staticwebassets\BusinessManagementService.StaticWebAssets.Manifest.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\BusinessManagementService\obj\Debug\netcoreapp3.1\staticwebassets\BusinessManagementService.StaticWebAssets.xml

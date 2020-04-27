@@ -1,0 +1,9 @@
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\obj\Debug\netcoreapp3.1\AccountService.csprojAssemblyReference.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\obj\Debug\netcoreapp3.1\AccountService.AssemblyInfoInputs.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\obj\Debug\netcoreapp3.1\AccountService.AssemblyInfo.cs
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\obj\Debug\netcoreapp3.1\AccountService.RazorTargetAssemblyInfo.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\obj\Debug\netcoreapp3.1\staticwebassets\AccountService.StaticWebAssets.Manifest.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\AccountService\obj\Debug\netcoreapp3.1\staticwebassets\AccountService.StaticWebAssets.xml

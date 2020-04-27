@@ -1,0 +1,9 @@
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\obj\Debug\netcoreapp3.1\GrpcTest.csprojAssemblyReference.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\obj\Debug\netcoreapp3.1\GrpcTest.AssemblyInfoInputs.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\obj\Debug\netcoreapp3.1\GrpcTest.AssemblyInfo.cs
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\obj\Debug\netcoreapp3.1\GrpcTest.RazorTargetAssemblyInfo.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\obj\Debug\netcoreapp3.1\staticwebassets\GrpcTest.StaticWebAssets.Manifest.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\GrpcTest\obj\Debug\netcoreapp3.1\staticwebassets\GrpcTest.StaticWebAssets.xml

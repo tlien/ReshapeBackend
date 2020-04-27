@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "RINfd/RMVJN7dmrpSgESvvWeysw7pG7mgIUZoJMwu5+plvJdzqICuCibIAXF+I6IxrTBY1bnthB1rHueHS9t7A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\BusinessManagementService\\BusinessManagementService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\twast\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.8\\microsoft.visualstudio.azure.containers.tools.targets.1.10.8.nupkg.sha512"
+  ],
+  "logs": []
+}

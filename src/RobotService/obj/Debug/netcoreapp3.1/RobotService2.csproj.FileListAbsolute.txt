@@ -1,0 +1,9 @@
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\obj\Debug\netcoreapp3.1\RobotService2.csprojAssemblyReference.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\obj\Debug\netcoreapp3.1\RobotService2.AssemblyInfoInputs.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\obj\Debug\netcoreapp3.1\RobotService2.AssemblyInfo.cs
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\obj\Debug\netcoreapp3.1\RobotService2.RazorTargetAssemblyInfo.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\obj\Debug\netcoreapp3.1\staticwebassets\RobotService2.StaticWebAssets.Manifest.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\RobotService2\obj\Debug\netcoreapp3.1\staticwebassets\RobotService2.StaticWebAssets.xml

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Nl6DE2fxngeq+UpnYW4uIYSSewu6WBrvKD3CkuzxOrdP1eTR/tVDL6qAHp62nlhhRmv8nkoHEoP0w76UR6hPaQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\RobotService\\RobotService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\twast\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.8\\microsoft.visualstudio.azure.containers.tools.targets.1.10.8.nupkg.sha512"
+  ],
+  "logs": []
+}

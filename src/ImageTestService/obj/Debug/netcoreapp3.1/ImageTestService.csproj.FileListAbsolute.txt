@@ -1,0 +1,9 @@
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\bin\Debug\netcoreapp3.1\ImageTestService.exe
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\obj\Debug\netcoreapp3.1\ImageTestService.AssemblyInfoInputs.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\obj\Debug\netcoreapp3.1\ImageTestService.AssemblyInfo.cs
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\obj\Debug\netcoreapp3.1\ImageTestService.RazorTargetAssemblyInfo.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\obj\Debug\netcoreapp3.1\staticwebassets\ImageTestService.StaticWebAssets.Manifest.cache
+C:\Users\twast\Documents\GitHub\ReshapeBackend\Reshape-Backend\ImageTestService\obj\Debug\netcoreapp3.1\staticwebassets\ImageTestService.StaticWebAssets.xml

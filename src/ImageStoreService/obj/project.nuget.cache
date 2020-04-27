@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "pcy8hy+UuK0CmFM43tfKfo6qO0dSpgFpe1VH/nUF3xUkC4svcdpzBrJ6ZOWKO4B0I4fGbcg8ROCkVk50aedr3Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\twast\\Documents\\GitHub\\ReshapeBackend\\Reshape-Backend\\ImageStoreService\\ImageStoreService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\twast\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.8\\microsoft.visualstudio.azure.containers.tools.targets.1.10.8.nupkg.sha512"
+  ],
+  "logs": []
+}
