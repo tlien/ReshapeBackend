@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Common.SeedWork
 {
-    interface IAggregateRoot
+    public interface IAggregateRoot
     {
     }
 }
