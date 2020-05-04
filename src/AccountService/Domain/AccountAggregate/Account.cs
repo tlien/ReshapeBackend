@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Common.SeedWork;
 using AccountService.Infrastructure;
 
-namespace AccountService.Domain.AggregatesModel.AccountAggregate {
-    public class Account : Entity, IAggregateRoot {
+namespace AccountService.Domain.AggregatesModel.AccountAggregate
+{
+    public class Account : Entity, IAggregateRoot
+    {
         public Address address { get; private set; }
         public ContactDetails contactDetails { get; private set; }
 
@@ -13,7 +15,7 @@ namespace AccountService.Domain.AggregatesModel.AccountAggregate {
 
         // private readonly List<Feature> _features;
         // public IReadOnlyCollection<Feature> features => _features;
-        
+
         private readonly List<AccountFeature> _features;
         public IReadOnlyCollection<AccountFeature> features => _features;
 
@@ -28,11 +30,13 @@ namespace AccountService.Domain.AggregatesModel.AccountAggregate {
         //     _businessTier = new BusinessTier("free");
         // }
 
-        public void SetAddress(Address newAddress) {
+        public void SetAddress(Address newAddress)
+        {
             address = newAddress;
         }
 
-        public void SetContactDetails(ContactDetails newContactDetails) {
+        public void SetContactDetails(ContactDetails newContactDetails)
+        {
             contactDetails = newContactDetails;
         }
 
@@ -44,7 +48,8 @@ namespace AccountService.Domain.AggregatesModel.AccountAggregate {
         //     _features.Remove(feature);
         // }
 
-        public void SetBusinessTier(BusinessTier businessTier) {
+        public void SetBusinessTier(BusinessTier businessTier)
+        {
             _businessTier = businessTier;
         }
     }

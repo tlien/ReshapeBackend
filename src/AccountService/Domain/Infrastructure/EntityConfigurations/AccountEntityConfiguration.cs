@@ -2,9 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AccountService.Domain.AggregatesModel.AccountAggregate;
 
-namespace AccountService.Infrastructure {
-    class AccountEntityConfiguration : IEntityTypeConfiguration<Account> {
-        public void Configure(EntityTypeBuilder<Account> builder) {
+namespace AccountService.Infrastructure
+{
+    class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
+    {
+        public void Configure(EntityTypeBuilder<Account> builder)
+        {
             builder.ToTable("accounts", AccountContext.DEFAULT_SCHEMA);
 
             builder.HasKey(o => o.Id);
