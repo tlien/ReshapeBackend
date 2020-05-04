@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using AccountService.Infrastructure;
 using Common.SeedWork;
 
 namespace AccountService.Domain.AggregatesModel.AccountAggregate

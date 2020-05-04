@@ -9,7 +9,6 @@ namespace AccountService.Infrastructure
     {
         public void Configure(EntityTypeBuilder<AccountFeature> builder)
         {
-
             builder.HasKey(t => new { t.AccountId, t.FeatureId });
         }
     }
@@ -20,6 +19,6 @@ namespace AccountService.Infrastructure
         public Account Account { get; set; }
 
         public Guid FeatureId { get; set; }
-        private Feature Feature { get; set; }
+        public Feature Feature { get; set; }
     }
 }
