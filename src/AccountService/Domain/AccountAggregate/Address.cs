@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Common.SeedWork;
 
-namespace AccountService.Domain.AggregatesModel.AccountAggregate {
-    public class Address : ValueObject {
+namespace AccountService.Domain.AggregatesModel.AccountAggregate
+{
+    public class Address : ValueObject
+    {
         public string Street1 { get; private set; }
         public string Street2 { get; private set; }
         public string City { get; private set; }
@@ -11,7 +13,8 @@ namespace AccountService.Domain.AggregatesModel.AccountAggregate {
 
         public Address() { }
 
-        public Address(string street1, string street2, string city, string zipCode, string country) {
+        public Address(string street1, string street2, string city, string zipCode, string country)
+        {
             Street1 = street1;
             Street2 = street2;
             City = city;
@@ -19,7 +22,8 @@ namespace AccountService.Domain.AggregatesModel.AccountAggregate {
             Country = country;
         }
 
-        protected override IEnumerable<object> GetAtomicValues() {
+        protected override IEnumerable<object> GetAtomicValues()
+        {
             yield return Street1;
             yield return Street2;
             yield return City;

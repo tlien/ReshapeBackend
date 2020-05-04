@@ -1,12 +1,15 @@
 using Common.SeedWork;
 
-namespace AccountService.Domain.AggregatesModel.AccountAggregate {
-    public class BusinessTier : Entity {
+namespace AccountService.Domain.AggregatesModel.AccountAggregate
+{
+    public class BusinessTier : Entity
+    {
         private string _name;
 
-        protected BusinessTier() {}
+        protected BusinessTier() { }
 
-        public BusinessTier(string name) {
+        public BusinessTier(string name)
+        {
             _name = name;
         }
 

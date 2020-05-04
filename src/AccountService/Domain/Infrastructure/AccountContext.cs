@@ -4,8 +4,10 @@ using AccountService.Domain.AggregatesModel.AccountAggregate;
 using Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace AccountService.Infrastructure {
-    public class AccountContext : DbContext, IUnitOfWork {
+namespace AccountService.Infrastructure
+{
+    public class AccountContext : DbContext, IUnitOfWork
+    {
         public const string DEFAULT_SCHEMA = "account";
         public DbSet<Account> accounts { get; set; }
 
