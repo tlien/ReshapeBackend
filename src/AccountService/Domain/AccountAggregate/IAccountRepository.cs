@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Common.SeedWork;
 
@@ -7,7 +8,6 @@ namespace AccountService.Domain.AggregatesModel.AccountAggregate
     {
         Account Add(Account account);
         void Update(Account account);
-        void Remove(Account account);
-        Task<Account> GetAsync(Account account);
+        Task<Account> GetAsync(Guid accountId);
     }
 }

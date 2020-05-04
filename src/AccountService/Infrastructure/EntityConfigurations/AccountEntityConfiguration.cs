@@ -10,21 +10,28 @@ namespace AccountService.Infrastructure
         {
             builder.ToTable("accounts", AccountContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(o => o.Id);
+            builder.HasKey(a => a.Id);
 
-            builder.Ignore(o => o.DomainEvents);
+            builder.Ignore(a => a.DomainEvents);
 
-            // DDD: Value Object
-            builder.OwnsOne(o => o.address, a => a.WithOwner());
-            builder.OwnsOne(o => o.contactDetails, c => c.WithOwner());
+            // DDD: Value Objects persisted as owned entity type
+            builder.OwnsOne(a => a.address, ad => ad.WithOwner());
+            builder.OwnsOne(a => a.contactDetails, c => c.WithOwner());
+
+            // DDD: properties are private fields of the aggregate class
+            // PropertyAccessMode.Field configures ef to correctly access these fields
+            builder.Property<bool>("_isActive")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("isActive")
+                .IsRequired(true);
 
             builder.Property<BusinessTier>("_businessTier")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("businessTier");
+                .HasColumnName("businessTier")
+                .IsRequired(true);
 
+            // Features collection
             var navigation = builder.Metadata.FindNavigation(nameof(Account.features));
-
-            // DDD Patterns comment:
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             builder
