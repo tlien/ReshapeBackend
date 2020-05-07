@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Common.SeedWork;
 
 namespace BusinessManagementService.Domain.AggregatesModel.FeatureAggregate {

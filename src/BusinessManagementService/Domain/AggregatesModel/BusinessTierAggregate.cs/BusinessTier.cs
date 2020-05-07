@@ -1,7 +1,11 @@
 using Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel {
+namespace BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate {
     public class BusinessTier : Entity, IAggregateRoot {
-        public string Name { get; private set; }
+        private string _name;
+
+        public BusinessTier(string name) {
+            _name = name;
+        }
     }
 }

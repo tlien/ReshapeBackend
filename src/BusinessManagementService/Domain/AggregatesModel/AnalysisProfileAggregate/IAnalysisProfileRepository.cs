@@ -1,4 +1,5 @@
 
+using System;
 using System.Threading.Tasks;
 using Common.SeedWork;
 
@@ -6,7 +7,7 @@ namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggreg
     public interface IAnalysisProfileRepository : IRepository<AnalysisProfile> {
         AnalysisProfile Add(AnalysisProfile analysisProfile);
         void Update(AnalysisProfile analysisProfile);
-        void Remove(string id);
-        Task<AnalysisProfile> GetAsync(string id);
+        void Remove(Guid id);
+        Task<AnalysisProfile> GetAsync(Guid id);
     }
 }
