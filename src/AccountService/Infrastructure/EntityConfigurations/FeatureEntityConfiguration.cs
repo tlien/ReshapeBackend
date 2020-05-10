@@ -28,7 +28,8 @@ namespace Reshape.AccountService.Infrastructure
 
             builder
                 .HasMany<AccountFeature>()
-                .WithOne(af => af.Feature);
+                .WithOne(af => af.Feature)
+                .HasForeignKey(af => af.FeatureId);
         }
     }
 }

@@ -15,28 +15,29 @@ namespace Reshape.AccountService.Infrastructure
             builder.Ignore(a => a.DomainEvents);
 
             // DDD: Value Objects persisted as owned entity type
-            builder.OwnsOne(a => a.address, ad => ad.WithOwner());
-            builder.OwnsOne(a => a.contactDetails, c => c.WithOwner());
+            builder.OwnsOne(a => a.Address, ad => ad.WithOwner());
+            builder.OwnsOne(a => a.ContactDetails, c => c.WithOwner());
 
             // DDD: properties are private fields of the aggregate class
             // PropertyAccessMode.Field configures ef to correctly access these fields
             builder.Property<bool>("_isActive")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("isActive")
+                .HasColumnName("isactive")
                 .IsRequired(true);
 
-            builder.Property<BusinessTier>("_businessTier")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("businessTier")
-                .IsRequired(true);
+            builder.Metadata
+                .FindNavigation(nameof(Account.BusinessTier))
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             // Features collection
-            var navigation = builder.Metadata.FindNavigation(nameof(Account.features));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Metadata
+                .FindNavigation(nameof(Account.Features))
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
 
-            builder
-                .HasMany<AccountFeature>()
-                .WithOne(af => af.Account);
+            // builder
+            //     .HasMany<AccountFeature>()
+            //     .WithOne(af => af.Account)
+            //     .HasForeignKey(af => af.AccountId);
         }
     }
 }

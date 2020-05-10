@@ -14,6 +14,7 @@ namespace Reshape.AccountService.Infrastructure
     {
         public const string DEFAULT_SCHEMA = "account";
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<BusinessTier> BusinessTiers { get; set; }
         public DbSet<Feature> Features { get; set; }
 
         private readonly IMediator _mediator;
@@ -34,9 +35,10 @@ namespace Reshape.AccountService.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new FeatureEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new BusinessTierEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AccountFeatureEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new FeatureEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
         }
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

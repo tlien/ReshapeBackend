@@ -10,14 +10,24 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         private bool _isActive;
         public bool GetIsActive => _isActive;
 
-        public Address address { get; private set; }
-        public ContactDetails contactDetails { get; private set; }
+        public Address Address { get; private set; }
+        public ContactDetails ContactDetails { get; private set; }
 
         private BusinessTier _businessTier;
-        public BusinessTier GetBusinessTier => _businessTier;
+        public BusinessTier BusinessTier
+        {
+            get
+            {
+                return _businessTier;
+            }
+            private set
+            {
+                _businessTier = value;
+            }
+        }
 
         private readonly List<AccountFeature> _features;
-        public IReadOnlyCollection<AccountFeature> features => _features;
+        public IReadOnlyCollection<AccountFeature> Features => _features;
 
         public static Account NewAccount()
         {
@@ -34,12 +44,12 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 
         public void SetAddress(Address newAddress)
         {
-            address = newAddress;
+            Address = newAddress;
         }
 
         public void SetContactDetails(ContactDetails newContactDetails)
         {
-            contactDetails = newContactDetails;
+            ContactDetails = newContactDetails;
         }
 
         public void AddFeatures(AccountFeature feature)
