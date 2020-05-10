@@ -5,10 +5,10 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using MediatR;
-using Common.SeedWork;
-using AccountService.Domain.AggregatesModel.AccountAggregate;
+using Reshape.Common.SeedWork;
+using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
-namespace AccountService.Infrastructure
+namespace Reshape.AccountService.Infrastructure
 {
     public class AccountContext : DbContext, IUnitOfWork
     {

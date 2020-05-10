@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Reshape.AccountService.Infrastructure;
 
-namespace AccountService
+namespace Reshape.AccountService
 {
     public class Program
     {
