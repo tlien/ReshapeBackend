@@ -54,7 +54,7 @@ namespace Reshape.AccountService
     {
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddEntityFrameworkSqlServer().AddDbContext<AccountContext>(opt =>
+            services.AddDbContext<AccountContext>(opt =>
             {
                 opt.UseNpgsql(configuration["ConnectionString"]);
             },
