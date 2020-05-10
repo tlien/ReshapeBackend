@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.SeedWork
+namespace Reshape.Common.SeedWork
 {
     public interface IAggregateRoot
     {
