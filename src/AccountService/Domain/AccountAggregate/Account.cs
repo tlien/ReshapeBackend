@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Common.SeedWork;
-using AccountService.Infrastructure;
+using Reshape.Common.SeedWork;
+using Reshape.AccountService.Infrastructure;
 
-namespace AccountService.Domain.AggregatesModel.AccountAggregate
+namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public class Account : Entity, IAggregateRoot
     {

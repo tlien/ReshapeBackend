@@ -1,6 +1,6 @@
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace AccountService.Domain.AggregatesModel.AccountAggregate
+namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public class Feature : Entity
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace AccountService.Domain.AggregatesModel.AccountAggregate
+namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public interface IAccountRepository : IRepository<Account>
     {

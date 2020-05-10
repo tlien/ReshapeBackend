@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AccountService.Infrastructure;
+using Reshape.AccountService.Infrastructure;
 
-namespace AccountService
+namespace Reshape.AccountService
 {
     public class Startup
     {

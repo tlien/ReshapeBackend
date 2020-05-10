@@ -1,9 +1,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using AccountService.Domain.AggregatesModel.AccountAggregate;
+using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
-namespace AccountService.Infrastructure
+namespace Reshape.AccountService.Infrastructure
 {
     class AccountFeatureEntityConfiguration : IEntityTypeConfiguration<AccountFeature>
     {

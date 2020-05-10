@@ -2,10 +2,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Common.SeedWork;
-using AccountService.Domain.AggregatesModel.AccountAggregate;
+using Reshape.Common.SeedWork;
+using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
-namespace AccountService.Infrastructure.Repositories
+namespace Reshape.AccountService.Infrastructure.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
