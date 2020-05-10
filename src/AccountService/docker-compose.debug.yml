@@ -1,0 +1,21 @@
+version: '3.4'
+# FOR DEBUGGING ONLY!
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: accountservice
+    ports:
+      - "5432:5432"
+
+  app:
+    image: accountservice
+    build:
+      context: ../
+      dockerfile: AccountService/Dockerfile
+    ports:
+      - 80
+      - 443
+    depends_on:
+      - db
