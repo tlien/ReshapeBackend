@@ -5,10 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
-using static BusinessManagementService.API.Application.Commands.AnalysisProfileCommands.CreateAnalysisProfileCommand;
-using static BusinessManagementService.API.Application.Commands.AnalysisProfileCommands.CreateAnalysisProfileCommandHandler;
+using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
+using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
-namespace BusinessManagementService.API.Application.Commands.AnalysisProfileCommands
+namespace BusinessManagementService.API.Application.Commands
 {
     public class CreateAnalysisProfileCommandHandler : IRequestHandler<CreateAnalysisProfileCommand, AnalysisProfileDTO>
     {
@@ -24,6 +24,12 @@ namespace BusinessManagementService.API.Application.Commands.AnalysisProfileComm
         public async Task<AnalysisProfileDTO> Handle(CreateAnalysisProfileCommand message, CancellationToken cancellationToken)
         {
             var analysisProfile = new AnalysisProfile(message.Name, message.Description, message.FileName);
+
+            foreach(var rf in message.RequiredFeatures)
+            {
+                analysisProfile.AddRequiredFeature(new AnalysisProfileRequiredFeature { FeatureID = rf.FeatureID });
+            }
+
             _repository.Add(analysisProfile);
             await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
@@ -39,17 +45,17 @@ namespace BusinessManagementService.API.Application.Commands.AnalysisProfileComm
 
             public static AnalysisProfileDTO FromAnalysisProfile(AnalysisProfile analysisProfile) 
             {
-                return new AnalysisProfileDTO
+                return new AnalysisProfileDTO()
                 {
 
                     Name = analysisProfile.GetName,
                     Description = analysisProfile.GetDescription,
                     FileName = analysisProfile.GetFileName,
                     RequiredFeatures = analysisProfile.RequiredFeatures.Select(rf => new AnalysisProfileRequiredFeatureDTO
-                    {
-                        AnalysisProfileID = rf.AnalysisProfileID,
-                        FeatureID = rf.FeatureID
-                    }
+                        {
+                            AnalysisProfileID = rf.AnalysisProfileID,
+                            FeatureID = rf.FeatureID
+                        }
                     )
                 };
             }

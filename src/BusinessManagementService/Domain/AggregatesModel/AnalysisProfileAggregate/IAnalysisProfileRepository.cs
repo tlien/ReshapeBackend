@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.SeedWork;
 
@@ -9,5 +10,6 @@ namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggreg
         void Update(AnalysisProfile analysisProfile);
         void Remove(Guid id);
         Task<AnalysisProfile> GetAsync(Guid id);
+        Task<List<AnalysisProfile>> GetAllAsync();
     }
 }

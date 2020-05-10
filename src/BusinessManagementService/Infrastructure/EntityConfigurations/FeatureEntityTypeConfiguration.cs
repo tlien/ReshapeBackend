@@ -1,3 +1,4 @@
+using System;
 using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using Microsoft.EntityFrameworkCore;
@@ -8,18 +9,23 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations {
     {
         public void Configure(EntityTypeBuilder<Feature> builder)
         {
-            builder.ToTable("Features");
+            builder.ToTable("features");
             builder.HasKey(f => f.Id);
+
+            builder
+                .Property<Guid>("Id")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("id");
 
             builder
                 .Property("_name")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Name");
+                .HasColumnName("name");
 
             builder
                 .Property("_description")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Description");
+                .HasColumnName("description");
 
             builder
                 .HasMany<AnalysisProfileRequiredFeature>()

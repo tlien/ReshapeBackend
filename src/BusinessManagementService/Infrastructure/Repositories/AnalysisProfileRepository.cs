@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
@@ -24,7 +25,24 @@ namespace BusinessManagementService.Infrastructure.Repositories {
 
         public AnalysisProfile Add(AnalysisProfile analysisProfile)
         {
-            return _context.Add(analysisProfile).Entity;
+            var requiredFeatures = analysisProfile.RequiredFeatures;
+            // analysisProfile.SetRequiredFeatures(new List<AnalysisProfileRequiredFeature>());
+            analysisProfile = _context.Add(analysisProfile).Entity;
+
+            // if(requiredFeatures.Count > 0) {
+            //     foreach(var rf in requiredFeatures) {
+            //         analysisProfile.AddRequiredFeature(new AnalysisProfileRequiredFeature()
+            //             {
+            //                 AnalysisProfileID = analysisProfile.Id, 
+            //                 FeatureID = rf.FeatureID 
+            //             }
+            //         );
+            //     }
+
+            //     return _context.Update(analysisProfile).Entity;
+            // }
+
+            return analysisProfile;
         }
 
         public async Task<AnalysisProfile> GetAsync(Guid id)
@@ -42,6 +60,11 @@ namespace BusinessManagementService.Infrastructure.Repositories {
             }
 
             return analysisProfile;
+        }
+
+        public async Task<List<AnalysisProfile>> GetAllAsync()
+        {
+            return await _context.AnalysisProfiles.Include(a => a.RequiredFeatures).ToListAsync();
         }
 
         public async void Remove(Guid id)

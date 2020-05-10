@@ -1,3 +1,4 @@
+using System;
 using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,26 +8,31 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations {
     {
         public void Configure(EntityTypeBuilder<AnalysisProfile> builder)
         {
-            builder.ToTable("AnalysisProfiles");
+            builder.ToTable("analysisprofiles");
             builder.HasKey(a => a.Id);
             builder.Ignore(a => a.DomainEvents);
 
             builder
+                .Property<Guid>("Id")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("id");
+                
+            builder
                 .Property<string>("_name")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Name")
+                .HasColumnName("name")
                 .IsRequired(false);
 
             builder
                 .Property<string>("_description")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Description")
+                .HasColumnName("description")
                 .IsRequired(false);
 
             builder
                 .Property<string>("_fileName")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("FileName")
+                .HasColumnName("filename")
                 .IsRequired(false);
 
             builder

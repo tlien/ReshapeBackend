@@ -1,40 +1,41 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using BusinessManagementService.API.Application.Commands.AnalysisProfileCommands;
+using BusinessManagementService.API.Application.Commands;
+using BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static BusinessManagementService.API.Application.Commands.AnalysisProfileCommands.CreateAnalysisProfileCommandHandler;
+using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
-namespace BusinessManagementService.API 
+namespace BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
     public class AnalysisProfilesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        // private readonly IAnalysisProfileQueries _analysisProfileQueries;
+        private readonly IAnalysisProfileQueries _analysisProfileQueries;
 
-        public AnalysisProfilesController(IMediator mediator) 
+        public AnalysisProfilesController(IMediator mediator, IAnalysisProfileQueries analysisProfileQueries)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _analysisProfileQueries = analysisProfileQueries;
         }
 
         [HttpGet]
-        public IActionResult GetAllAsync(Guid id) 
+        public async Task<IActionResult> GetAllAsync() 
         {
-            return Ok("Det virker!!");
+            return Ok(await _analysisProfileQueries.GetAllAsync());
         }
 
-        // [Route("{analysisProfileId:Guid}")]
-        // [HttpGet]
-        // public Task<IActionResult> GetAsync(Guid id) 
-        // {
-        //     return Ok();
-        // }
+        [Route("{id:Guid}")]
+        [HttpGet]
+        public async Task<IActionResult> GetAsync(Guid id) 
+        {
+            return Ok(await _analysisProfileQueries.GetById(id));
+        }
 
-        [Route("add")]
         [HttpPost]
         public async Task<ActionResult<AnalysisProfileDTO>> AddAsync([FromBody] CreateAnalysisProfileCommand command)
         {

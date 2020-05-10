@@ -23,72 +23,77 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("_description")
-                        .HasColumnName("Description")
+                        .HasColumnName("description")
                         .HasColumnType("text");
 
                     b.Property<string>("_fileName")
-                        .HasColumnName("FileName")
+                        .HasColumnName("filename")
                         .HasColumnType("text");
 
                     b.Property<string>("_name")
-                        .HasColumnName("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AnalysisProfiles");
+                    b.ToTable("analysisprofiles");
                 });
 
             modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.AnalysisProfileRequiredFeature", b =>
                 {
                     b.Property<Guid>("AnalysisProfileID")
+                        .HasColumnName("analysisprofileid")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("FeatureID")
+                        .HasColumnName("featureid")
                         .HasColumnType("uuid");
 
                     b.HasKey("AnalysisProfileID", "FeatureID");
 
                     b.HasIndex("FeatureID");
 
-                    b.ToTable("AnalysisProfileRequiredFeatures");
+                    b.ToTable("analysisprofilerequiredfeatures");
                 });
 
             modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate.BusinessTier", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("_name")
-                        .HasColumnName("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BusinessTiers");
+                    b.ToTable("businesstiers");
                 });
 
             modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.FeatureAggregate.Feature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("_description")
-                        .HasColumnName("Description")
+                        .HasColumnName("description")
                         .HasColumnType("text");
 
                     b.Property<string>("_name")
-                        .HasColumnName("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features");
+                    b.ToTable("features");
                 });
 
             modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.AnalysisProfileRequiredFeature", b =>

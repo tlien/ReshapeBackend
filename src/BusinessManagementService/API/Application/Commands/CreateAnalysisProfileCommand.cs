@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using MediatR;
-using static BusinessManagementService.API.Application.Commands.AnalysisProfileCommands.CreateAnalysisProfileCommandHandler;
+using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
-namespace BusinessManagementService.API.Application.Commands.AnalysisProfileCommands
+namespace BusinessManagementService.API.Application.Commands
 {
     [DataContract]
     public class CreateAnalysisProfileCommand : IRequest<AnalysisProfileDTO>

@@ -15,27 +15,36 @@ namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggreg
         private readonly List<AnalysisProfileRequiredFeature> _requiredFeatures;
         public IReadOnlyCollection<AnalysisProfileRequiredFeature> RequiredFeatures => _requiredFeatures;
 
-        public AnalysisProfile(string name, string description, string fileName) {
+        protected AnalysisProfile()
+        {
+            _requiredFeatures = new List<AnalysisProfileRequiredFeature>();
+        }
+        public AnalysisProfile(string name, string description, string fileName) : this()
+        {
             _name = name;
             _description = description;
             _fileName = fileName;
         }
 
-        void SetRequiredFeatures(List<AnalysisProfileRequiredFeature> incomingFeatures) {
-            List<Guid> incomingFeatureIDs = incomingFeatures.Select(f => f.FeatureID).ToList();
-            List<Guid> currentFeatureIDs = _requiredFeatures.Select(rf => rf.FeatureID).ToList();
+        // public void SetRequiredFeatures(List<AnalysisProfileRequiredFeature> incomingFeatures) {
+        //     List<Guid> incomingFeatureIDs = incomingFeatures.Select(f => f.FeatureID).ToList();
+        //     List<Guid> currentFeatureIDs = _requiredFeatures.Select(rf => rf.FeatureID).ToList();
 
-            foreach(var feature in _requiredFeatures ) {
-                if(!incomingFeatureIDs.Contains(feature.FeatureID)) {
-                    _requiredFeatures.Remove(feature);
-                }
-            }
+        //     foreach(var feature in _requiredFeatures ) {
+        //         if(!incomingFeatureIDs.Contains(feature.FeatureID)) {
+        //             _requiredFeatures.Remove(feature);
+        //         }
+        //     }
 
-            foreach(var feature in incomingFeatures) {
-                if(!currentFeatureIDs.Contains(feature.FeatureID)) {
-                    _requiredFeatures.Add(feature);
-                }
-            }
+        //     foreach(var feature in incomingFeatures) {
+        //         if(!currentFeatureIDs.Contains(feature.FeatureID)) {
+        //             _requiredFeatures.Add(feature);
+        //         }
+        //     }
+        // }
+
+        public void AddRequiredFeature(AnalysisProfileRequiredFeature requiredFeature) {
+            _requiredFeatures.Add(requiredFeature);
         }
     }
 

@@ -28,7 +28,7 @@ namespace BusinessManagementService.Infrastructure {
 
         public bool HasActiveTransaction => _currentTransaction != null;
 
-        public BusinessManagementContext (DbContextOptions<BusinessManagementContext> options, IMediator mediator) {
+        public BusinessManagementContext (DbContextOptions<BusinessManagementContext> options, IMediator mediator) : base(options) {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
@@ -38,9 +38,12 @@ namespace BusinessManagementService.Infrastructure {
             modelBuilder.ApplyConfiguration(new FeatureEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RequiredFeatureEntityTypeConfiguration());
         }
-        public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            await _mediator.DispatchDomainEventsAsync(this);
+            var result = await base.SaveChangesAsync(cancellationToken);
+            return true;
         }
 
     }
