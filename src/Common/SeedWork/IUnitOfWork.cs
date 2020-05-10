@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Common.SeedWork
+namespace Reshape.Common.SeedWork
 {
     public interface IUnitOfWork : IDisposable
     {
