@@ -56,11 +56,7 @@ namespace Reshape.AccountService
         {
             services.AddEntityFrameworkSqlServer().AddDbContext<AccountContext>(opt =>
             {
-                opt.UseSqlServer(configuration["ConnectionString"], sqlServerOptionsAction: sqlOpt =>
-                {
-                    sqlOpt.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                    sqlOpt.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                });
+                opt.UseNpgsql(configuration["ConnectionString"]);
             },
                 ServiceLifetime.Scoped
             );
