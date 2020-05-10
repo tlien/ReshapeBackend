@@ -7,14 +7,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Reshape.AccountService.Infrastructure;
+using Reshape.Common.Extensions;
 
 namespace Reshape.AccountService
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            // Run the migration between the build and run steps to ensure there are no attempts at using the db until after migration has finished
+            CreateHostBuilder(args).Build().MigrateDatabase<AccountContext>().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
