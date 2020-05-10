@@ -38,9 +38,10 @@ namespace Reshape.AccountService.Infrastructure.Repositories
         {
             var account = await _context
                                     .Accounts
-                                    .Include(x => x.address)
-                                    .Include(x => x.contactDetails)
-                                    .Include(x => x.features)
+                                    .Include(x => x.Address)
+                                    .Include(x => x.ContactDetails)
+                                    .Include(x => x.BusinessTier)
+                                    .Include(x => x.Features)
                                     .FirstOrDefaultAsync(acc => acc.Id == accountId);
 
             // try to get account from local uncommitted entities
@@ -55,9 +56,10 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             // TODO: Figure out if these actually need to be loaded at this point
             if (account != null)
             {
-                await _context.Entry(account).Reference(x => x.address).LoadAsync();
-                await _context.Entry(account).Reference(x => x.contactDetails).LoadAsync();
-                await _context.Entry(account).Collection(x => x.features).LoadAsync();
+                await _context.Entry(account).Reference(x => x.Address).LoadAsync();
+                await _context.Entry(account).Reference(x => x.ContactDetails).LoadAsync();
+                await _context.Entry(account).Reference(x => x.BusinessTier).LoadAsync();
+                await _context.Entry(account).Collection(x => x.Features).LoadAsync();
             }
 
             return account;

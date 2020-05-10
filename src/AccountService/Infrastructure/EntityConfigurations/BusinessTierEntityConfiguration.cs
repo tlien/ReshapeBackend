@@ -8,7 +8,7 @@ namespace Reshape.AccountService.Infrastructure
     {
         public void Configure(EntityTypeBuilder<BusinessTier> builder)
         {
-            builder.ToTable("businessTiers", AccountContext.DEFAULT_SCHEMA);
+            builder.ToTable("businesstiers", AccountContext.DEFAULT_SCHEMA);
 
             builder.HasKey(b => b.Id);
 
