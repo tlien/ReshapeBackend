@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Reshape.Common.SeedWork;
-using Reshape.AccountService.Infrastructure;
 
 namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
@@ -26,8 +25,8 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
             }
         }
 
-        private readonly List<AccountFeature> _features;
-        public IReadOnlyCollection<AccountFeature> Features => _features;
+        private readonly List<Feature> _features;
+        public IReadOnlyCollection<Feature> Features => _features;
 
         public static Account NewAccount()
         {
@@ -38,8 +37,13 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         protected Account()
         {
             _isActive = true;
-            _features = new List<AccountFeature>();
-            _businessTier = new BusinessTier("free");
+            _features = new List<Feature>();
+        }
+
+        public Account(Address address, ContactDetails contactDetails) : this()
+        {
+            Address = address;
+            ContactDetails = contactDetails;
         }
 
         public void SetAddress(Address newAddress)
@@ -52,12 +56,13 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
             ContactDetails = newContactDetails;
         }
 
-        public void AddFeatures(AccountFeature feature)
+        public void AddFeatures(Feature feature)
         {
-            _features.Add(feature);
+            if (!_features.Exists(f => f.Id == feature.Id))
+                _features.Add(feature);
         }
 
-        public void RemoveFeatures(AccountFeature feature)
+        public void RemoveFeatures(Feature feature)
         {
             _features.Remove(feature);
         }
