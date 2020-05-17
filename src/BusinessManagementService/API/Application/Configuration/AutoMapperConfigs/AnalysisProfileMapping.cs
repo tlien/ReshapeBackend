@@ -12,6 +12,8 @@ namespace BusinessManagementService.API.Configuration.AutoMapperConfigs
         {
             CreateMap<AnalysisProfileViewModel, AnalysisProfileDTO>().ReverseMap();
             CreateMap<AnalysisProfileViewModel, AnalysisProfile>().ReverseMap();
+            CreateMap<AnalysisProfileDTO, AnalysisProfile>().ReverseMap();
+            CreateMap<AnalysisProfileRequiredFeatureDTO, AnalysisProfileRequiredFeature>().ReverseMap();
             CreateMap<AnalysisProfileRequiredFeatureViewModel, AnalysisProfileRequiredFeatureDTO>().ReverseMap();
             CreateMap<AnalysisProfileRequiredFeatureViewModel, AnalysisProfileRequiredFeature>().ReverseMap();
         }

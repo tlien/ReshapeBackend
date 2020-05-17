@@ -1,16 +1,17 @@
 using System;
-using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BusinessManagementService.Infrastructure.EntityConfigurations 
+namespace BusinessManagementService.Infrastructure.EntityConfigurations
 {
-    public class BusinessTierEntityTypeConfiguration : IEntityTypeConfiguration<BusinessTier>
+    public class ScriptFileEntityTypeConfiguration : IEntityTypeConfiguration<ScriptFile>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<BusinessTier> builder)
+        public void Configure(EntityTypeBuilder<ScriptFile> builder)
         {
-            builder.ToTable("businesstiers");
-            builder.HasKey(b => b.Id);
-            builder.Ignore(b => b.DomainEvents);
+            builder.ToTable("scriptfiles");
+            builder.HasKey(s => s.Id);
+            builder.Ignore(s => s.DomainEvents);
 
             builder
                 .Property<Guid>("Id")
@@ -21,16 +22,16 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations
                 .Property<string>("_name")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("name");
-
+            
             builder
                 .Property<string>("_description")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("description");
 
             builder
-                .Property<decimal>("_price")
+                .Property<string>("_script")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("price");
+                .HasColumnName("script");
         }
     }
 }

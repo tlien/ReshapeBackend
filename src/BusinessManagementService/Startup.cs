@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using BusinessManagementService.API.Application.Queries.BusinessTierQueries;
+using BusinessManagementService.API.Application.Queries.FeatureQueries;
 using BusinessManagementService.API.Configuration;
 using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
@@ -53,7 +55,9 @@ namespace BusinessManagementService
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IBusinessTierRepository, BusinessTierRepository>();
             // services.AddScoped<IAnalysisProfileQueries>(_ => new AnalysisProfileQueries(Configuration.GetConnectionString("DbContext")));
-            services.AddScoped<IAnalysisProfileQueries,  AnalysisProfileQueries>();
+            services.AddScoped<IAnalysisProfileQueries, AnalysisProfileQueries>();
+            services.AddScoped<IBusinessTierQueries, BusinessTierQueries>();
+            services.AddScoped<IFeatureQueries, FeatureQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,7 +20,7 @@ namespace BusinessManagementService.API.Controllers
         public AnalysisProfilesController(IMediator mediator, IAnalysisProfileQueries analysisProfileQueries)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _analysisProfileQueries = analysisProfileQueries;
+            _analysisProfileQueries = analysisProfileQueries ?? throw new ArgumentNullException(nameof(analysisProfileQueries));
         }
 
         [HttpGet]
@@ -37,9 +37,9 @@ namespace BusinessManagementService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AnalysisProfileDTO>> AddAsync([FromBody] CreateAnalysisProfileCommand command)
+        public async Task<IActionResult> AddAsync([FromBody] CreateAnalysisProfileCommand command)
         {
-            return await _mediator.Send(command);
+            return Ok(await _mediator.Send(command));
         }
 
         // [Route("update")]

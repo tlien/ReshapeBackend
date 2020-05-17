@@ -9,15 +9,20 @@ using MediatR;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using BusinessManagementService.Infrastructure.EntityConfigurations;
+using BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate;
 
 namespace BusinessManagementService.Infrastructure {
 
     public class BusinessManagementContext : DbContext, IUnitOfWork {
 
         public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
+        public DbSet<AnalysisProfilePackage> AnalysisProfilePackages { get; set; }
+        public DbSet<AnalysisProfileAnalysisProfilePackage> AnalysisProfileAnalysisProfilePackages { get; set; }
         public DbSet<BusinessTier> BusinessTiers { get; set; }
         public DbSet<Feature> Features { get; set; }
-        public DbSet<AnalysisProfileRequiredFeature> AnalysisProfileRequiredFeatures { get; set; }
+        public DbSet<MediaType> MediaTypes { get; set; }
+        public DbSet<ScriptFile> ScriptFiles { get; set; }
+        public DbSet<ScriptParametersFile> ScriptParametersFiles { get; set; }
 
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -34,9 +39,13 @@ namespace BusinessManagementService.Infrastructure {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfiguration(new AnalysisProfileEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AnalysisProfilePackageEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AnalysisProfileAnalysisProfilePackageEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BusinessTierEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new FeatureEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new RequiredFeatureEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new MediaTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ScriptFileEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ScriptParametersFileEntityTypeConfiguration());
         }
         
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)

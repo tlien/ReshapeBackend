@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using AutoMapper;
 using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using MediatR;
 using static BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
@@ -14,36 +12,29 @@ namespace BusinessManagementService.API.Application.Commands
     {
         private readonly IFeatureRepository _repository;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public CreateFeatureCommandHandler(IFeatureRepository repository, IMediator mediator)
+        public CreateFeatureCommandHandler(IFeatureRepository repository, IMediator mediator, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<FeatureDTO> Handle(CreateFeatureCommand message, CancellationToken cancellationToken)
         {
-            var feature = new Feature(message.Name, message.Description);
-            _repository.Add(feature);
+            // var feature = new Feature(message.Name, message.Description);
+            // _repository.Add(feature);
             await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-            return FeatureDTO.FromFeature(feature);
+            // return _mapper.Map<FeatureDTO>(feature);
+            return new FeatureDTO();
         }
 
         public class FeatureDTO
         {
             public string Name { get; set; }
             public string Description { get; set; }
-
-            public static FeatureDTO FromFeature(Feature feature)
-            {
-                return new FeatureDTO()
-                {
-                    Name = feature.GetName,
-                    Description = feature.GetDescription,
-                };
-            }
         }
-
     }
 }

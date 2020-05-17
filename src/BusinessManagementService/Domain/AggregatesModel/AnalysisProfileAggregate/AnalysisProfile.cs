@@ -1,51 +1,70 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+using BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate;
 using Common.SeedWork;
 
 namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate {
     public class AnalysisProfile : Entity, IAggregateRoot {
         private string _name;
-        public string GetName => _name;
         private string _description;
-        public string GetDescription => _description;
-        private string _fileName;
-        public string GetFileName => _fileName;
-        private readonly List<AnalysisProfileRequiredFeature> _requiredFeatures;
-        public IReadOnlyCollection<AnalysisProfileRequiredFeature> RequiredFeatures => _requiredFeatures;
+        private decimal _price;
+        // private Guid _mediaTypeId;
+        // private Guid _scriptFileId;
+        // private Guid _scriptParametersFileId;
 
-        protected AnalysisProfile()
+        public Guid MediaTypeId { get; private set; }
+        public Guid ScriptFileId { get; private set; }
+        public Guid ScriptParametersFileId { get; private set; }
+        public MediaType MediaType { get; private set; }
+        public ScriptFile ScriptFile { get; private set; }
+        public ScriptParametersFile ScriptParametersFile { get; private set; }
+        // private readonly List<AnalysisProfileAnalysisProfilePackage> _analysisProfileAnalysisProfilePackages;
+        // public IReadOnlyCollection<AnalysisProfileAnalysisProfilePackage> AnalysisProfileAnalysisProfilePackages => _analysisProfileAnalysisProfilePackages;
+        public string GetName => _name;
+        public string GetDescription => _description;
+        // public Guid GetMediaTypeId => _mediaTypeId;
+        // public Guid GetScriptFileId => _scriptFileId;
+        // public Guid GetScriptParametersFileId => _scriptParametersFileId;
+
+        public AnalysisProfile()
         {
-            _requiredFeatures = new List<AnalysisProfileRequiredFeature>();
+            // _analysisProfileAnalysisProfilePackages = new List<AnalysisProfileAnalysisProfilePackage>();
         }
-        public AnalysisProfile(string name, string description, string fileName) : this()
+        public AnalysisProfile(string name, string description, decimal price, Guid mediaTypeId, Guid scriptFileId,  Guid scriptParametersFileId) : this()
         {
             _name = name;
             _description = description;
-            _fileName = fileName;
+            _price = price;
+            // _mediaTypeId = mediaTypeId;
+            // _scriptFileId = scriptFileId;
+            // _scriptParametersFileId = scriptParametersFileId;
+            MediaTypeId = mediaTypeId;
+            ScriptFileId = scriptFileId;
+            ScriptParametersFileId = scriptParametersFileId;
         }
 
-        // public void SetRequiredFeatures(List<AnalysisProfileRequiredFeature> incomingFeatures) {
-        //     List<Guid> incomingFeatureIDs = incomingFeatures.Select(f => f.FeatureID).ToList();
-        //     List<Guid> currentFeatureIDs = _requiredFeatures.Select(rf => rf.FeatureID).ToList();
-
-        //     foreach(var feature in _requiredFeatures ) {
-        //         if(!incomingFeatureIDs.Contains(feature.FeatureID)) {
-        //             _requiredFeatures.Remove(feature);
-        //         }
-        //     }
-
-        //     foreach(var feature in incomingFeatures) {
-        //         if(!currentFeatureIDs.Contains(feature.FeatureID)) {
-        //             _requiredFeatures.Add(feature);
-        //         }
-        //     }
-        // }
-
-        public void AddRequiredFeature(AnalysisProfileRequiredFeature requiredFeature) {
-            _requiredFeatures.Add(requiredFeature);
+        public void SetScriptFileId(Guid id)
+        {
+            // _scriptFileId = id;
+            ScriptFileId = id;
         }
+
+        public void SetScriptParametersFileId(Guid id)
+        {
+            // _scriptParametersFileId = id;
+            ScriptParametersFileId = id;
+        }
+
+        public void SetMediaTypeId(Guid id)
+        {
+            // _mediaTypeId = id;
+            MediaTypeId = id;
+        }
+
+        public void SetPrice(decimal price)
+        {
+            _price = price;
+        }
+
     }
-
 }

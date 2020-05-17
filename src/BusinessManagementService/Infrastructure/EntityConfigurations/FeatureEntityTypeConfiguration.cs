@@ -11,6 +11,7 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations {
         {
             builder.ToTable("features");
             builder.HasKey(f => f.Id);
+            builder.Ignore(f => f.DomainEvents);
 
             builder
                 .Property<Guid>("Id")
@@ -28,9 +29,9 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations {
                 .HasColumnName("description");
 
             builder
-                .HasMany<AnalysisProfileRequiredFeature>()
-                .WithOne(rf => rf.Feature)
-                .HasForeignKey(rf => rf.FeatureID);
+                .Property("_price")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("price");
         }
     }
 }

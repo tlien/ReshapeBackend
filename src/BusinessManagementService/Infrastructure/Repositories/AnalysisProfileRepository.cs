@@ -25,38 +25,20 @@ namespace BusinessManagementService.Infrastructure.Repositories {
 
         public AnalysisProfile Add(AnalysisProfile analysisProfile)
         {
-            var requiredFeatures = analysisProfile.RequiredFeatures;
-            // analysisProfile.SetRequiredFeatures(new List<AnalysisProfileRequiredFeature>());
-            analysisProfile = _context.Add(analysisProfile).Entity;
-
-            // if(requiredFeatures.Count > 0) {
-            //     foreach(var rf in requiredFeatures) {
-            //         analysisProfile.AddRequiredFeature(new AnalysisProfileRequiredFeature()
-            //             {
-            //                 AnalysisProfileID = analysisProfile.Id, 
-            //                 FeatureID = rf.FeatureID 
-            //             }
-            //         );
-            //     }
-
-            //     return _context.Update(analysisProfile).Entity;
-            // }
-
-            return analysisProfile;
+            return _context.Add(analysisProfile).Entity;
         }
 
         public async Task<AnalysisProfile> GetAsync(Guid id)
         {
-            var analysisProfile = await _context.AnalysisProfiles.FirstOrDefaultAsync(a => a.Id == id);
+            var analysisProfile = 
+            await _context.AnalysisProfiles
+                    .Include(a => a.ScriptFile)
+                    .Include(a => a.ScriptParametersFile)
+                    .FirstOrDefaultAsync(a => a.Id == id);
 
             if (analysisProfile == null)
             {
                 analysisProfile = _context.AnalysisProfiles.Local.FirstOrDefault(a => a.Id == id);
-            }
-            if (analysisProfile != null)
-            {
-                await _context.Entry(analysisProfile).Collection(a => a.RequiredFeatures).LoadAsync();
-                await _context.Entry(analysisProfile).Reference(a => a.RequiredFeatures).LoadAsync();
             }
 
             return analysisProfile;
@@ -64,7 +46,10 @@ namespace BusinessManagementService.Infrastructure.Repositories {
 
         public async Task<List<AnalysisProfile>> GetAllAsync()
         {
-            return await _context.AnalysisProfiles.Include(a => a.RequiredFeatures).ToListAsync();
+            return await _context.AnalysisProfiles
+                            .Include(a => a.ScriptFile)
+                            .Include(a => a.ScriptParametersFile)
+                            .ToListAsync();
         }
 
         public async void Remove(Guid id)
