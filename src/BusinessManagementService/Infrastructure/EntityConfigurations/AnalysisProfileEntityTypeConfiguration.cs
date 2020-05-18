@@ -35,64 +35,35 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations
                 .HasColumnName("price");
 
             builder
-                .Property<Guid>("MediaTypeId")
+                .Property<Guid>("_mediaTypeId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("mediatypeid");
 
             builder
-                .Property<Guid>("ScriptFileId")
+                .Property<Guid>("_scriptFileId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("scriptfileid");
 
             builder
-                .Property<Guid>("ScriptParametersFileId")
+                .Property<Guid>("_scriptParametersFileId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("scriptparametersfileid");
 
             builder
                 .HasOne(a => a.MediaType)
                 .WithMany()
-                .HasForeignKey(a => a.MediaTypeId);
+                .HasForeignKey("_mediaTypeId");
 
             builder
                 .HasOne(a => a.ScriptFile)
                 .WithMany()
-                .HasForeignKey(a => a.ScriptFileId);
+                .HasForeignKey("_scriptFileId");
 
             builder
                 .HasOne(a => a.ScriptParametersFile)
                 .WithMany()
-                .HasForeignKey(a => a.ScriptParametersFileId);
-                
-            // builder
-            //     .Property<Guid>("_mediaTypeId")
-            //     .UsePropertyAccessMode(PropertyAccessMode.Field)
-            //     .HasColumnName("mediatypeid");
+                .HasForeignKey("_scriptParametersFileId");
 
-            // builder
-            //     .Property<Guid>("_scriptFileId")
-            //     .UsePropertyAccessMode(PropertyAccessMode.Field)
-            //     .HasColumnName("scriptfileid");
-
-            // builder
-            //     .Property<Guid>("_scriptParametersFileId")
-            //     .UsePropertyAccessMode(PropertyAccessMode.Field)
-            //     .HasColumnName("scriptparametersfileid");
-
-            // builder
-            //     .HasOne(a => a.MediaType)
-            //     .WithMany()
-            //     .HasForeignKey(a => a.GetMediaTypeId);
-
-            // builder
-            //     .HasOne(a => a.ScriptFile)
-            //     .WithMany()
-            //     .HasForeignKey(a => a.GetScriptFileId);
-
-            // builder
-            //     .HasOne(a => a.ScriptParametersFile)
-            //     .WithMany()
-            //     .HasForeignKey(a => a.GetScriptParametersFileId);
         }
     }
 }

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BusinessManagementService.Infrastructure.Migrations
 {
     [DbContext(typeof(BusinessManagementContext))]
-    [Migration("20200517223829_Init")]
+    [Migration("20200518194245_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,21 +28,13 @@ namespace BusinessManagementService.Infrastructure.Migrations
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MediaTypeId")
-                        .HasColumnName("mediatypeid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ScriptFileId")
-                        .HasColumnName("scriptfileid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ScriptParametersFileId")
-                        .HasColumnName("scriptparametersfileid")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("_description")
                         .HasColumnName("description")
                         .HasColumnType("text");
+
+                    b.Property<Guid>("_mediaTypeId")
+                        .HasColumnName("mediatypeid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("_name")
                         .HasColumnName("name")
@@ -52,13 +44,21 @@ namespace BusinessManagementService.Infrastructure.Migrations
                         .HasColumnName("price")
                         .HasColumnType("numeric");
 
+                    b.Property<Guid>("_scriptFileId")
+                        .HasColumnName("scriptfileid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("_scriptParametersFileId")
+                        .HasColumnName("scriptparametersfileid")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MediaTypeId");
+                    b.HasIndex("_mediaTypeId");
 
-                    b.HasIndex("ScriptFileId");
+                    b.HasIndex("_scriptFileId");
 
-                    b.HasIndex("ScriptParametersFileId");
+                    b.HasIndex("_scriptParametersFileId");
 
                     b.ToTable("analysisprofiles");
                 });
@@ -127,47 +127,6 @@ namespace BusinessManagementService.Infrastructure.Migrations
                     b.ToTable("scriptparametersfiles");
                 });
 
-            modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate.AnalysisProfileAnalysisProfilePackage", b =>
-                {
-                    b.Property<Guid>("AnalysisProfileId")
-                        .HasColumnName("analysisprofileid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AnalysisProfilePackageId")
-                        .HasColumnName("analysisprofilepackageid")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("AnalysisProfileId", "AnalysisProfilePackageId");
-
-                    b.HasIndex("AnalysisProfilePackageId");
-
-                    b.ToTable("analysisprofileanalysisprofilepackages");
-                });
-
-            modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate.AnalysisProfilePackage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("_description")
-                        .HasColumnName("description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("_name")
-                        .HasColumnName("name")
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("_price")
-                        .HasColumnName("price")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("analysisprofilepackages");
-                });
-
             modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate.BusinessTier", b =>
                 {
                     b.Property<Guid>("Id")
@@ -220,34 +179,19 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 {
                     b.HasOne("BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.MediaType", "MediaType")
                         .WithMany()
-                        .HasForeignKey("MediaTypeId")
+                        .HasForeignKey("_mediaTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.ScriptFile", "ScriptFile")
                         .WithMany()
-                        .HasForeignKey("ScriptFileId")
+                        .HasForeignKey("_scriptFileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.ScriptParametersFile", "ScriptParametersFile")
                         .WithMany()
-                        .HasForeignKey("ScriptParametersFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate.AnalysisProfileAnalysisProfilePackage", b =>
-                {
-                    b.HasOne("BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.AnalysisProfile", "AnalysisProfile")
-                        .WithMany()
-                        .HasForeignKey("AnalysisProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate.AnalysisProfilePackage", "AnalysisProfilePackage")
-                        .WithMany("AnalysisProfileAnalysisProfilePackages")
-                        .HasForeignKey("AnalysisProfilePackageId")
+                        .HasForeignKey("_scriptParametersFileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

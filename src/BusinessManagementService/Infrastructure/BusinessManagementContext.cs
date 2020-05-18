@@ -16,8 +16,8 @@ namespace BusinessManagementService.Infrastructure {
     public class BusinessManagementContext : DbContext, IUnitOfWork {
 
         public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
-        public DbSet<AnalysisProfilePackage> AnalysisProfilePackages { get; set; }
-        public DbSet<AnalysisProfileAnalysisProfilePackage> AnalysisProfileAnalysisProfilePackages { get; set; }
+        // public DbSet<AnalysisProfilePackage> AnalysisProfilePackages { get; set; }
+        // public DbSet<AnalysisProfileAnalysisProfilePackage> AnalysisProfileAnalysisProfilePackages { get; set; }
         public DbSet<BusinessTier> BusinessTiers { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<MediaType> MediaTypes { get; set; }
@@ -39,8 +39,8 @@ namespace BusinessManagementService.Infrastructure {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfiguration(new AnalysisProfileEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AnalysisProfilePackageEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AnalysisProfileAnalysisProfilePackageEntityTypeConfiguration());
+            // modelBuilder.ApplyConfiguration(new AnalysisProfilePackageEntityTypeConfiguration());
+            // modelBuilder.ApplyConfiguration(new AnalysisProfileAnalysisProfilePackageEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BusinessTierEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new FeatureEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new MediaTypeEntityTypeConfiguration());

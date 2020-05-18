@@ -8,57 +8,37 @@ namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggreg
         private string _name;
         private string _description;
         private decimal _price;
-        // private Guid _mediaTypeId;
-        // private Guid _scriptFileId;
-        // private Guid _scriptParametersFileId;
-
-        public Guid MediaTypeId { get; private set; }
-        public Guid ScriptFileId { get; private set; }
-        public Guid ScriptParametersFileId { get; private set; }
+        private Guid _mediaTypeId;
+        private Guid _scriptFileId;
+         public Guid GetScriptFileId => _scriptFileId;
+        private Guid _scriptParametersFileId;
         public MediaType MediaType { get; private set; }
         public ScriptFile ScriptFile { get; private set; }
         public ScriptParametersFile ScriptParametersFile { get; private set; }
-        // private readonly List<AnalysisProfileAnalysisProfilePackage> _analysisProfileAnalysisProfilePackages;
-        // public IReadOnlyCollection<AnalysisProfileAnalysisProfilePackage> AnalysisProfileAnalysisProfilePackages => _analysisProfileAnalysisProfilePackages;
-        public string GetName => _name;
-        public string GetDescription => _description;
-        // public Guid GetMediaTypeId => _mediaTypeId;
-        // public Guid GetScriptFileId => _scriptFileId;
-        // public Guid GetScriptParametersFileId => _scriptParametersFileId;
 
-        public AnalysisProfile()
-        {
-            // _analysisProfileAnalysisProfilePackages = new List<AnalysisProfileAnalysisProfilePackage>();
-        }
-        public AnalysisProfile(string name, string description, decimal price, Guid mediaTypeId, Guid scriptFileId,  Guid scriptParametersFileId) : this()
+        public AnalysisProfile(string name, string description, decimal price, Guid mediaTypeId, Guid scriptFileId,  Guid scriptParametersFileId)
         {
             _name = name;
             _description = description;
             _price = price;
-            // _mediaTypeId = mediaTypeId;
-            // _scriptFileId = scriptFileId;
-            // _scriptParametersFileId = scriptParametersFileId;
-            MediaTypeId = mediaTypeId;
-            ScriptFileId = scriptFileId;
-            ScriptParametersFileId = scriptParametersFileId;
+            _mediaTypeId = mediaTypeId;
+            _scriptFileId = scriptFileId;
+            _scriptParametersFileId = scriptParametersFileId;
         }
 
         public void SetScriptFileId(Guid id)
         {
-            // _scriptFileId = id;
-            ScriptFileId = id;
+            _scriptFileId = id;
         }
 
         public void SetScriptParametersFileId(Guid id)
         {
-            // _scriptParametersFileId = id;
-            ScriptParametersFileId = id;
+            _scriptParametersFileId = id;
         }
 
         public void SetMediaTypeId(Guid id)
         {
-            // _mediaTypeId = id;
-            MediaTypeId = id;
+            _mediaTypeId = id;
         }
 
         public void SetPrice(decimal price)

@@ -8,20 +8,6 @@ namespace BusinessManagementService.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "analysisprofilepackages",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
-                    name = table.Column<string>(nullable: true),
-                    price = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_analysisprofilepackages", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "businesstiers",
                 columns: table => new
                 {
@@ -124,35 +110,6 @@ namespace BusinessManagementService.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "analysisprofileanalysisprofilepackages",
-                columns: table => new
-                {
-                    analysisprofileid = table.Column<Guid>(nullable: false),
-                    analysisprofilepackageid = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_analysisprofileanalysisprofilepackages", x => new { x.analysisprofileid, x.analysisprofilepackageid });
-                    table.ForeignKey(
-                        name: "FK_analysisprofileanalysisprofilepackages_analysisprofiles_ana~",
-                        column: x => x.analysisprofileid,
-                        principalTable: "analysisprofiles",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_analysisprofileanalysisprofilepackages_analysisprofilepacka~",
-                        column: x => x.analysisprofilepackageid,
-                        principalTable: "analysisprofilepackages",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_analysisprofileanalysisprofilepackages_analysisprofilepacka~",
-                table: "analysisprofileanalysisprofilepackages",
-                column: "analysisprofilepackageid");
-
             migrationBuilder.CreateIndex(
                 name: "IX_analysisprofiles_mediatypeid",
                 table: "analysisprofiles",
@@ -172,19 +129,13 @@ namespace BusinessManagementService.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "analysisprofileanalysisprofilepackages");
+                name: "analysisprofiles");
 
             migrationBuilder.DropTable(
                 name: "businesstiers");
 
             migrationBuilder.DropTable(
                 name: "features");
-
-            migrationBuilder.DropTable(
-                name: "analysisprofiles");
-
-            migrationBuilder.DropTable(
-                name: "analysisprofilepackages");
 
             migrationBuilder.DropTable(
                 name: "mediatypes");
