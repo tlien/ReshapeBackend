@@ -13,10 +13,14 @@ namespace BusinessManagementService.API.Application.Commands
         [DataMember]
         public string Description { get; private set; }
 
-        public CreateFeatureCommand(string name, string description)
+        [DataMember]
+        public decimal Price { get; set; }
+
+        public CreateFeatureCommand(string name, string description, decimal price)
         {
             Name = name;
             Description = description;
+            Price = price;
         }
     }
 }

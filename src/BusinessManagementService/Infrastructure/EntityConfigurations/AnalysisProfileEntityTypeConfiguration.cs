@@ -15,55 +15,47 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations
             builder.Ignore(a => a.DomainEvents);
 
             builder
-                .Property<Guid>("Id")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property<Guid>(a => a.Id)
                 .HasColumnName("id");
 
             builder
-                .Property<string>("_name")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(a => a.Name)
                 .HasColumnName("name");
 
             builder
-                .Property<string>("_description")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(a => a.Description)
                 .HasColumnName("description");
 
             builder
-                .Property<decimal>("_price")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(a => a.Price)
                 .HasColumnName("price");
 
             builder
-                .Property<Guid>("_mediaTypeId")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(a => a.MediaTypeId)
                 .HasColumnName("mediatypeid");
 
             builder
-                .Property<Guid>("_scriptFileId")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(a => a.ScriptFileId)
                 .HasColumnName("scriptfileid");
 
             builder
-                .Property<Guid>("_scriptParametersFileId")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(a => a.ScriptParametersFileId)
                 .HasColumnName("scriptparametersfileid");
 
             builder
                 .HasOne(a => a.MediaType)
                 .WithMany()
-                .HasForeignKey("_mediaTypeId");
+                .HasForeignKey(a => a.MediaTypeId);
 
             builder
                 .HasOne(a => a.ScriptFile)
                 .WithMany()
-                .HasForeignKey("_scriptFileId");
+                .HasForeignKey(a => a.ScriptFileId);
 
             builder
                 .HasOne(a => a.ScriptParametersFile)
                 .WithMany()
-                .HasForeignKey("_scriptParametersFileId");
-
+                .HasForeignKey(a => a.ScriptParametersFileId);
         }
     }
 }

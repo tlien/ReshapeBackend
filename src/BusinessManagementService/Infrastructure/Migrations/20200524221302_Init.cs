@@ -12,8 +12,8 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: true),
                     price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -26,8 +26,8 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: true),
                     price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -52,8 +52,8 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: true),
                     script = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -66,8 +66,8 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: true),
                     scriptparameters = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -80,12 +80,12 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
+                    name = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: true),
+                    price = table.Column<decimal>(nullable: false),
                     mediatypeid = table.Column<Guid>(nullable: false),
                     scriptfileid = table.Column<Guid>(nullable: false),
-                    scriptparametersfileid = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
-                    name = table.Column<string>(nullable: true),
-                    price = table.Column<decimal>(nullable: false)
+                    scriptparametersfileid = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,6 +124,12 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 name: "IX_analysisprofiles_scriptparametersfileid",
                 table: "analysisprofiles",
                 column: "scriptparametersfileid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_mediatypes_name",
+                table: "mediatypes",
+                column: "name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -15,14 +15,6 @@ namespace BusinessManagementService.API.Application.Queries.AnalysisProfileQueri
 {
     public class AnalysisProfileQueries : IAnalysisProfileQueries
     {
-        // private string _connectionString = string.Empty;
-        // public AnalysisProfileQueries(string connectionString)
-        // {
-        //     _connectionString = !string.IsNullOrWhiteSpace(connectionString) ?
-        //      connectionString : 
-        //      throw new ArgumentNullException(nameof(connectionString));
-        // }
-
         private readonly BusinessManagementContext _context;
         private readonly IMapper _mapper;
 
@@ -45,40 +37,5 @@ namespace BusinessManagementService.API.Application.Queries.AnalysisProfileQueri
                 .ProjectTo<AnalysisProfileViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
-
-        // public async Task<IEnumerable<AnalysisProfile>> GetAllAsync()
-        // {
-        //     using (var connection = new NpgsqlConnection(_connectionString))
-        //     {
-        //         connection.Open();
-
-        //         return await connection.QueryAsync<AnalysisProfile>(
-        //             @"SELECT a.*
-        //             FROM AnalysisProfiles a
-        //             LEFT JOIN AnalysisProfileRequiredFeatures aprf
-        //             ON a.Id = aprf.AnalysisProfileID"
-        //         );
-        //     }
-        // }
-
-        // public async Task<AnalysisProfileViewModel> GetById(Guid id)
-        // {
-        //     using (var connection = new NpgsqlConnection(_connectionString))
-        //     {
-        //         connection.Open();
-
-        //         var result = await connection.QueryAsync<dynamic>(
-        //         @"SELECT a.* FROM AnalysisProfiles a
-        //         WHERE a.Id = @apid
-
-        //         SELECT * FROM AnalysisProfileRequiredFeatures aprf
-        //         ON a.Id = aprf.AnalysisProfileID
-        //         ",
-        //         new { apid = id});
-
-
-        //         return null;
-        //     }
-        // }
     }
 }

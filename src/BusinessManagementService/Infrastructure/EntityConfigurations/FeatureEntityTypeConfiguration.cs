@@ -14,23 +14,19 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations {
             builder.Ignore(f => f.DomainEvents);
 
             builder
-                .Property<Guid>("Id")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(f => f.Id)
                 .HasColumnName("id");
 
             builder
-                .Property("_name")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(f => f.Name)
                 .HasColumnName("name");
 
             builder
-                .Property("_description")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(f => f.Description)
                 .HasColumnName("description");
 
             builder
-                .Property("_price")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(f => f.Price)
                 .HasColumnName("price");
         }
     }

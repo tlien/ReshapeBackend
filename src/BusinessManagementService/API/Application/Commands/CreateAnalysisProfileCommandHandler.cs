@@ -25,45 +25,52 @@ namespace BusinessManagementService.API.Application.Commands
 
         public async Task<AnalysisProfileDTO> Handle(CreateAnalysisProfileCommand message, CancellationToken cancellationToken)
         {
-            // var analysisProfile = new AnalysisProfile(message.Name, message.Description, message.FileName);
+            var analysisProfile = new AnalysisProfile(message.Name, message.Description, message.Price);
+            analysisProfile.SetMediaType(_repository.AddMediaType(
+                new MediaType(message.MediaType.Id, message.MediaType.Name))
+            );
+            analysisProfile.SetScriptFile(_repository.AddScriptFile(
+                new ScriptFile(message.ScriptFile.Id, message.ScriptFile.Name, message.ScriptFile.Description, message.ScriptFile.Script)
+                )
+            );
+            analysisProfile.SetScriptParametersFile(_repository.AddScriptParametersFile(
+                new ScriptParametersFile(message.ScriptParametersFile.Id, message.ScriptParametersFile.Name, message.ScriptParametersFile.Description, message.ScriptParametersFile.ScriptParameters)
+                )
+            );
 
-            // foreach(var rf in message.RequiredFeatures)
-            // {
-            //     analysisProfile.AddRequiredFeature(new AnalysisProfileRequiredFeature { FeatureID = rf.FeatureID });
-            // }
-
-            // _repository.Add(analysisProfile);
+            _repository.Add(analysisProfile);
             await _repository.UnitOfWork.SaveEntitiesAsync();
 
-            // return _mapper.Map<AnalysisProfileDTO>(analysisProfile);
-            
-            return new AnalysisProfileDTO();
+            return _mapper.Map<AnalysisProfileDTO>(analysisProfile);
         }
 
         public class AnalysisProfileDTO
         {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal Price { get; set; }
+            public MediaTypeDTO MediaType { get; set; }
+            public ScriptFileDTO ScriptFile { get; set; }
+            public ScriptParametersFileDTO ScriptParametersFile { get; set; }
+        }
+
+        public class MediaTypeDTO {
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        public class ScriptFileDTO {
             public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public string FileName { get; set; }
-            public IEnumerable<AnalysisProfileRequiredFeatureDTO> RequiredFeatures { get; set; }
+            public string Script { get; set; }
+        }
 
-            // public static AnalysisProfileDTO FromAnalysisProfile(AnalysisProfile analysisProfile) 
-            // {
-            //     return new AnalysisProfileDTO()
-            //     {
-
-            //         Name = analysisProfile.GetName,
-            //         Description = analysisProfile.GetDescription,
-            //         FileName = analysisProfile.GetFileName,
-            //         RequiredFeatures = analysisProfile.RequiredFeatures.Select(rf => new AnalysisProfileRequiredFeatureDTO
-            //             {
-            //                 AnalysisProfileID = rf.AnalysisProfileID,
-            //                 FeatureID = rf.FeatureID
-            //             }
-            //         )
-            //     };
-            // }
+        public class ScriptParametersFileDTO {
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string ScriptParameters { get; set; }
         }
 
     }

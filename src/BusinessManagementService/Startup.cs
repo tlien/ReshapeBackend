@@ -54,13 +54,11 @@ namespace BusinessManagementService
             services.AddScoped<IAnalysisProfileRepository, AnalysisProfileRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IBusinessTierRepository, BusinessTierRepository>();
-            // services.AddScoped<IAnalysisProfileQueries>(_ => new AnalysisProfileQueries(Configuration.GetConnectionString("DbContext")));
             services.AddScoped<IAnalysisProfileQueries, AnalysisProfileQueries>();
             services.AddScoped<IBusinessTierQueries, BusinessTierQueries>();
             services.AddScoped<IFeatureQueries, FeatureQueries>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -69,15 +67,6 @@ namespace BusinessManagementService
             }
             
             app.UseRouting();
-
-            // app.UseEndpoints(endpoints =>
-            // {
-            //     endpoints.MapGet("/", async context =>
-            //     {
-            //         await context.Response.WriteAsync("Hello from Business Management Service!");
-            //     });
-            // });
-
             app.UseMvc();
         }
     }

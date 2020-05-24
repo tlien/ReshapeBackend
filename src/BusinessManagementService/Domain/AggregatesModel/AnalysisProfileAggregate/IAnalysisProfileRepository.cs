@@ -11,5 +11,8 @@ namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggreg
         void Remove(Guid id);
         Task<AnalysisProfile> GetAsync(Guid id);
         Task<List<AnalysisProfile>> GetAllAsync();
+        MediaType AddMediaType(MediaType mediaType);
+        ScriptFile AddScriptFile(ScriptFile scriptFile);
+        ScriptParametersFile AddScriptParametersFile(ScriptParametersFile scriptParametersFile);
     }
 }

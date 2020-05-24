@@ -11,16 +11,15 @@ namespace BusinessManagementService.Infrastructure.EntityConfigurations
         {
             builder.ToTable("mediatypes");
             builder.HasKey(m => m.Id);
+            builder.HasIndex(m => m.Name).IsUnique();
             builder.Ignore(m => m.DomainEvents);
 
             builder
-                .Property<Guid>("Id")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(m => m.Id)
                 .HasColumnName("id");
 
             builder
-                .Property("_name")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .Property(m => m.Name)
                 .HasColumnName("name");
         }
     }

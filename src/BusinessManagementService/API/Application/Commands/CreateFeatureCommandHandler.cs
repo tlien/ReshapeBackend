@@ -23,18 +23,19 @@ namespace BusinessManagementService.API.Application.Commands
 
         public async Task<FeatureDTO> Handle(CreateFeatureCommand message, CancellationToken cancellationToken)
         {
-            // var feature = new Feature(message.Name, message.Description);
-            // _repository.Add(feature);
+            var feature = new Feature(message.Name, message.Description, message.Price);
+            _repository.Add(feature);
             await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-            // return _mapper.Map<FeatureDTO>(feature);
-            return new FeatureDTO();
+            return _mapper.Map<FeatureDTO>(feature);
         }
 
         public class FeatureDTO
         {
+            public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
+            public decimal Price { get; set; }
         }
     }
 }

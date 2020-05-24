@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
 using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
@@ -16,32 +17,25 @@ namespace BusinessManagementService.API.Application.Commands
         public string Description { get; private set; }
 
         [DataMember]
-        public string FileName { get; private set; }
+        public decimal Price { get; private set; }
 
         [DataMember]
-        private readonly List<AnalysisProfileRequiredFeatureDTO> _requiredFeatures;
-
+        public MediaTypeDTO MediaType { get; private set; }
+        
         [DataMember]
-        public IEnumerable<AnalysisProfileRequiredFeatureDTO> RequiredFeatures => _requiredFeatures;
+        public ScriptFileDTO ScriptFile { get; private set; }
+        
+        [DataMember]
+        public ScriptParametersFileDTO ScriptParametersFile { get; private set; }
 
-        public CreateAnalysisProfileCommand()
-        {
-            _requiredFeatures = new List<AnalysisProfileRequiredFeatureDTO>();
-        }
-
-        public CreateAnalysisProfileCommand(string name, string description, string fileName,
-            List<AnalysisProfileRequiredFeatureDTO> requiredFeatures) : this()
+        public CreateAnalysisProfileCommand(string name, string description, decimal price, MediaTypeDTO mediaType, ScriptFileDTO scriptFile, ScriptParametersFileDTO scriptParametersFile)
         {
             Name = name;
             Description = description;
-            FileName = fileName;
-            _requiredFeatures = requiredFeatures;
-        }
-
-        public class AnalysisProfileRequiredFeatureDTO
-        {
-            public Guid AnalysisProfileID { get; set; }
-            public Guid FeatureID { get; set; }
+            Price = price;
+            MediaType = mediaType;
+            ScriptFile = scriptFile;
+            ScriptParametersFile = scriptParametersFile;
         }
     }
 }

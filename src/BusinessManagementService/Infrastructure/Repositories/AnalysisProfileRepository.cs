@@ -32,6 +32,7 @@ namespace BusinessManagementService.Infrastructure.Repositories {
         {
             var analysisProfile = 
             await _context.AnalysisProfiles
+                    .Include(a => a.MediaType)
                     .Include(a => a.ScriptFile)
                     .Include(a => a.ScriptParametersFile)
                     .FirstOrDefaultAsync(a => a.Id == id);
@@ -47,6 +48,7 @@ namespace BusinessManagementService.Infrastructure.Repositories {
         public async Task<List<AnalysisProfile>> GetAllAsync()
         {
             return await _context.AnalysisProfiles
+                            .Include(a => a.MediaType)
                             .Include(a => a.ScriptFile)
                             .Include(a => a.ScriptParametersFile)
                             .ToListAsync();
@@ -67,5 +69,36 @@ namespace BusinessManagementService.Infrastructure.Repositories {
 
             // @TODO: Launch domain event from command handler? Useful if updating file contents to fix bugs or improve the analysis script.
         }
+
+        public MediaType AddMediaType(MediaType mediaType)
+        {
+            var existing = _context.MediaTypes.FirstOrDefault(m => m.Id == mediaType.Id || m.Name == mediaType.Name);
+
+            if(existing != null)
+                return existing;
+
+            return _context.Add(mediaType).Entity;
+        }
+
+        public ScriptFile AddScriptFile(ScriptFile scriptFile)
+        {
+            var existing = _context.ScriptFiles.FirstOrDefault(s => s.Id == scriptFile.Id);
+
+            if(existing != null)
+                return existing;
+
+            return _context.Add(scriptFile).Entity;
+        }
+
+        public ScriptParametersFile AddScriptParametersFile(ScriptParametersFile scriptParametersFile)
+        {
+            var existing = _context.ScriptParametersFiles.FirstOrDefault(s => s.Id == scriptParametersFile.Id);
+
+            if (existing != null)
+                return existing;
+
+            return _context.Add(scriptParametersFile).Entity;
+        }
+
     }
 }

@@ -1,18 +1,27 @@
+using System;
 using Common.SeedWork;
 
 namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
     public class ScriptParametersFile : Entity
     {
-        private string _name;
-        private string _description;
-        private string _scriptParameters;
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public string ScriptParameters { get; private set; }
+
+        public ScriptParametersFile(Guid id, string name, string description, string scriptParameters)
+        {
+            base.Id = id;
+            Name = name;
+            Description = description;
+            ScriptParameters = scriptParameters;
+        }
 
         public ScriptParametersFile(string name, string description, string scriptParameters)
         {
-            _name = name;
-            _description = description;
-            _scriptParameters = scriptParameters;
+            Name = name;
+            Description = description;
+            ScriptParameters = scriptParameters;
         }
     }
 }

@@ -1,50 +1,38 @@
 using System;
-using System.Collections.Generic;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfilePackageAggregate;
 using Common.SeedWork;
 
 namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate {
     public class AnalysisProfile : Entity, IAggregateRoot {
-        private string _name;
-        private string _description;
-        private decimal _price;
-        private Guid _mediaTypeId;
-        private Guid _scriptFileId;
-         public Guid GetScriptFileId => _scriptFileId;
-        private Guid _scriptParametersFileId;
-        public MediaType MediaType { get; private set; }
-        public ScriptFile ScriptFile { get; private set; }
-        public ScriptParametersFile ScriptParametersFile { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
+        public Guid MediaTypeId { get; private set; }
+        public Guid ScriptFileId { get; private set; }
+        public Guid ScriptParametersFileId { get; private set; }
+        public virtual MediaType MediaType { get; private set; }
+        public virtual ScriptFile ScriptFile { get; private set; }
+        public virtual ScriptParametersFile ScriptParametersFile { get; private set; }
 
-        public AnalysisProfile(string name, string description, decimal price, Guid mediaTypeId, Guid scriptFileId,  Guid scriptParametersFileId)
+        public AnalysisProfile(string name, string description, decimal price)
         {
-            _name = name;
-            _description = description;
-            _price = price;
-            _mediaTypeId = mediaTypeId;
-            _scriptFileId = scriptFileId;
-            _scriptParametersFileId = scriptParametersFileId;
+            Name = name;
+            Description = description;
+            Price = price;
         }
 
-        public void SetScriptFileId(Guid id)
+        public void SetScriptFile(ScriptFile scriptFile)
         {
-            _scriptFileId = id;
+            ScriptFile = scriptFile;
         }
 
-        public void SetScriptParametersFileId(Guid id)
+        public void SetScriptParametersFile(ScriptParametersFile scriptParametersFile)
         {
-            _scriptParametersFileId = id;
+            ScriptParametersFile = scriptParametersFile;
         }
 
-        public void SetMediaTypeId(Guid id)
+        public void SetMediaType(MediaType mediaType)
         {
-            _mediaTypeId = id;
+            MediaType = mediaType;
         }
-
-        public void SetPrice(decimal price)
-        {
-            _price = price;
-        }
-
     }
 }
