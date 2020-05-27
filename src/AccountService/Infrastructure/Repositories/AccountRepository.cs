@@ -42,6 +42,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
                                     .Include(x => x.ContactDetails)
                                     .Include(x => x.BusinessTier)
                                     .Include(x => x.Features)
+                                    .Include(x => x.AnalysisProfiles)
                                     .FirstOrDefaultAsync(acc => acc.Id == accountId);
 
             // try to get account from local uncommitted entities
@@ -60,6 +61,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
                 await _context.Entry(account).Reference(x => x.ContactDetails).LoadAsync();
                 await _context.Entry(account).Reference(x => x.BusinessTier).LoadAsync();
                 await _context.Entry(account).Collection(x => x.Features).LoadAsync();
+                await _context.Entry(account).Collection(x => x.AnalysisProfiles).LoadAsync();
             }
 
             return account;

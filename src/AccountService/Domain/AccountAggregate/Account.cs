@@ -27,6 +27,8 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 
         private readonly List<Feature> _features;
         public IReadOnlyCollection<Feature> Features => _features;
+        private readonly List<AnalysisProfile> _analysisProfiles;
+        public IReadOnlyCollection<AnalysisProfile> AnalysisProfiles => _analysisProfiles;
 
         public static Account NewAccount()
         {
@@ -38,6 +40,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         {
             _isActive = true;
             _features = new List<Feature>();
+            _analysisProfiles = new List<AnalysisProfile>();
         }
 
         public Account(Address address, ContactDetails contactDetails) : this()
@@ -65,6 +68,21 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         public void RemoveFeatures(Feature feature)
         {
             _features.Remove(feature);
+        }
+
+        public void AddAnalysisProfile(AnalysisProfile analysisProfile)
+        {
+            if (!_analysisProfiles.Exists(ap => ap.Id == analysisProfile.Id))
+            {
+                _analysisProfiles.Add(analysisProfile);
+            }
+
+            // TODO: Maybe log that an attempt to add an existing analysisProfile happened?
+        }
+
+        public void RemoveAnalysisProfile(AnalysisProfile analysisProfile)
+        {
+            _analysisProfiles.Remove(analysisProfile);
         }
 
         public void SetBusinessTier(BusinessTier businessTier)

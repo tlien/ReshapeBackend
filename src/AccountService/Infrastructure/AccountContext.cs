@@ -16,6 +16,7 @@ namespace Reshape.AccountService.Infrastructure
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BusinessTier> BusinessTiers { get; set; }
         public DbSet<Feature> Features { get; set; }
+        public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
 
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -38,6 +39,8 @@ namespace Reshape.AccountService.Infrastructure
             modelBuilder.ApplyConfiguration(new BusinessTierEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AccountFeatureEntityConfiguration());
             modelBuilder.ApplyConfiguration(new FeatureEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountAnalysisProfileEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new AnalysisProfileEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
         }
 
