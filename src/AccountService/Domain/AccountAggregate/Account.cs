@@ -9,22 +9,12 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         private bool _isActive;
         public bool GetIsActive => _isActive;
 
+        // Value objects
         public Address Address { get; private set; }
         public ContactDetails ContactDetails { get; private set; }
 
-        private BusinessTier _businessTier;
-        public BusinessTier BusinessTier
-        {
-            get
-            {
-                return _businessTier;
-            }
-            private set
-            {
-                _businessTier = value;
-            }
-        }
-
+        // Entities
+        public BusinessTier BusinessTier { get; private set; } // auto prop
         private readonly List<Feature> _features;
         public IReadOnlyCollection<Feature> Features => _features;
         private readonly List<AnalysisProfile> _analysisProfiles;
@@ -62,7 +52,11 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         public void AddFeatures(Feature feature)
         {
             if (!_features.Exists(f => f.Id == feature.Id))
+            {
                 _features.Add(feature);
+            }
+
+            // TODO: Maybe log that an attempt to add an existing feature happened?
         }
 
         public void RemoveFeatures(Feature feature)
@@ -87,7 +81,10 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 
         public void SetBusinessTier(BusinessTier businessTier)
         {
-            _businessTier = businessTier;
+            if (BusinessTier.Id != businessTier.Id)
+                BusinessTier = businessTier;
+
+            // TODO: What if this is already the current businessTier?
         }
 
         public void SetAccountActive()

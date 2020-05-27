@@ -1,15 +1,17 @@
+using System;
 using Reshape.Common.SeedWork;
 
 namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public class BusinessTier : Entity
     {
-        private string _name;
+        private readonly string _name;
 
         protected BusinessTier() { }
 
-        public BusinessTier(string name)
+        public BusinessTier(Guid id, string name)
         {
+            base.Id = id;
             _name = name;
         }
 
