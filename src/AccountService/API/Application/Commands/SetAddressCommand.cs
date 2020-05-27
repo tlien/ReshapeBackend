@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using MediatR;
 
-namespace Reshape.AccountService.API.Commands
+namespace Reshape.AccountService.API.Application.Commands
 {
     [DataContract]
     public class SetAddressCommand : IRequest<int>
