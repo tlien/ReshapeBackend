@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+using System;
 using System.Runtime.Serialization;
 using MediatR;
 
 namespace Reshape.AccountService.API.Commands
 {
     [DataContract]
-    public class CreateAccountCommand : IRequest<bool>
+    public class CreateAccountCommand : IRequest<int>
     {
         [DataMember]
         public string Street1 { get; private set; }
@@ -26,18 +26,11 @@ namespace Reshape.AccountService.API.Commands
         public string Email { get; private set; }
 
         [DataMember]
-        public BusinessTierDTO BusinessTier { get; private set; }
-        [DataMember]
-        private readonly List<FeatureDTO> _features;
-        [DataMember]
-        public IEnumerable<FeatureDTO> Features => _features;
+        public Guid BusinessTierId { get; private set; }
 
-        public CreateAccountCommand()
-        {
-            _features = new List<FeatureDTO>();
-        }
+        public CreateAccountCommand() { }
 
-        public CreateAccountCommand(string street1, string street2, string city, string zipCode, string country, string contactPersonFullName, string phone, string email, BusinessTierDTO businessTier, List<FeatureDTO> features) : this()
+        public CreateAccountCommand(string street1, string street2, string city, string zipCode, string country, string contactPersonFullName, string phone, string email, Guid businessTierId) : this()
         {
             Street1 = street1;
             Street2 = street2;
@@ -47,19 +40,7 @@ namespace Reshape.AccountService.API.Commands
             ContactPersonFullName = contactPersonFullName;
             Phone = phone;
             Email = email;
-            BusinessTier = businessTier;
-            _features = features;
+            BusinessTierId = businessTierId;
         }
-    }
-
-    public class FeatureDTO
-    {
-        public string name { get; set; }
-        public string description { get; set; }
-    }
-
-    public class BusinessTierDTO
-    {
-        public string name { get; set; }
     }
 }
