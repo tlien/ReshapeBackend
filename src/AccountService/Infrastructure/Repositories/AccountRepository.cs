@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Reshape.Common.SeedWork;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
+using System.Collections.Generic;
 
 namespace Reshape.AccountService.Infrastructure.Repositories
 {
@@ -65,6 +66,32 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             }
 
             return account;
+        }
+
+        public async Task<List<Feature>> GetFeaturesAsync(List<Guid> featureIds)
+        {
+            var features = await _context
+                                    .Features
+                                    .Where(f => featureIds.Contains(f.Id))
+                                    .ToListAsync();
+            return features;
+        }
+
+        public async Task<BusinessTier> GetBusinessTierAsync(Guid businessTierId)
+        {
+            var businessTier = await _context
+                                    .BusinessTiers
+                                    .FirstOrDefaultAsync(bt => bt.Id == businessTierId);
+            return businessTier;
+        }
+
+        public async Task<List<AnalysisProfile>> GetAnalysisProfilesAsync(List<Guid> analysisProfileIds)
+        {
+            var analysisProfiles = await _context
+                                    .AnalysisProfiles
+                                    .Where(ap => analysisProfileIds.Contains(ap.Id))
+                                    .ToListAsync();
+            return analysisProfiles;
         }
     }
 }
