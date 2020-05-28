@@ -10,37 +10,8 @@ namespace Reshape.BusinessManagementService.Infrastructure.EntityConfigurations
 
         public void Configure(EntityTypeBuilder<AnalysisProfile> builder)
         {
-            // builder.ToTable("analysisprofiles");
             builder.HasKey(a => a.Id);
             builder.Ignore(a => a.DomainEvents);
-
-            // builder
-            //     .Property(a => a.Id)
-            //     .HasColumnName("id");
-
-            // builder
-            //     .Property(a => a.Name)
-            //     .HasColumnName("name");
-
-            // builder
-            //     .Property(a => a.Description)
-            //     .HasColumnName("description");
-
-            // builder
-            //     .Property(a => a.Price)
-            //     .HasColumnName("price");
-
-            // builder
-            //     .Property(a => a.MediaTypeId)
-            //     .HasColumnName("mediatypeid");
-
-            // builder
-            //     .Property(a => a.ScriptFileId)
-            //     .HasColumnName("scriptfileid");
-
-            // builder
-            //     .Property(a => a.ScriptParametersFileId)
-            //     .HasColumnName("scriptparametersfileid");
 
             builder
                 .HasOne(a => a.MediaType)
