@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using MediatR;
 
-namespace BusinessManagementService.API.Application.Commands
+namespace Reshape.BusinessManagementService.API.Application.Commands
 {
     [DataContract]
     public class CreateBusinessTierCommand : IRequest<BusinessTierDTO>

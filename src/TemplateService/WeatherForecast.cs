@@ -1,6 +1,6 @@
 using System;
 
-namespace TemplateService
+namespace Reshape.TemplateService
 {
     public class WeatherForecast
     {

@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Reshape.Microsoft.AspNetCore.Hosting
 {
     public static class IWebHostExtensions
     {

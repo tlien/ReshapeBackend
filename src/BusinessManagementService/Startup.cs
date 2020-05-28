@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
-using BusinessManagementService.API.Application.Queries.BusinessTierQueries;
-using BusinessManagementService.API.Application.Queries.FeatureQueries;
-using BusinessManagementService.API.Configuration;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
-using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
-using BusinessManagementService.Infrastructure;
-using BusinessManagementService.Infrastructure.Repositories;
+using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
+using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
+using Reshape.BusinessManagementService.API.Configuration;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+using Reshape.BusinessManagementService.Infrastructure;
+using Reshape.BusinessManagementService.Infrastructure.Repositories;
+using Reshape.Common.EventBus;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace BusinessManagementService
+namespace Reshape.BusinessManagementService
 {
     public class Startup
     {
@@ -45,9 +46,22 @@ namespace BusinessManagementService
 
             services.AddSingleton(AutoMapperConfig.CreateMapper());
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddEntityFrameworkNpgsql().AddDbContext<BusinessManagementContext>(options =>
+            services.AddEntityFrameworkNpgsql();
+            
+            // UseSnakeCaseNamingConvention() sets up tables and columns with snake case without explicitly renaming everything in entitytypeconfigurations
+            services.AddDbContext<BusinessManagementContext>(options =>
                 {
-                    options.UseNpgsql(Configuration.GetConnectionString("DbContext"));
+                    options
+                        .UseNpgsql(Configuration.GetConnectionString("DbContext"))
+                        .UseSnakeCaseNamingConvention();
+                }
+            );
+
+            services.AddDbContext<IntegrationEventLogContext>(options =>
+                {
+                    options
+                        .UseNpgsql(Configuration.GetConnectionString("DbContext"))
+                        .UseSnakeCaseNamingConvention();
                 }
             );
 

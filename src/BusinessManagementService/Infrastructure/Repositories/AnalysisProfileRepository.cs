@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using Common.SeedWork;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementService.Infrastructure.Repositories {
+namespace Reshape.BusinessManagementService.Infrastructure.Repositories {
     public class AnalysisProfileRepository : IAnalysisProfileRepository
     {
         private readonly BusinessManagementContext _context;
@@ -99,6 +99,5 @@ namespace BusinessManagementService.Infrastructure.Repositories {
 
             return _context.Add(scriptParametersFile).Entity;
         }
-
     }
 }

@@ -1,14 +1,14 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using BusinessManagementService.API.Application.Commands;
-using BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.BusinessManagementService.API.Application.Commands;
+using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
-namespace BusinessManagementService.API.Controllers
+namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

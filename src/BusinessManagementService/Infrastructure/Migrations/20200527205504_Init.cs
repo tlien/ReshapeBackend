@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BusinessManagementService.Infrastructure.Migrations
+namespace Reshape.BusinessManagementService.Infrastructure.Migrations
 {
     public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "businesstiers",
+                name: "business_tiers",
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
@@ -18,7 +18,7 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_businesstiers", x => x.id);
+                    table.PrimaryKey("pk_business_tiers", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -32,11 +32,11 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_features", x => x.id);
+                    table.PrimaryKey("pk_features", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "mediatypes",
+                name: "media_types",
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
@@ -44,11 +44,11 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_mediatypes", x => x.id);
+                    table.PrimaryKey("pk_media_types", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "scriptfiles",
+                name: "script_files",
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
@@ -58,76 +58,76 @@ namespace BusinessManagementService.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_scriptfiles", x => x.id);
+                    table.PrimaryKey("pk_script_files", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "scriptparametersfiles",
+                name: "script_parameters_files",
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
-                    scriptparameters = table.Column<string>(nullable: true)
+                    script_parameters = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_scriptparametersfiles", x => x.id);
+                    table.PrimaryKey("pk_script_parameters_files", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "analysisprofiles",
+                name: "analysis_profiles",
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     price = table.Column<decimal>(nullable: false),
-                    mediatypeid = table.Column<Guid>(nullable: false),
-                    scriptfileid = table.Column<Guid>(nullable: false),
-                    scriptparametersfileid = table.Column<Guid>(nullable: false)
+                    media_type_id = table.Column<Guid>(nullable: false),
+                    script_file_id = table.Column<Guid>(nullable: false),
+                    script_parameters_file_id = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_analysisprofiles", x => x.id);
+                    table.PrimaryKey("pk_analysis_profiles", x => x.id);
                     table.ForeignKey(
-                        name: "FK_analysisprofiles_mediatypes_mediatypeid",
-                        column: x => x.mediatypeid,
-                        principalTable: "mediatypes",
+                        name: "fk_analysis_profiles_media_types_media_type_id",
+                        column: x => x.media_type_id,
+                        principalTable: "media_types",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_analysisprofiles_scriptfiles_scriptfileid",
-                        column: x => x.scriptfileid,
-                        principalTable: "scriptfiles",
+                        name: "fk_analysis_profiles_script_files_script_file_id",
+                        column: x => x.script_file_id,
+                        principalTable: "script_files",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_analysisprofiles_scriptparametersfiles_scriptparametersfile~",
-                        column: x => x.scriptparametersfileid,
-                        principalTable: "scriptparametersfiles",
+                        name: "fk_analysis_profiles_script_parameters_files_script_parameters",
+                        column: x => x.script_parameters_file_id,
+                        principalTable: "script_parameters_files",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_analysisprofiles_mediatypeid",
-                table: "analysisprofiles",
-                column: "mediatypeid");
+                name: "ix_analysis_profiles_media_type_id",
+                table: "analysis_profiles",
+                column: "media_type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_analysisprofiles_scriptfileid",
-                table: "analysisprofiles",
-                column: "scriptfileid");
+                name: "ix_analysis_profiles_script_file_id",
+                table: "analysis_profiles",
+                column: "script_file_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_analysisprofiles_scriptparametersfileid",
-                table: "analysisprofiles",
-                column: "scriptparametersfileid");
+                name: "ix_analysis_profiles_script_parameters_file_id",
+                table: "analysis_profiles",
+                column: "script_parameters_file_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_mediatypes_name",
-                table: "mediatypes",
+                name: "ix_media_types_name",
+                table: "media_types",
                 column: "name",
                 unique: true);
         }
@@ -135,22 +135,22 @@ namespace BusinessManagementService.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "analysisprofiles");
+                name: "analysis_profiles");
 
             migrationBuilder.DropTable(
-                name: "businesstiers");
+                name: "business_tiers");
 
             migrationBuilder.DropTable(
                 name: "features");
 
             migrationBuilder.DropTable(
-                name: "mediatypes");
+                name: "media_types");
 
             migrationBuilder.DropTable(
-                name: "scriptfiles");
+                name: "script_files");
 
             migrationBuilder.DropTable(
-                name: "scriptparametersfiles");
+                name: "script_parameters_files");
         }
     }
 }

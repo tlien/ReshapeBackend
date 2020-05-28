@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.EventBus.Abstractions;
-using Common.EventBus.Events;
+using Reshape.Common.EventBus.Abstractions;
+using Reshape.Common.EventBus.Events;
 
-namespace Common.EventBus
+namespace Reshape.Common.EventBus
 {
     public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptionsManager
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace BusinessManagementService.API.Application.Queries.FeatureQueries
+namespace Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries
 {
     public class FeatureViewModel
     {

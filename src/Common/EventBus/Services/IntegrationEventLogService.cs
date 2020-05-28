@@ -1,4 +1,4 @@
-using Common.EventBus.Events;
+using Reshape.Common.EventBus.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Common.EventBus.Services
+namespace Reshape.Common.EventBus.Services
 {
     public class IntegrationEventLogService : IIntegrationEventLogService
     {

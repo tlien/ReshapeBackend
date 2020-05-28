@@ -1,33 +1,33 @@
 using System;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BusinessManagementService.Infrastructure.EntityConfigurations {
+namespace Reshape.BusinessManagementService.Infrastructure.EntityConfigurations {
     public class FeatureEntityTypeConfiguration : IEntityTypeConfiguration<Feature>
     {
         public void Configure(EntityTypeBuilder<Feature> builder)
         {
-            builder.ToTable("features");
+            // builder.ToTable("features");
             builder.HasKey(f => f.Id);
             builder.Ignore(f => f.DomainEvents);
 
-            builder
-                .Property(f => f.Id)
-                .HasColumnName("id");
+            // builder
+            //     .Property(f => f.Id)
+            //     .HasColumnName("id");
 
-            builder
-                .Property(f => f.Name)
-                .HasColumnName("name");
+            // builder
+            //     .Property(f => f.Name)
+            //     .HasColumnName("name");
 
-            builder
-                .Property(f => f.Description)
-                .HasColumnName("description");
+            // builder
+            //     .Property(f => f.Description)
+            //     .HasColumnName("description");
 
-            builder
-                .Property(f => f.Price)
-                .HasColumnName("price");
+            // builder
+            //     .Property(f => f.Price)
+            //     .HasColumnName("price");
         }
     }
 }

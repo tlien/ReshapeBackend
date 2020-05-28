@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel.FeatureAggregate {
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate {
     public interface IFeatureRepository : IRepository<Feature> 
     {
         Feature Add(Feature feature);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BusinessManagementService.API.Application.Queries.AnalysisProfileQueries 
+namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries 
 {
     public class AnalysisProfileViewModel
     {

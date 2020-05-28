@@ -1,6 +1,6 @@
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate {
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate {
     public class BusinessTier : Entity, IAggregateRoot 
     {
         public string Name { get; private set; }

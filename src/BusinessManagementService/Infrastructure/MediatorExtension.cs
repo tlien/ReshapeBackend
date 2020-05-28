@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 using MediatR;
 
-namespace BusinessManagementService.Infrastructure {
+namespace Reshape.BusinessManagementService.Infrastructure {
     static class MediatorExtension
     {
         public static async Task DispatchDomainEventsAsync(this IMediator mediator, BusinessManagementContext ctx)

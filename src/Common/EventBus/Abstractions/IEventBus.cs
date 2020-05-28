@@ -1,6 +1,6 @@
-﻿using Common.EventBus.Events;
+﻿using Reshape.Common.EventBus.Events;
 
-namespace Common.EventBus.Abstractions
+namespace Reshape.Common.EventBus.Abstractions
 {
     public interface IEventBus
     {

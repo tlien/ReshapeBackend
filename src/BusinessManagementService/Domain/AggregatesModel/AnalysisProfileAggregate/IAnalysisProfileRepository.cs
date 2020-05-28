@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate {
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate {
     public interface IAnalysisProfileRepository : IRepository<AnalysisProfile> {
         AnalysisProfile Add(AnalysisProfile analysisProfile);
         void Update(AnalysisProfile analysisProfile);

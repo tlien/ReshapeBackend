@@ -2,10 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 using MediatR;
 
-namespace BusinessManagementService.API.Application.Commands
+namespace Reshape.BusinessManagementService.API.Application.Commands
 {
     public class CreateBusinessTierCommandHandler : IRequestHandler<CreateBusinessTierCommand, BusinessTierDTO>
     {

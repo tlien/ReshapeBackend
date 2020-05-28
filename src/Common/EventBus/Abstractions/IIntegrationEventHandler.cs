@@ -1,7 +1,7 @@
-﻿using Common.EventBus.Events;
+﻿using Reshape.Common.EventBus.Events;
 using System.Threading.Tasks;
 
-namespace Common.EventBus.Abstractions
+namespace Reshape.Common.EventBus.Abstractions
 {
     public interface IIntegrationEventHandler<in TIntegrationEvent> : IIntegrationEventHandler 
         where TIntegrationEvent: IntegrationEvent

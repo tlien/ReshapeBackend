@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Common.EventBus.Migrations
+namespace Reshape.Common.EventBus.Migrations
 {
     public partial class Init : Migration
     {

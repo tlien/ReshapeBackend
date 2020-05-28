@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Common.EventBus.Events
+namespace Reshape.Common.EventBus.Events
 {
     public class IntegrationEvent
     {

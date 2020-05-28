@@ -1,7 +1,7 @@
 using System;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
     public class MediaType : Entity {
         public string Name { get; private set; }

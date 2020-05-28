@@ -1,11 +1,11 @@
 using AutoMapper;
-using BusinessManagementService.API.Configuration.AutoMapperConfigs;
+using Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BusinessManagementService.API.Configuration
+namespace Reshape.BusinessManagementService.API.Configuration
 {
     public static class AutoMapperConfig
     {

@@ -1,16 +1,17 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
-using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using MediatR;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
-using BusinessManagementService.Infrastructure.EntityConfigurations;
+using Reshape.BusinessManagementService.Infrastructure.EntityConfigurations;
+using Microsoft.EntityFrameworkCore.Design;
 
-namespace BusinessManagementService.Infrastructure {
+namespace Reshape.BusinessManagementService.Infrastructure {
 
     public class BusinessManagementContext : DbContext, IUnitOfWork {
 
@@ -50,6 +51,20 @@ namespace BusinessManagementService.Infrastructure {
             return true;
         }
 
+    }
+
+    // Allow webhosting extension to migrate database at design time
+    // The factory is accessed simply by being in the same project root or namespace Reshape.as the context it is producing, hence no code references to the factory
+    public class BusinessManagementContextFactory : IDesignTimeDbContextFactory<BusinessManagementContext>
+    {
+        public BusinessManagementContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<BusinessManagementContext>();
+
+            optionsBuilder.UseNpgsql(".", options => options.MigrationsAssembly(GetType().Assembly.GetName().Name)).UseSnakeCaseNamingConvention();
+
+            return new BusinessManagementContext(optionsBuilder.Options);
+        }
     }
 
 }

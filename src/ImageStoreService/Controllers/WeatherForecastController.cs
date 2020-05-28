@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ImageStoreService.Controllers
+namespace Reshape.ImageStoreService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

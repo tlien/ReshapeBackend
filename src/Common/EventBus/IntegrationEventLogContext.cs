@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.EventBus
+namespace Reshape.Common.EventBus
 {
     public class IntegrationEventLogContext : DbContext
     {       
@@ -47,7 +47,7 @@ namespace Common.EventBus
     }
 
     // Allow webhosting extension to migrate database at design time
-    // The factory is accessed simply by being in the same project root or namespace as the context it is producing, hence no code references to the factory
+    // The factory is accessed simply by being in the same project root or namespace Reshape.as the context it is producing, hence no code references to the factory
     public class IntegrationEventLogContextDesignTimeFactory : IDesignTimeDbContextFactory<IntegrationEventLogContext>
     {
         public IntegrationEventLogContext CreateDbContext(string[] args)

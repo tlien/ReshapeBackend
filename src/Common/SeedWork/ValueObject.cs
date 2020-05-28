@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Reshape.Common.SeedWork
+namespace Reshape.Reshape.Common.SeedWork
 {
     public abstract class ValueObject
     {

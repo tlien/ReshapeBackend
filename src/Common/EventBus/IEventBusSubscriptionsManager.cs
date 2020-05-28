@@ -1,10 +1,10 @@
-﻿using Common.EventBus.Abstractions;
-using Common.EventBus.Events;
+﻿using Reshape.Common.EventBus.Abstractions;
+using Reshape.Common.EventBus.Events;
 using System;
 using System.Collections.Generic;
 using static Common.EventBus.InMemoryEventBusSubscriptionsManager;
 
-namespace Common.EventBus
+namespace Reshape.Common.EventBus
 {
     public interface IEventBusSubscriptionsManager
     {

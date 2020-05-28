@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
-using Common.SeedWork;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementService.Infrastructure.Repositories 
+namespace Reshape.BusinessManagementService.Infrastructure.Repositories 
 {
     public class BusinessTierRepository : IBusinessTierRepository
     {

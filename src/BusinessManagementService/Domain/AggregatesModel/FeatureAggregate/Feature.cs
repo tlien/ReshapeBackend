@@ -1,6 +1,6 @@
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel.FeatureAggregate {
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate {
     public class Feature : Entity, IAggregateRoot 
     {
         public string Name { get; private set; }

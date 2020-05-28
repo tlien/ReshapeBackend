@@ -1,9 +1,9 @@
 using AutoMapper;
-using BusinessManagementService.API.Application.Commands;
-using BusinessManagementService.API.Application.Queries.BusinessTierQueries;
-using BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.BusinessManagementService.API.Application.Commands;
+using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 
-namespace BusinessManagementService.API.Configuration.AutoMapperConfigs
+namespace Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs
 {
     public class BusinessTierMapping : Profile
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.EventBus
+namespace Reshape.Common.EventBus
 {
     public enum EventStateEnum
     {

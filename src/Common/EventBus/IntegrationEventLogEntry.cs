@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
-using Common.EventBus.Events;
+using Reshape.Common.EventBus.Events;
 
-namespace Common.EventBus
+namespace Reshape.Common.EventBus
 {
     public class IntegrationEventLogEntry
     {

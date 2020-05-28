@@ -2,11 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using MediatR;
-using static BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
 
-namespace BusinessManagementService.API.Application.Commands
+namespace Reshape.BusinessManagementService.API.Application.Commands
 {
     public class CreateFeatureCommandHandler : IRequestHandler<CreateFeatureCommand, FeatureDTO>
     {

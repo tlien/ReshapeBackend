@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Common.SeedWork;
+using Reshape.Common.SeedWork;
 
-namespace BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate {
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate {
     public interface IBusinessTierRepository : IRepository<BusinessTier> 
     {
         BusinessTier Add(BusinessTier businessTier);

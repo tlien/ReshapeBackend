@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.EventBus
+namespace Reshape.Common.EventBus
 {
     public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptionsManager
     {

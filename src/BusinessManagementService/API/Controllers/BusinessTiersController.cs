@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using BusinessManagementService.API.Application.Commands;
-using BusinessManagementService.API.Application.Queries.BusinessTierQueries;
+using Reshape.BusinessManagementService.API.Application.Commands;
+using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BusinessManagementService.API.Controllers
+namespace Reshape.BusinessManagementService.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]

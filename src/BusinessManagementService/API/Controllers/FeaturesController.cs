@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using BusinessManagementService.API.Application.Commands;
-using BusinessManagementService.API.Application.Queries.FeatureQueries;
+using Reshape.BusinessManagementService.API.Application.Commands;
+using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
 
-namespace BusinessManagementService.API.Controllers
+namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -37,7 +37,7 @@ namespace BusinessManagementService.API.Controllers
         [HttpPost]
         public async Task<ActionResult<FeatureDTO>> AddAsync([FromBody] CreateFeatureCommand command)
         {
-            return await _mediator.Send(command);
+            return Ok(await _mediator.Send(command));
         }
     }
 }

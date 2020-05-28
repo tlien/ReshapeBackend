@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BusinessManagementService.Infrastructure;
+using Reshape.BusinessManagementService.Infrastructure;
 using AutoMapper.QueryableExtensions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementService.API.Application.Queries.BusinessTierQueries
+namespace Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries
 {
     public class BusinessTierQueries : IBusinessTierQueries
     {

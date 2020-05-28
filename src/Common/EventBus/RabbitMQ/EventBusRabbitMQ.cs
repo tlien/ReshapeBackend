@@ -1,8 +1,8 @@
 ﻿// using Autofac;
-using Common.EventBus;
-using Common.EventBus.Abstractions;
-using Common.EventBus.Events;
-using Common.EventBus.Extensions; 
+using Reshape.Common.EventBus;
+using Reshape.Common.EventBus.Abstractions;
+using Reshape.Common.EventBus.Events;
+using Reshape.Common.EventBus.Extensions; 
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -16,7 +16,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.EventBus.RabbitMQ
+namespace Reshape.Common.EventBus.RabbitMQ
 {
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {

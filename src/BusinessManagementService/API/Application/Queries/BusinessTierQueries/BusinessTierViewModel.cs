@@ -1,6 +1,6 @@
 using System;
 
-namespace BusinessManagementService.API.Application.Queries.BusinessTierQueries
+namespace Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries
 {
     public class BusinessTierViewModel
     {

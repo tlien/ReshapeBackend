@@ -1,10 +1,10 @@
 using AutoMapper;
-using BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
-using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
+using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
-namespace BusinessManagementService.API.Configuration.AutoMapperConfigs
+namespace Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs
 {
     public class AnalysisProfileMapping : Profile
     {

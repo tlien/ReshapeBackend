@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
-using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
-using static BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
-namespace BusinessManagementService.API.Application.Commands
+namespace Reshape.BusinessManagementService.API.Application.Commands
 {
     public class CreateAnalysisProfileCommandHandler : IRequestHandler<CreateAnalysisProfileCommand, AnalysisProfileDTO>
     {

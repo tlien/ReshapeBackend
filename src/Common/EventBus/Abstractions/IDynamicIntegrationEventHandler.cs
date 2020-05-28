@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Common.EventBus.Abstractions
+namespace Reshape.Common.EventBus.Abstractions
 {
     public interface IDynamicIntegrationEventHandler
     {
