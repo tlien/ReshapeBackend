@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Reshape.AccountService.Migrations
+namespace AccountService.API.Infrastructure.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -21,20 +21,6 @@ namespace Reshape.AccountService.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_businesstiers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "features",
-                schema: "account",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    description = table.Column<string>(nullable: true),
-                    name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_features", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,6 +53,77 @@ namespace Reshape.AccountService.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "analysisProfiles",
+                schema: "account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: true),
+                    description = table.Column<string>(nullable: true),
+                    name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_analysisProfiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_analysisProfiles_accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "account",
+                        principalTable: "accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "features",
+                schema: "account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: true),
+                    description = table.Column<string>(nullable: true),
+                    name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_features", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_features_accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "account",
+                        principalTable: "accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "accountanalysisProfile",
+                schema: "account",
+                columns: table => new
+                {
+                    AccountId = table.Column<Guid>(nullable: false),
+                    AnalysisProfileId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accountanalysisProfile", x => new { x.AccountId, x.AnalysisProfileId });
+                    table.ForeignKey(
+                        name: "FK_accountanalysisProfile_accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "account",
+                        principalTable: "accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_accountanalysisProfile_analysisProfiles_AnalysisProfileId",
+                        column: x => x.AnalysisProfileId,
+                        principalSchema: "account",
+                        principalTable: "analysisProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "accountfeatures",
                 schema: "account",
                 columns: table => new
@@ -94,6 +151,12 @@ namespace Reshape.AccountService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_accountanalysisProfile_AnalysisProfileId",
+                schema: "account",
+                table: "accountanalysisProfile",
+                column: "AnalysisProfileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_accountfeatures_FeatureId",
                 schema: "account",
                 table: "accountfeatures",
@@ -104,20 +167,40 @@ namespace Reshape.AccountService.Migrations
                 schema: "account",
                 table: "accounts",
                 column: "BusinessTierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_analysisProfiles_AccountId",
+                schema: "account",
+                table: "analysisProfiles",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_features_AccountId",
+                schema: "account",
+                table: "features",
+                column: "AccountId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "accountanalysisProfile",
+                schema: "account");
+
+            migrationBuilder.DropTable(
                 name: "accountfeatures",
                 schema: "account");
 
             migrationBuilder.DropTable(
-                name: "accounts",
+                name: "analysisProfiles",
                 schema: "account");
 
             migrationBuilder.DropTable(
                 name: "features",
+                schema: "account");
+
+            migrationBuilder.DropTable(
+                name: "accounts",
                 schema: "account");
 
             migrationBuilder.DropTable(
