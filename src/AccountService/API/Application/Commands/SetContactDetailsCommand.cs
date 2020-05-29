@@ -5,7 +5,7 @@ using MediatR;
 namespace Reshape.AccountService.API.Application.Commands
 {
     [DataContract]
-    public class ContactDetailsCommand : IRequest<int>
+    public class SetContactDetailsCommand : IRequest<int>
     {
         [DataMember]
         public Guid AccountId { get; private set; }
@@ -17,9 +17,9 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public string Email { get; private set; }
 
-        public ContactDetailsCommand() { }
+        public SetContactDetailsCommand() { }
 
-        public ContactDetailsCommand(Guid accountId, string contactPersonFullName, string phone, string email) : this()
+        public SetContactDetailsCommand(Guid accountId, string contactPersonFullName, string phone, string email) : this()
         {
             AccountId = accountId;
             ContactPersonFullName = contactPersonFullName;
