@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+
 using Reshape.AccountService.Infrastructure;
 using Reshape.Common.Extensions;
 
