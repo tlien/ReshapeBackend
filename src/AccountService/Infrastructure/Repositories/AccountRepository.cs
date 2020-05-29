@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
 using Reshape.Common.SeedWork;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
-using System.Collections.Generic;
 
 namespace Reshape.AccountService.Infrastructure.Repositories
 {

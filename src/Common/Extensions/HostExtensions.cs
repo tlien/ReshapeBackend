@@ -16,7 +16,7 @@ namespace Reshape.Common.Extensions
         ///     applying migrations in an environment where the database resides in a separate
         ///     container from the application. If the database container is not ready when the
         ///     migration is attempted, it will be retried 3 times at 3,5 and 8 second intervals.
-        ///     Triggers retrying on SqlException specifically (PostgreSQL uses a different exception).
+        ///     Triggers retrying on <c>SqlException</c> specifically (PostgreSQL uses a different exception).
         ///     This should probably not be used for production environments because of reasons
         ///     outlined at: https://github.com/dotnet/efcore/issues/19587
         /// </summary>
@@ -43,13 +43,14 @@ namespace Reshape.Common.Extensions
         {
             using (var scope = host.Services.CreateScope())
             {
-                var Services = scope.ServiceProvider;
+                var services = scope.ServiceProvider;
                 try
                 {
-                    var db = Services.GetRequiredService<TDbContext>();
+                    var db = services.GetRequiredService<TDbContext>();
 
                     // If for whatever reason the Db is not available, catch exception and retry.
-                    // Specifically, the app container is sometimes ready before the Db container, this makes the migrate fail, taking the whole app down with it.
+                    // Specifically, when running on Docker the app container is sometimes ready
+                    // before the Db container, this makes the migration fail taking the whole app down with it :(
                     Policy.Handle<TException>()
                         .WaitAndRetry(new TimeSpan[] {
                             TimeSpan.FromSeconds(3),

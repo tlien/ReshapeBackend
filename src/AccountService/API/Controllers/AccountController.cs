@@ -33,7 +33,7 @@ namespace Reshape.AccountService.API.Controllers
         {
             return Ok(await _accountQueries.GetAccountById(accountId));
         }
-        #endregion Queries
+        #endregion
 
         #region Commands
         [HttpPost]
@@ -95,6 +95,6 @@ namespace Reshape.AccountService.API.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
-        #endregion Commands
+        #endregion
     }
 }

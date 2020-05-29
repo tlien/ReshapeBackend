@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using Reshape.Common.SeedWork;
 
 namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
