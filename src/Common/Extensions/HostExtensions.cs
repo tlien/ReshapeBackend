@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
 
-namespace Reshape.Reshape.Common.Extensions
+namespace Reshape.Common.Extensions
 {
     public static class HostExtensions
     {

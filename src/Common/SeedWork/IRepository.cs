@@ -1,4 +1,4 @@
-﻿namespace Reshape.Reshape.Common.SeedWork
+﻿namespace Reshape.Common.SeedWork
 {
     public interface IRepository<T> where T : IAggregateRoot
     {

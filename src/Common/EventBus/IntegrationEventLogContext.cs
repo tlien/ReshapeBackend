@@ -54,7 +54,13 @@ namespace Reshape.Common.EventBus
         {
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventLogContext>();
 
-            optionsBuilder.UseNpgsql(".", options => options.MigrationsAssembly(GetType().Assembly.GetName().Name)).UseSnakeCaseNamingConvention();
+
+            optionsBuilder.UseNpgsql(".", options =>
+                {
+                    options.MigrationsAssembly(GetType().Assembly.GetName().Name);
+                    options.EnableRetryOnFailure();
+                }
+            ).UseSnakeCaseNamingConvention();
 
             return new IntegrationEventLogContext(optionsBuilder.Options);
         }

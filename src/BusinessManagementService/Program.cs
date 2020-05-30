@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using Reshape.Common.Extensions;
 
 namespace Reshape.BusinessManagementService
 {
@@ -16,16 +18,18 @@ namespace Reshape.BusinessManagementService
     {
         public static void Main(string[] args)
         {   
-            var host = CreateHostBuilder(args);
-            host.MigrateDbContext<IntegrationEventLogContext>();
-            host.MigrateDbContext<BusinessManagementContext>();
+            var host = CreateHostBuilder(args).Build();
+            host.MigrateDatabase<IntegrationEventLogContext, NpgsqlException>();
+            host.MigrateDatabase<BusinessManagementContext, NpgsqlException>();
             host.Run();
         }
 
-        public static IWebHost CreateHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+          Host.CreateDefaultBuilder(args)
+              .ConfigureWebHostDefaults(webBuilder =>
+              {
+                  webBuilder.UseStartup<Startup>();
+              });
             
     }
 }

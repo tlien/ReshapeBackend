@@ -2,7 +2,7 @@
 using MediatR;
 using System.Collections.Generic;
 
-namespace Reshape.Reshape.Common.SeedWork
+namespace Reshape.Common.SeedWork
 {
     public abstract class Entity
     {

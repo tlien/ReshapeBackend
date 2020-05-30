@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using Reshape.BusinessManagementService.Infrastructure.EntityConfigurations;
 using Microsoft.EntityFrameworkCore.Design;
+using System.Data;
 
 namespace Reshape.BusinessManagementService.Infrastructure {
 
@@ -51,6 +52,56 @@ namespace Reshape.BusinessManagementService.Infrastructure {
             return true;
         }
 
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            if (_currentTransaction != null) return null;
+
+            _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+            return _currentTransaction;
+        }
+
+        public async Task CommitTransactionAsync(IDbContextTransaction transaction)
+        {
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+
+            try
+            {
+                await SaveChangesAsync();
+                transaction.Commit();
+            }
+            catch
+            {
+                RollbackTransaction();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public void RollbackTransaction()
+        {
+            try
+            {
+                _currentTransaction?.Rollback();
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
     }
 
     // Allow webhosting extension to migrate database at design time
@@ -61,7 +112,12 @@ namespace Reshape.BusinessManagementService.Infrastructure {
         {
             var optionsBuilder = new DbContextOptionsBuilder<BusinessManagementContext>();
 
-            optionsBuilder.UseNpgsql(".", options => options.MigrationsAssembly(GetType().Assembly.GetName().Name)).UseSnakeCaseNamingConvention();
+            optionsBuilder.UseNpgsql(".", options => 
+                { 
+                    options.MigrationsAssembly(GetType().Assembly.GetName().Name);
+                    options.EnableRetryOnFailure();
+                }
+            ).UseSnakeCaseNamingConvention();
 
             return new BusinessManagementContext(optionsBuilder.Options);
         }

@@ -23,7 +23,7 @@ namespace Reshape.Common.EventBus.Services
             _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
             _integrationEventLogContext = new IntegrationEventLogContext(
                 new DbContextOptionsBuilder<IntegrationEventLogContext>()
-                    .UseNpgsql(_dbConnection)
+                    .UseNpgsql(_dbConnection).UseSnakeCaseNamingConvention()
                     .Options);
 
             _eventTypes = Assembly.Load(Assembly.GetEntryAssembly().FullName)

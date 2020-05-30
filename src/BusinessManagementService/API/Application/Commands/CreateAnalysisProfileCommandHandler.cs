@@ -7,6 +7,9 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAg
 using MediatR;
 using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
 using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
+using Reshape.Common.EventBus.Events;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
@@ -15,12 +18,14 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         private readonly IAnalysisProfileRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IBusinessManagementIntegrationEventService _integrationEventService;
 
-        public CreateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper)
+        public CreateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper, IBusinessManagementIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _integrationEventService = integrationEventService;
         }
 
         public async Task<AnalysisProfileDTO> Handle(CreateAnalysisProfileCommand message, CancellationToken cancellationToken)
@@ -40,6 +45,9 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             _repository.Add(analysisProfile);
             await _repository.UnitOfWork.SaveEntitiesAsync();
+
+            var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfile);
+            await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return _mapper.Map<AnalysisProfileDTO>(analysisProfile);
         }

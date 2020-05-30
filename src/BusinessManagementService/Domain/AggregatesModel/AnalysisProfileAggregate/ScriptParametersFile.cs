@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
@@ -9,6 +10,7 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
         public string Description { get; private set; }
         public string ScriptParameters { get; private set; }
 
+        [JsonConstructor]
         public ScriptParametersFile(Guid id, string name, string description, string scriptParameters)
         {
             base.Id = id;
