@@ -13,21 +13,21 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.Common.EventBus;
+using Reshape.Common.EventBus.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RabbitMQ.Client;
 using Microsoft.Extensions.Logging;
+using MassTransit;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
 using System.Data.Common;
-using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 
 namespace Reshape.BusinessManagementService
 {
@@ -54,50 +54,16 @@ namespace Reshape.BusinessManagementService
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
-            // services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
-            //    {
-            //        var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
-            //        var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-            //        var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
-            //        var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
-
-            //        var retryCount = 5;
-            //        if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-            //        {
-            //            retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-            //        }
-
-            //        return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, scopeFactory, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
-            //    });
-            // services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-            //    {
-            //        var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-
-            //        var factory = new ConnectionFactory()
-            //        {
-            //            HostName = Configuration["EventBusConnection"],
-            //            DispatchConsumersAsync = true
-            //        };
-
-            //        if (!string.IsNullOrEmpty(Configuration["EventBusUserName"]))
-            //        {
-            //            factory.UserName = Configuration["EventBusUserName"];
-            //        }
-
-            //        if (!string.IsNullOrEmpty(Configuration["EventBusPassword"]))
-            //        {
-            //            factory.Password = Configuration["EventBusPassword"];
-            //        }
-
-            //        var retryCount = 5;
-            //        if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-            //        {
-            //            retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-            //        }
-
-            //        return new DefaultRabbitMQPersistentConnection(factory, logger,  retryCount);
-            //    });
+            // MassTransit setup
+            services.AddMassTransit(x => 
+            {
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.UseHealthCheck(provider);
+                    cfg.Host("rabbitmq://localhost");
+                }));
+            });
+            services.AddMassTransitHostedService();
 
             services.AddEntityFrameworkNpgsql();
             
@@ -137,6 +103,9 @@ namespace Reshape.BusinessManagementService
                sp => (DbConnection c) => new IntegrationEventLogService(c));
 
             services.AddTransient<IBusinessManagementIntegrationEventService, BusinessManagementIntegrationEventService>();
+
+            services.AddSingleton<IEventTracker, EventTracker>();
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -148,6 +117,15 @@ namespace Reshape.BusinessManagementService
             
             app.UseRouting();
             app.UseMvc();
+
+            ConfigureEvents(app);
+        }
+
+        public void ConfigureEvents(IApplicationBuilder app)
+        {
+            var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
+
+            eventTracker.AddEventType<NewAnalysisProfileIntegrationEvent>();
         }
     }
 }

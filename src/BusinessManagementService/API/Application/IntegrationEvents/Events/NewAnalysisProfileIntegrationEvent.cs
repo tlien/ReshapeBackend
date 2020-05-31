@@ -1,13 +1,14 @@
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Reshape.Common.EventBus.Events;
+using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events
 {
     public class NewAnalysisProfileIntegrationEvent : IntegrationEvent
     {
-        public AnalysisProfile AnalysisProfile { get; set; }
+        public AnalysisProfileDTO AnalysisProfile { get; set; }
         
-        public NewAnalysisProfileIntegrationEvent(AnalysisProfile analysisProfile)
+        public NewAnalysisProfileIntegrationEvent(AnalysisProfileDTO analysisProfile)
         {
             AnalysisProfile = analysisProfile;
         }

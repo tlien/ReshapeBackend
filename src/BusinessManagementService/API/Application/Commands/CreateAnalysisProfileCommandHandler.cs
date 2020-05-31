@@ -46,10 +46,11 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             _repository.Add(analysisProfile);
             await _repository.UnitOfWork.SaveEntitiesAsync();
 
-            var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfile);
+            var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
+            var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfileDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
-            return _mapper.Map<AnalysisProfileDTO>(analysisProfile);
+            return analysisProfileDTO;
         }
 
         public class AnalysisProfileDTO
