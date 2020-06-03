@@ -1,4 +1,3 @@
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Reshape.Common.EventBus.Events;
 using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 

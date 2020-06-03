@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Events;

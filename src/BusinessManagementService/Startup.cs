@@ -28,6 +28,8 @@ using Reshape.BusinessManagementService.API.Application.Behaviors;
 using System.Data.Common;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Consumers;
+using GreenPipes;
 
 namespace Reshape.BusinessManagementService
 {
@@ -54,13 +56,27 @@ namespace Reshape.BusinessManagementService
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
-            // MassTransit setup
+            // ### MassTransit setup ###
+            // Consumer configurations are only here for show. BusinessManagementContext will not be consuming any integration event messages.
+            // Make sure that whatever your consumers are consuming is an IntegrationEvent type, as all integration events extend that class.
+            // Published message and consumed message must be the same, otherwise the message will be skipped by RabbitMQ. 
+            // ReceivedEndpoint must be the name of the integration event (without the integrationevent affix) followed by "_queue",
+            // e.g. "newanalysisprofile_queue".
+            // You may configure as many endpoints as needed for all incoming integration event type messages.
             services.AddMassTransit(x => 
             {
+                // x.AddConsumer<NewAnalysisProfileConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
                     cfg.Host("rabbitmq://localhost");
+
+                    cfg.ReceiveEndpoint("newanalysisprofile_queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(2, 100));
+                        // e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
+                        e.Consumer<NewAnalysisProfileConsumer>();
+                    });
                 }));
             });
             services.AddMassTransitHostedService();
