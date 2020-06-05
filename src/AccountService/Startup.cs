@@ -12,10 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 
-using Reshape.AccountService.API.Infrastructure.AutoMapper;
-using Reshape.AccountService.Infrastructure;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
+using Reshape.AccountService.Infrastructure;
 using Reshape.AccountService.Infrastructure.Repositories;
+using Reshape.AccountService.API.Infrastructure.AutoMapper;
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
 using Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries;
 
@@ -35,7 +35,7 @@ namespace Reshape.AccountService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCustomDbContext(Configuration);
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(options => options.EnableEndpointRouting = false).AddNewtonsoftJson();
             services.AddSingleton(AutoMapperConfig.CreateMapper());
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
