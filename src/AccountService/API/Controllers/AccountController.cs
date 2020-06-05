@@ -29,9 +29,9 @@ namespace Reshape.AccountService.API.Controllers
 
         [Route("{id:Guid}")]
         [HttpGet]
-        public async Task<IActionResult> GetAccountAsync(Guid accountId)
+        public async Task<IActionResult> GetAccountAsync(Guid id)
         {
-            return Ok(await _accountQueries.GetAccountById(accountId));
+            return Ok(await _accountQueries.GetAccountById(id));
         }
         #endregion
 

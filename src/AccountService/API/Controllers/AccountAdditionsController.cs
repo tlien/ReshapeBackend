@@ -26,9 +26,9 @@ namespace Reshape.AccountService.API.Controllers
 
         [Route("features/{id:Guid}")]
         [HttpGet]
-        public async Task<IActionResult> GetFeatureAsync(Guid featureId)
+        public async Task<IActionResult> GetFeatureAsync(Guid id)
         {
-            return Ok(await _accountAdditionsQueries.GetFeatureById(featureId));
+            return Ok(await _accountAdditionsQueries.GetFeatureById(id));
         }
 
         [Route("businesstiers")]
@@ -40,9 +40,9 @@ namespace Reshape.AccountService.API.Controllers
 
         [Route("businesstiers/{id:Guid}")]
         [HttpGet]
-        public async Task<IActionResult> GetBusinessTierAsync(Guid businessTierId)
+        public async Task<IActionResult> GetBusinessTierAsync(Guid id)
         {
-            return Ok(await _accountAdditionsQueries.GetBusinessTierById(businessTierId));
+            return Ok(await _accountAdditionsQueries.GetBusinessTierById(id));
         }
 
         [Route("analysisprofiles")]
@@ -54,9 +54,9 @@ namespace Reshape.AccountService.API.Controllers
 
         [Route("analysisprofiles/{id:Guid}")]
         [HttpGet]
-        public async Task<IActionResult> GetAnalysisProfileAsync(Guid analysisProfilesId)
+        public async Task<IActionResult> GetAnalysisProfileAsync(Guid id)
         {
-            return Ok(await _accountAdditionsQueries.GetAnalysisProfileById(analysisProfilesId));
+            return Ok(await _accountAdditionsQueries.GetAnalysisProfileById(id));
         }
     }
 }
