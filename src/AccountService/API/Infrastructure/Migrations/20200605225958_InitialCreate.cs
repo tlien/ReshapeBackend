@@ -11,16 +11,48 @@ namespace AccountService.API.Infrastructure.Migrations
                 name: "account");
 
             migrationBuilder.CreateTable(
+                name: "analysisProfiles",
+                schema: "account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_analysisProfiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "businesstiers",
                 schema: "account",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_businesstiers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "features",
+                schema: "account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_features", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -29,6 +61,7 @@ namespace AccountService.API.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
                     Address_Street1 = table.Column<string>(nullable: true),
                     Address_Street2 = table.Column<string>(nullable: true),
                     Address_City = table.Column<string>(nullable: true),
@@ -37,8 +70,7 @@ namespace AccountService.API.Infrastructure.Migrations
                     ContactDetails_ContactPersonFullName = table.Column<string>(nullable: true),
                     ContactDetails_Phone = table.Column<string>(nullable: true),
                     ContactDetails_Email = table.Column<string>(nullable: true),
-                    BusinessTierId = table.Column<Guid>(nullable: true),
-                    isactive = table.Column<bool>(nullable: false)
+                    BusinessTierId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,50 +80,6 @@ namespace AccountService.API.Infrastructure.Migrations
                         column: x => x.BusinessTierId,
                         principalSchema: "account",
                         principalTable: "businesstiers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "analysisProfiles",
-                schema: "account",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<Guid>(nullable: true),
-                    description = table.Column<string>(nullable: true),
-                    name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_analysisProfiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_analysisProfiles_accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalSchema: "account",
-                        principalTable: "accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "features",
-                schema: "account",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<Guid>(nullable: true),
-                    description = table.Column<string>(nullable: true),
-                    name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_features", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_features_accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalSchema: "account",
-                        principalTable: "accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -167,18 +155,6 @@ namespace AccountService.API.Infrastructure.Migrations
                 schema: "account",
                 table: "accounts",
                 column: "BusinessTierId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_analysisProfiles_AccountId",
-                schema: "account",
-                table: "analysisProfiles",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_features_AccountId",
-                schema: "account",
-                table: "features",
-                column: "AccountId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -196,11 +172,11 @@ namespace AccountService.API.Infrastructure.Migrations
                 schema: "account");
 
             migrationBuilder.DropTable(
-                name: "features",
+                name: "accounts",
                 schema: "account");
 
             migrationBuilder.DropTable(
-                name: "accounts",
+                name: "features",
                 schema: "account");
 
             migrationBuilder.DropTable(

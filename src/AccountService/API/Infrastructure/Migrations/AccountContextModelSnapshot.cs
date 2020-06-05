@@ -28,8 +28,7 @@ namespace AccountService.API.Infrastructure.Migrations
                     b.Property<Guid?>("BusinessTierId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("_isActive")
-                        .HasColumnName("isactive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
@@ -45,21 +44,16 @@ namespace AccountService.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("_description")
-                        .HasColumnName("description")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("_name")
-                        .IsRequired()
-                        .HasColumnName("name")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.ToTable("analysisProfiles","account");
                 });
@@ -70,10 +64,14 @@ namespace AccountService.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("_name")
-                        .IsRequired()
-                        .HasColumnName("name")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -86,21 +84,16 @@ namespace AccountService.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("_description")
-                        .HasColumnName("description")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("_name")
-                        .IsRequired()
-                        .HasColumnName("name")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.ToTable("features","account");
                 });
@@ -192,24 +185,10 @@ namespace AccountService.API.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.AnalysisProfile", b =>
-                {
-                    b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", null)
-                        .WithMany("AnalysisProfiles")
-                        .HasForeignKey("AccountId");
-                });
-
-            modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Feature", b =>
-                {
-                    b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", null)
-                        .WithMany("Features")
-                        .HasForeignKey("AccountId");
-                });
-
             modelBuilder.Entity("Reshape.AccountService.Infrastructure.AccountAnalysisProfile", b =>
                 {
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", "Account")
-                        .WithMany()
+                        .WithMany("AccountAnalysisProfiles")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -224,7 +203,7 @@ namespace AccountService.API.Infrastructure.Migrations
             modelBuilder.Entity("Reshape.AccountService.Infrastructure.AccountFeature", b =>
                 {
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", "Account")
-                        .WithMany()
+                        .WithMany("AccountFeatures")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

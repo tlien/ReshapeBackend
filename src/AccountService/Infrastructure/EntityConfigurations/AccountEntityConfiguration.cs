@@ -14,31 +14,26 @@ namespace Reshape.AccountService.Infrastructure
             builder.HasKey(a => a.Id);
 
             builder.Ignore(a => a.DomainEvents);
+            builder.Ignore(x => x.Features);
+            builder.Ignore(x => x.AnalysisProfiles);
 
             // DDD: Value Objects persisted as owned entity type
             builder.OwnsOne(a => a.Address, ad => ad.WithOwner());
             builder.OwnsOne(a => a.ContactDetails, c => c.WithOwner());
-
-            // DDD: properties are private fields of the aggregate class
-            // PropertyAccessMode.Field configures ef to correctly access these fields
-            builder.Property<bool>("_isActive")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("isactive")
-                .IsRequired(true);
 
             builder.Metadata
                 .FindNavigation(nameof(Account.BusinessTier))
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             // Features collection
-            builder.Metadata
-                .FindNavigation(nameof(Account.Features))
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+            var featuresNav = builder.Metadata.FindNavigation(nameof(Account.AccountFeatures));
+            featuresNav.SetPropertyAccessMode(PropertyAccessMode.Field);
+            featuresNav.SetField("_accountFeatures");
 
-            // builder
-            //     .HasMany<AccountFeature>()
-            //     .WithOne(af => af.Account)
-            //     .HasForeignKey(af => af.AccountId);
+            // Analysisprofiles collection
+            var analysisprofilesNav = builder.Metadata.FindNavigation(nameof(Account.AccountAnalysisProfiles));
+            analysisprofilesNav.SetPropertyAccessMode(PropertyAccessMode.Field);
+            analysisprofilesNav.SetField("_accountAnalysisProfiles");
         }
     }
 }
