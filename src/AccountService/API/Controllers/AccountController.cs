@@ -42,24 +42,28 @@ namespace Reshape.AccountService.API.Controllers
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("address")]
         [HttpPut]
         public async Task<IActionResult> SetAddress([FromBody] SetAddressCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("contactdetails")]
         [HttpPut]
         public async Task<IActionResult> SetContactDetails([FromBody] SetContactDetailsCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("businesstier")]
         [HttpPut]
         public async Task<IActionResult> SetBusinessTier([FromBody] SetBusinessTierCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("activate")]
         [HttpPut]
         public async Task<IActionResult> ActivateAccount([FromBody] ActivateAccountCommand command)
         {
@@ -72,24 +76,28 @@ namespace Reshape.AccountService.API.Controllers
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("features/add")]
         [HttpPut]
         public async Task<IActionResult> AddFeatures([FromBody] AddFeaturesCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("analysisprofiles/add")]
         [HttpPut]
         public async Task<IActionResult> AddAnalysisProfiles([FromBody] AddAnalysisProfilesCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("features/remove")]
         [HttpPut]
         public async Task<IActionResult> RemoveFeatures([FromBody] RemoveFeaturesCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("analysisprofiles/remove")]
         [HttpPut]
         public async Task<IActionResult> RemoveAnalysisProfiles([FromBody] RemoveAnalysisProfilesCommand command)
         {
