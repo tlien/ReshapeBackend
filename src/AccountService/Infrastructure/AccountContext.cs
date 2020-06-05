@@ -8,10 +8,11 @@ using MediatR;
 
 using Reshape.Common.SeedWork;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
+using Reshape.Common.DbStuff;
 
 namespace Reshape.AccountService.Infrastructure
 {
-    public class AccountContext : DbContext, IUnitOfWork
+    public class AccountContext : DbContext, IUnitOfWork, ISeeder<AccountContext>
     {
         public const string DEFAULT_SCHEMA = "account";
         public DbSet<Account> Accounts { get; set; }
@@ -108,6 +109,14 @@ namespace Reshape.AccountService.Infrastructure
                     _currentTransaction = null;
                 }
             }
+        }
+
+        // TODO: This seems like a WILD hack, maybe look into what implications it has.
+        // Basically calling an extension method (static method on static object) INSIDE a method on the object it extends...
+        // Pretty sure this is a code crime on some level.
+        public AccountContext AddSeedData()
+        {
+            return AccountContextSeeder.AddSeedData(this);
         }
     }
 }

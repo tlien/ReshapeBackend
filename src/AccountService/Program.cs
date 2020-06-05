@@ -32,6 +32,13 @@ namespace Reshape.AccountService
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
                 host.MigrateDatabase<AccountContext, NpgsqlException>();
 
+                // Seed db if developing
+                if (isDevelopment)
+                {
+                    Log.Information("Development mode detected! - Seeding database ({ApplicationContext})...", AppName);
+                    host.SeedDatabase<AccountContext>();
+                }
+
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();
 
