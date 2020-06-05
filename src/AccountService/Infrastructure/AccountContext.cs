@@ -1,9 +1,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Design;
 using MediatR;
 
 using Reshape.Common.SeedWork;
@@ -117,6 +120,25 @@ namespace Reshape.AccountService.Infrastructure
         public AccountContext AddSeedData()
         {
             return AccountContextSeeder.AddSeedData(this);
+        }
+    }
+
+    // Since Program has been heavily altered, meaning EF can't find the dbcontext during design time using that convention.
+    // Providing a factory implementing IDesignTimeDbContextFactory solves this in a graceful manner
+    public class AccountContextFactory : IDesignTimeDbContextFactory<AccountContext>
+    {
+        public AccountContext CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
+
+            var optionsBuilder = new DbContextOptionsBuilder<AccountContext>();
+            optionsBuilder.UseNpgsql(configuration["ConnectionString"]);
+
+            return new AccountContext(optionsBuilder.Options);
         }
     }
 }
