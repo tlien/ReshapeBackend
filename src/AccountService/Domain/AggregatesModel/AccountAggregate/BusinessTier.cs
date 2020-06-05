@@ -6,16 +6,18 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public class BusinessTier : Entity
     {
-        private readonly string _name;
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
 
         protected BusinessTier() { }
 
-        public BusinessTier(Guid id, string name)
+        public BusinessTier(Guid id, string name, string description, decimal price)
         {
             base.Id = id;
-            _name = name;
+            Name = name;
+            Description = description;
+            Price = price;
         }
-
-        public string GetName() => _name;
     }
 }

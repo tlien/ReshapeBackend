@@ -14,13 +14,6 @@ namespace Reshape.AccountService.Infrastructure
             builder.HasKey(b => b.Id);
 
             builder.Ignore(b => b.DomainEvents);
-
-            // DDD: properties are private fields of the aggregate class
-            // PropertyAccessMode.Field configures ef to correctly access these fields
-            builder.Property<string>("_name")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("name")
-                .IsRequired(true);
         }
     }
 }

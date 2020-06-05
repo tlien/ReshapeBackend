@@ -13,9 +13,9 @@ namespace Reshape.AccountService.Infrastructure
             if (!context.BusinessTiers.Any())
             {
                 var businessTiers = new List<BusinessTier>() {
-                    new BusinessTier(Guid.Parse("0c69921b-afa7-4eba-a69f-aaef3a5c3f5b"), "BusinessTier1"),
-                    new BusinessTier(Guid.Parse("2992a45a-9b79-4eee-aa30-240ccefe4ec2"), "BusinessTier2"),
-                    new BusinessTier(Guid.Parse("af22db79-9f91-4a0f-b50a-5e935dab6c55"), "BusinessTier3")
+                    new BusinessTier(Guid.Parse("0c69921b-afa7-4eba-a69f-aaef3a5c3f5b"), "BusinessTier1", "Long and informative description full of details and stuff woah!", 100.00m),
+                    new BusinessTier(Guid.Parse("2992a45a-9b79-4eee-aa30-240ccefe4ec2"), "BusinessTier2", "Long and informative description full of details and stuff woah!", 100.00m),
+                    new BusinessTier(Guid.Parse("af22db79-9f91-4a0f-b50a-5e935dab6c55"), "BusinessTier3", "Long and informative description full of details and stuff woah!", 100.00m)
                 };
                 context.AddRange(businessTiers);
             }
@@ -24,10 +24,10 @@ namespace Reshape.AccountService.Infrastructure
             if (!context.Features.Any())
             {
                 var features = new List<Feature>() {
-                    new Feature(Guid.Parse("17bcd22f-41cf-44d1-894b-6634caf7b489"), "Feature1", "Long and informative description full of details and stuff woah!"),
-                    new Feature(Guid.Parse("59b06dcc-8108-4233-b5d2-94fc93dd2455"), "Feature2", "Long and informative description full of details and stuff woah!"),
-                    new Feature(Guid.Parse("36d8e579-e27a-43e4-b6c5-72fb7a55ce08"), "Feature3", "Long and informative description full of details and stuff woah!"),
-                    new Feature(Guid.Parse("088ad0ab-57b1-48df-ac51-9c9bff608a72"), "Feature4", "Long and informative description full of details and stuff woah!")
+                    new Feature(Guid.Parse("17bcd22f-41cf-44d1-894b-6634caf7b489"), "Feature1", "Long and informative description full of details and stuff woah!", 100.00m),
+                    new Feature(Guid.Parse("59b06dcc-8108-4233-b5d2-94fc93dd2455"), "Feature2", "Long and informative description full of details and stuff woah!", 100.00m),
+                    new Feature(Guid.Parse("36d8e579-e27a-43e4-b6c5-72fb7a55ce08"), "Feature3", "Long and informative description full of details and stuff woah!", 100.00m),
+                    new Feature(Guid.Parse("088ad0ab-57b1-48df-ac51-9c9bff608a72"), "Feature4", "Long and informative description full of details and stuff woah!", 100.00m)
                 };
                 context.AddRange(features);
             }

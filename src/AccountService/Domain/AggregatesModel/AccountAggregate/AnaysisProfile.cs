@@ -6,22 +6,18 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public class AnalysisProfile : Entity
     {
-        private readonly string _name;
-        private readonly string _description;
-        private readonly decimal _price;
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
 
         protected AnalysisProfile() { }
 
         public AnalysisProfile(Guid id, string name, string description, decimal price)
         {
             base.Id = id;
-            _name = name;
-            _description = description;
-            _price = price;
+            Name = name;
+            Description = description;
+            Price = price;
         }
-
-        public string GetName() => _name;
-        public string GetDescription() => _description;
-        public decimal GetPrice() => _price;
     }
 }

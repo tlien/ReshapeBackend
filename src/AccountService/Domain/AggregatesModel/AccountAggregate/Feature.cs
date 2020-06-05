@@ -6,19 +6,18 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
 {
     public class Feature : Entity
     {
-        private readonly string _name;
-        private readonly string _description;
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
 
         protected Feature() { }
 
-        public Feature(Guid id, string name, string description)
+        public Feature(Guid id, string name, string description, decimal price)
         {
             base.Id = id;
-            _name = name;
-            _description = description;
+            Name = name;
+            Description = description;
+            Price = price;
         }
-
-        public string GetName() => _name;
-        public string GetDescription() => _description;
     }
 }
