@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Polly;
 
 namespace Reshape.Common.Extensions
@@ -44,25 +45,34 @@ namespace Reshape.Common.Extensions
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Throws exception if service is not registered
+                var context = services.GetService<TDbContext>(); // Returns null if service is not registered
+                var dbname = context.Database.GetDbConnection().Database;
+
                 try
                 {
-                    var db = services.GetRequiredService<TDbContext>();
-
                     // If for whatever reason the Db is not available, catch exception and retry.
                     // Specifically, when running on Docker the app container is sometimes ready
                     // before the Db container, this makes the migration fail taking the whole app down with it :(
                     Policy.Handle<TException>()
-                        .WaitAndRetry(new TimeSpan[] {
-                            TimeSpan.FromSeconds(3),
-                            TimeSpan.FromSeconds(5),
-                            TimeSpan.FromSeconds(8),
+                            .WaitAndRetry(
+                                retryCount: 10, // Raise this if db is exceptionally slow at starting up.
+                                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), // Exponential backoff
+                                onRetry: (exception, timeSpan, retry, ctx) =>
+                                {
+                                    logger.LogWarning(exception, "[{prefix}] Exception {ExceptionType} with message {Message} detected on attempt {retry}", nameof(TDbContext), exception.GetType().Name, exception.Message, retry);
                         })
-                        .Execute(() => db.Database.Migrate());
+                            .Execute(() =>
+                                {
+                                    logger.LogInformation("Attempting to apply migrations to database ({DatabaseName})", dbname);
+                                    context.Database.Migrate();
+                                });
+
+                    logger.LogInformation("Successfully migrated database ({DatabaseName})", dbname);
                 }
                 catch (Exception ex)
                 {
-                    // Do logging here once it's in place
-                    throw;
+                    logger.LogError(ex, "An error occurred while migrating the database ({DatabaseName})", dbname);
                 }
             }
             return host;
