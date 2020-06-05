@@ -14,9 +14,7 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public List<Guid> FeatureIds { get; private set; }
 
-        public AddFeaturesCommand() { }
-
-        public AddFeaturesCommand(Guid accountId, List<Guid> featureIds) : this()
+        public AddFeaturesCommand(Guid accountId, List<Guid> featureIds)
         {
             AccountId = accountId;
             FeatureIds = featureIds;

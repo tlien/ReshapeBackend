@@ -17,9 +17,7 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public string Email { get; private set; }
 
-        public SetContactDetailsCommand() { }
-
-        public SetContactDetailsCommand(Guid accountId, string contactPersonFullName, string phone, string email) : this()
+        public SetContactDetailsCommand(Guid accountId, string contactPersonFullName, string phone, string email)
         {
             AccountId = accountId;
             ContactPersonFullName = contactPersonFullName;

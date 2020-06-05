@@ -13,9 +13,7 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public Guid BusinessTierId { get; private set; }
 
-        public SetBusinessTierCommand() { }
-
-        public SetBusinessTierCommand(Guid accountId, Guid businessTierId) : this()
+        public SetBusinessTierCommand(Guid accountId, Guid businessTierId)
         {
             AccountId = accountId;
             BusinessTierId = businessTierId;

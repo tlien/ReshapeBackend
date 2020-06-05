@@ -28,9 +28,7 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public Guid BusinessTierId { get; private set; }
 
-        public CreateAccountCommand() { }
-
-        public CreateAccountCommand(string street1, string street2, string city, string zipCode, string country, string contactPersonFullName, string phone, string email, Guid businessTierId) : this()
+        public CreateAccountCommand(string street1, string street2, string city, string zipCode, string country, string contactPersonFullName, string phone, string email, Guid businessTierId)
         {
             Street1 = street1;
             Street2 = street2;

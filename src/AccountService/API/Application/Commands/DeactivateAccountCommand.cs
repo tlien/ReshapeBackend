@@ -7,13 +7,10 @@ namespace Reshape.AccountService.API.Application.Commands
     [DataContract]
     public class DeactivateAccountCommand : IRequest<int>
     {
-
         [DataMember]
         public Guid AccountId { get; private set; }
 
-        public DeactivateAccountCommand() { }
-
-        public DeactivateAccountCommand(Guid accountId) : this()
+        public DeactivateAccountCommand(Guid accountId)
         {
             AccountId = accountId;
         }

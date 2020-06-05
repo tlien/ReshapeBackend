@@ -21,9 +21,7 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public string Country { get; private set; }
 
-        public SetAddressCommand() { }
-
-        public SetAddressCommand(Guid accountId, string street1, string street2, string city, string zipCode, string country) : this()
+        public SetAddressCommand(Guid accountId, string street1, string street2, string city, string zipCode, string country)
         {
             AccountId = accountId;
             Street1 = street1;

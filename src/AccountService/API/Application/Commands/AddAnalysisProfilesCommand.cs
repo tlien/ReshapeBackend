@@ -14,9 +14,7 @@ namespace Reshape.AccountService.API.Application.Commands
         [DataMember]
         public List<Guid> AnalysisProfileIds { get; private set; }
 
-        public AddAnalysisProfilesCommand() { }
-
-        public AddAnalysisProfilesCommand(Guid accountId, List<Guid> analysisProfileIds) : this()
+        public AddAnalysisProfilesCommand(Guid accountId, List<Guid> analysisProfileIds)
         {
             AccountId = accountId;
             AnalysisProfileIds = analysisProfileIds;
