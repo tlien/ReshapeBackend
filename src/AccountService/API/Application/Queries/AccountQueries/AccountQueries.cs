@@ -24,6 +24,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         {
             return await _context
                             .Accounts
+                            .AsNoTracking()
                             .ProjectTo<AccountViewModel>(_mapper.ConfigurationProvider)
                             .FirstOrDefaultAsync(a => a.Id == id);
         }
@@ -32,6 +33,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         {
             return await _context
                             .Accounts
+                            .AsNoTracking()
                             .ProjectTo<AccountViewModel>(_mapper.ConfigurationProvider)
                             .ToListAsync();
         }

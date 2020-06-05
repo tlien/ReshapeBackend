@@ -24,6 +24,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries
         {
             return await _context
                             .AnalysisProfiles
+                            .AsNoTracking()
                             .ProjectTo<AnalysisProfileViewModel>(_mapper.ConfigurationProvider)
                             .FirstOrDefaultAsync(ap => ap.Id == id);
         }
@@ -32,6 +33,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries
         {
             return await _context
                             .AnalysisProfiles
+                            .AsNoTracking()
                             .ProjectTo<AnalysisProfileViewModel>(_mapper.ConfigurationProvider)
                             .ToListAsync();
         }
@@ -40,6 +42,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries
         {
             return await _context
                             .BusinessTiers
+                            .AsNoTracking()
                             .ProjectTo<BusinessTierViewModel>(_mapper.ConfigurationProvider)
                             .FirstOrDefaultAsync(bt => bt.Id == id);
         }
@@ -48,6 +51,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries
         {
             return await _context
                             .BusinessTiers
+                            .AsNoTracking()
                             .ProjectTo<BusinessTierViewModel>(_mapper.ConfigurationProvider)
                             .ToListAsync();
         }
@@ -56,6 +60,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries
         {
             return await _context
                             .Features
+                            .AsNoTracking()
                             .ProjectTo<FeatureViewModel>(_mapper.ConfigurationProvider)
                             .FirstOrDefaultAsync(f => f.Id == id);
         }
@@ -64,6 +69,7 @@ namespace Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries
         {
             return await _context
                             .Features
+                            .AsNoTracking()
                             .ProjectTo<FeatureViewModel>(_mapper.ConfigurationProvider)
                             .ToListAsync();
         }
