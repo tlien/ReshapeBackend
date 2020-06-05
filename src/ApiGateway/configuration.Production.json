@@ -1,0 +1,23 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/analysisprofiles",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "bm.api",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/a",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Put",
+                "Delete",
+                "Options"
+            ]
+        }
+    ],
+    "GlobalConfiguration": {}
+}

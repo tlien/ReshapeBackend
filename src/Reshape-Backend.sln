@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTestService", "ImageTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageStoreService", "ImageStoreService\ImageStoreService.csproj", "{8E666D52-0033-4881-9075-6931BAFAEB82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{6A387AD9-DF04-491E-ADD9-030E408C8D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{6A387AD9-DF04-491E-ADD9-030E408C8D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{CE89A8AD-484B-4DC4-9AF8-7B03B8C56796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{6A387AD9-DF04-491E-ADD9-030E408C8D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A387AD9-DF04-491E-ADD9-030E408C8D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A387AD9-DF04-491E-ADD9-030E408C8D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE89A8AD-484B-4DC4-9AF8-7B03B8C56796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE89A8AD-484B-4DC4-9AF8-7B03B8C56796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE89A8AD-484B-4DC4-9AF8-7B03B8C56796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE89A8AD-484B-4DC4-9AF8-7B03B8C56796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
