@@ -25,7 +25,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         {
             var feature = new Feature(message.Name, message.Description, message.Price);
             _repository.Add(feature);
-            await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<FeatureDTO>(feature);
         }

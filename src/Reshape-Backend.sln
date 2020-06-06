@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateServiceWithDB", "TemplateService\TemplateServiceWithDB.csproj", "{387814B7-5713-45F2-8C2D-32008A91234A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcTest", "GrpcTest\GrpcTest.csproj", "{2E243AAB-7C42-48A7-B379-9CD9F224F59A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotService", "RobotService\RobotService.csproj", "{8736E7E2-0A89-4933-97AF-10DA473BDF9C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountService", "AccountService\AccountService.csproj", "{FCBA76CD-5691-453A-BD9C-E0D52C84CE0D}"
@@ -17,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTestService", "ImageTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageStoreService", "ImageStoreService\ImageStoreService.csproj", "{8E666D52-0033-4881-9075-6931BAFAEB82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{6A387AD9-DF04-491E-ADD9-030E408C8D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{6A387AD9-DF04-491E-ADD9-030E408C8D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{387814B7-5713-45F2-8C2D-32008A91234A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{387814B7-5713-45F2-8C2D-32008A91234A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{387814B7-5713-45F2-8C2D-32008A91234A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{387814B7-5713-45F2-8C2D-32008A91234A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E243AAB-7C42-48A7-B379-9CD9F224F59A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E243AAB-7C42-48A7-B379-9CD9F224F59A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E243AAB-7C42-48A7-B379-9CD9F224F59A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E243AAB-7C42-48A7-B379-9CD9F224F59A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8736E7E2-0A89-4933-97AF-10DA473BDF9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8736E7E2-0A89-4933-97AF-10DA473BDF9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8736E7E2-0A89-4933-97AF-10DA473BDF9C}.Release|Any CPU.ActiveCfg = Release|Any CPU

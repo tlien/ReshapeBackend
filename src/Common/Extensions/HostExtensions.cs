@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Polly;
 
 namespace Reshape.Common.Extensions
@@ -16,7 +17,7 @@ namespace Reshape.Common.Extensions
         ///     applying migrations in an environment where the database resides in a separate
         ///     container from the application. If the database container is not ready when the
         ///     migration is attempted, it will be retried 3 times at 3,5 and 8 second intervals.
-        ///     Triggers retrying on SqlException specifically (PostgreSQL uses a different exception).
+        ///     Triggers retrying on <c>SqlException</c> specifically (PostgreSQL uses a different exception).
         ///     This should probably not be used for production environments because of reasons
         ///     outlined at: https://github.com/dotnet/efcore/issues/19587
         /// </summary>
@@ -43,28 +44,51 @@ namespace Reshape.Common.Extensions
         {
             using (var scope = host.Services.CreateScope())
             {
-                var Services = scope.ServiceProvider;
+                var services = scope.ServiceProvider;
+                var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Throws exception if service is not registered
+                var context = services.GetService<TDbContext>(); // Returns null if service is not registered
+                var dbname = context.Database.GetDbConnection().Database;
+
                 try
                 {
-                    var db = Services.GetRequiredService<TDbContext>();
-
                     // If for whatever reason the Db is not available, catch exception and retry.
-                    // Specifically, the app container is sometimes ready before the Db container, this makes the migrate fail, taking the whole app down with it.
+                    // Specifically, when running on Docker the app container is sometimes ready
+                    // before the Db container, this makes the migration fail taking the whole app down with it :(
                     Policy.Handle<TException>()
-                        .WaitAndRetry(new TimeSpan[] {
-                            TimeSpan.FromSeconds(3),
-                            TimeSpan.FromSeconds(5),
-                            TimeSpan.FromSeconds(8),
-                        })
-                        .Execute(() => db.Database.Migrate());
+                            .WaitAndRetry(
+                                retryCount: 10, // Raise this if db is exceptionally slow at starting up.
+                                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), // Exponential backoff
+                                onRetry: (exception, timeSpan, retry, ctx) =>
+                                {
+                                    logger.LogWarning(exception, "[{prefix}] Exception {ExceptionType} with message {Message} detected on attempt {retry}", nameof(TDbContext), exception.GetType().Name, exception.Message, retry);
+                                })
+                            .Execute(() =>
+                                {
+                                    logger.LogInformation("Attempting to apply migrations to database ({DatabaseName})", dbname);
+                                    context.Database.Migrate();
+                                });
+
+                    logger.LogInformation("Successfully migrated database ({DatabaseName})", dbname);
                 }
                 catch (Exception ex)
                 {
-                    // Do logging here once it's in place
-                    throw;
+                    logger.LogError(ex, "An error occurred while migrating the database ({DatabaseName})", dbname);
                 }
             }
             return host;
+        }
+
+        /// <summary>
+        ///     Conditionally run method of T.
+        /// </summary>
+        /// <param name="cond">Condition to check.</param>
+        /// <param name="method">Method to run if <paramref name="cond"/> is True.</param>
+        /// <returns>The same instance of T for further chaining.</returns>
+        public static T If<T>(this T t, bool cond, Func<T, T> method)
+        {
+            if (cond)
+                return method(t);
+            return t;
         }
     }
 }
