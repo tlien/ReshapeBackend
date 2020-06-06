@@ -61,11 +61,11 @@ namespace Reshape.BusinessManagementService
             // ### MassTransit setup ###
             // Consumer configurations are only here for show. BusinessManagementContext will not be consuming any integration event messages.
             // Make sure that whatever your consumers are consuming is an IntegrationEvent type, as all integration events extend that class.
-            // Published message and consumed message must be the same, otherwise the message will be skipped by RabbitMQ. 
+            // Published message and consumed message must be the same, otherwise the message will be skipped by RabbitMQ.
             // ReceivedEndpoint must be the name of the integration event (without the integrationevent affix) followed by "_queue",
             // e.g. "newanalysisprofile_queue".
             // You may configure as many endpoints as needed for all incoming integration event type messages.
-            services.AddMassTransit(x => 
+            services.AddMassTransit(x =>
             {
                 x.AddConsumer<NewAnalysisProfileConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
@@ -74,8 +74,8 @@ namespace Reshape.BusinessManagementService
                     if (Environment.IsDevelopment())
                     {
                         cfg.Host("rabbitmq://localhost");
-                    } 
-                    else 
+                    }
+                    else
                     {
                         cfg.Host("rabbitmq");
                     }
@@ -90,14 +90,12 @@ namespace Reshape.BusinessManagementService
             });
             services.AddMassTransitHostedService();
 
-            services.AddEntityFrameworkNpgsql();
-            
             // UseSnakeCaseNamingConvention() sets up tables and columns with snake case without explicitly renaming everything in entitytypeconfigurations
             services.AddDbContext<BusinessManagementContext>(options =>
                 {
                     options
-                        .UseNpgsql(Configuration.GetConnectionString("DbContext"), npgsqlOptions => 
-                            { 
+                        .UseNpgsql(Configuration.GetConnectionString("DbContext"), npgsqlOptions =>
+                            {
                                 npgsqlOptions.EnableRetryOnFailure();
                             }
                         )
@@ -130,7 +128,7 @@ namespace Reshape.BusinessManagementService
             services.AddTransient<IBusinessManagementIntegrationEventService, BusinessManagementIntegrationEventService>();
 
             services.AddSingleton<IEventTracker, EventTracker>();
-            
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -139,7 +137,7 @@ namespace Reshape.BusinessManagementService
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseRouting();
             app.UseMvc();
 
