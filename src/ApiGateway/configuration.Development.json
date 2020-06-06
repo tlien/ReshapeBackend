@@ -24,7 +24,7 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host":"localhost",
-                    "Port": 5005
+                    "Port": 1337
                 }
             ],
             "UpstreamPathTemplate": "/api/{version}/acc/{catchAll}",
