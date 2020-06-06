@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
 namespace Reshape.AccountService.Infrastructure

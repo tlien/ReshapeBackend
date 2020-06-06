@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Design;
 using MediatR;
 
 using Reshape.Common.SeedWork;
+using Reshape.Common.DevelopmentTools;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
-using Reshape.Common.DbStuff;
 
 namespace Reshape.AccountService.Infrastructure
 {

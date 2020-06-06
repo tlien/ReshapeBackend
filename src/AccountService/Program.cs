@@ -9,6 +9,7 @@ using Serilog;
 
 using Reshape.AccountService.Infrastructure;
 using Reshape.Common.Extensions;
+using Reshape.Common.DevelopmentTools;
 
 namespace Reshape.AccountService
 {
