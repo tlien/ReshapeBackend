@@ -1,15 +1,19 @@
 version: '3.4'
+
 # FOR DEBUGGING ONLY!
+
 services:
-  db:
+  acc.db:
     image: postgres
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_DB: accountservice
     ports:
       - "5432:5432"
+    volumes:
+      - reshape-acc-dbdata-temp:/var/lib/postgresql/data
 
-  app:
+  acc.api:
     image: accountservice
     build:
       context: ../
@@ -19,5 +23,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - USE_SEEDING=true
     depends_on:
-      - db
+      - acc.db
+
+volumes:
+  reshape-acc-dbdata-temp:
+    external: false

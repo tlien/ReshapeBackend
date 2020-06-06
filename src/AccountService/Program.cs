@@ -21,7 +21,7 @@ namespace Reshape.AccountService
         public static int Main(string[] args)
         {
             var configuration = GetConfiguration();
-            var isDevelopment = configuration["ASPNETCORE_ENVIRONMENT"].ToLower() == "development";
+            var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
             Log.Logger = CreateSerilogLogger(configuration);
 
             try
@@ -33,10 +33,11 @@ namespace Reshape.AccountService
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
                 host.MigrateDatabase<AccountContext, NpgsqlException>();
 
-                // Seed db if developing
-                if (isDevelopment)
+                // Seed db if developing and seeding is enabled
+                if (isDevelopment && configuration["USE_SEEDING"] == "true")
                 {
-                    Log.Information("Development mode detected! - Seeding database ({ApplicationContext})...", AppName);
+
+                    Log.Information("Seeding database ({ApplicationContext})...", AppName);
                     host.SeedDatabase<AccountContext>();
                 }
 
