@@ -3,6 +3,7 @@ version: '3.4'
 services:
   rabbitmq:
     image: rabbitmq:3-management
+
   apigw:
     image: apigw
     build:
@@ -10,8 +11,10 @@ services:
       dockerfile: ApiGateway/Dockerfile
     ports:
       - 80
+      
   bm.db:
     image: postgres
+
   bm.api:
     image: bm.api
     build:
@@ -19,39 +22,22 @@ services:
       dockerfile: BusinessManagementService/Dockerfile
     ports:
       - 80
-      - 443
     depends_on:
       - bm.db
       - rabbitmq
-  # accountservice:
-  #   image: accountservice
-  #   build:
-  #     context: .
-  #     dockerfile: src/AccountService/Dockerfile
-  #   ports:
-  #     - 80
-  #     - 443
-  # imagetestservice:
-  #   image: imagetestservice
-  #   build:
-  #     context: .
-  #     dockerfile: src/ImageTestService/Dockerfile
-  #   ports:
-  #     - 80
-  #     - 443
-  # imagestoreservice:
-  #   image: imagestoreservice
-  #   build:
-  #     context: .
-  #     dockerfile: src/ImageStoreService/Dockerfile
-  #   ports:
-  #     - 80
-  #     - 443
-  # robotservice:
-  #   image: robotservice
-  #   build:
-  #     context: .
-  #     dockerfile: src/RobotService/Dockerfile
-  #   ports:
-  #     - 80
-  #     - 443
+
+  acc.db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: accountservice
+
+  acc.api:
+    image: acc.api
+    build:
+      context: .
+      dockerfile: AccountService/Dockerfile
+    ports:
+      - 80
+    depends_on:
+      - acc.db

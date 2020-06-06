@@ -1,7 +1,7 @@
 {
     "Routes": [
         {
-            "DownstreamPathTemplate": "/api/v1/analysisprofiles",
+            "DownstreamPathTemplate": "/api/{version}/{catchAll}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -9,7 +9,25 @@
                     "Port": 5000
                 }
             ],
-            "UpstreamPathTemplate": "/a",
+            "UpstreamPathTemplate": "/api/{version}/bm/{catchAll}",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Put",
+                "Delete",
+                "Options"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/{version}/{catchAll}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host":"localhost",
+                    "Port": 5005
+                }
+            ],
+            "UpstreamPathTemplate": "/api/{version}/acc/{catchAll}",
             "UpstreamHttpMethod": [
                 "Get",
                 "Post",
