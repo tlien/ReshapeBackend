@@ -1,0 +1,30 @@
+version: '3.4'
+
+# Put environment, ports and other PRODUCTION only information here
+
+services:
+  bm.db:
+    environment:
+      POSTGRES_PASSWORD: example
+
+  acc.db:
+    environment:
+      POSTGRES_PASSWORD: example
+
+  apigw:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 80
+
+  bm.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 80
+
+  acc.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 80

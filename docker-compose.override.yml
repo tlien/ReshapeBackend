@@ -1,0 +1,44 @@
+version: '3.4'
+
+# Put environment, ports and other DEVELOPMENT only information here
+
+services:
+  bm.db:
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5433:5432"
+    volumes:
+      - reshape-bm-dbdata:/var/lib/postgresql/data
+
+  acc.db:
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5434:5432"
+    volumes:
+      - reshape-acc-dbdata:/var/lib/postgresql/data
+
+  apigw:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 80
+
+  bm.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 80
+
+  acc.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 80
+
+volumes:
+  reshape-bm-dbdata:
+    external: false
+  reshape-acc-dbdata:
+    external: false

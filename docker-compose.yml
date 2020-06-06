@@ -1,45 +1,40 @@
 version: '3.4'
 
+# Put image, build, depends_on and other BASE information here
+
 services:
   rabbitmq:
     image: rabbitmq:3-management
 
-  apigw:
-    image: apigw
-    build:
-      context: .
-      dockerfile: ApiGateway/Dockerfile
-    ports:
-      - 80
-      
   bm.db:
     image: postgres
-
-  bm.api:
-    image: bm.api
-    build:
-      context: .
-      dockerfile: BusinessManagementService/Dockerfile
-    ports:
-      - 80
-    depends_on:
-      - bm.db
-      - rabbitmq
+    environment:
+      POSTGRES_DB: businessservice
 
   acc.db:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: example
       POSTGRES_DB: accountservice
+
+  apigw:
+    image: apigw
+    build:
+      context: ./src
+      dockerfile: ApiGateway/Dockerfile
+
+  bm.api:
+    image: bm.api
+    build:
+      context: ./src
+      dockerfile: BusinessManagementService/Dockerfile
+    depends_on:
+      - bm.db
+      - rabbitmq
 
   acc.api:
     image: acc.api
     build:
-      context: .
+      context: ./src
       dockerfile: AccountService/Dockerfile
-    ports:
-      - 80
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       - acc.db
