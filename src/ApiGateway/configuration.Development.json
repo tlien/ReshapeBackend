@@ -1,0 +1,43 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/{version}/{catchAll}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host":"localhost",
+                    "Port": 5000
+                }
+            ],
+            "UpstreamPathTemplate": "/api/{version}/bm/{catchAll}",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Put",
+                "Delete",
+                "Options"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/{version}/{catchAll}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host":"localhost",
+                    "Port": 1337
+                }
+            ],
+            "UpstreamPathTemplate": "/api/{version}/acc/{catchAll}",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Put",
+                "Delete",
+                "Options"
+            ]
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:7000"
+    }
+}

@@ -35,12 +35,14 @@ namespace Reshape.BusinessManagementService
 {
     public class Startup
     {
-
-        public Startup(IConfiguration configuration) {
-            Configuration = configuration;
-        }
-
+        private IHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration, IHostEnvironment env)
+        {
+            Configuration = configuration;
+            Environment = env;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -65,16 +67,23 @@ namespace Reshape.BusinessManagementService
             // You may configure as many endpoints as needed for all incoming integration event type messages.
             services.AddMassTransit(x => 
             {
-                // x.AddConsumer<NewAnalysisProfileConsumer>();
+                x.AddConsumer<NewAnalysisProfileConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
-                    cfg.Host("rabbitmq://localhost");
+                    if (Environment.IsDevelopment())
+                    {
+                        cfg.Host("rabbitmq://localhost");
+                    } 
+                    else 
+                    {
+                        cfg.Host("rabbitmq");
+                    }
 
                     cfg.ReceiveEndpoint("newanalysisprofile_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
-                        // e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
+                        e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
                         e.Consumer<NewAnalysisProfileConsumer>();
                     });
                 }));
