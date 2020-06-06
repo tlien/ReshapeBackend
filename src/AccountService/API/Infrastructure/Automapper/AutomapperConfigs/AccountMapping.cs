@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
@@ -10,7 +11,11 @@ namespace Reshape.AccountService.API.Infrastructure.AutoMapper
         public AccountMapping()
         {
             // For CQRS Queries, no reverseMap needed
-            CreateMap<Account, AccountViewModel>();
+            CreateMap<Account, AccountViewModel>()
+                .ForMember(d => d.Features,
+                            opts => opts.MapFrom(s => s.AccountFeatures.Select(aap => aap.Feature)))
+                .ForMember(d => d.AnalysisProfiles,
+                            opts => opts.MapFrom(s => s.AccountAnalysisProfiles.Select(af => af.AnalysisProfile)));
             CreateMap<Address, AddressViewModel>();
             CreateMap<ContactDetails, ContactDetailsViewModel>();
             CreateMap<BusinessTier, BusinessTierViewModel>();

@@ -7,6 +7,8 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
     {
         public Guid Id { get; set; }
 
+        public bool IsActive { get; set; }
+
         public AddressViewModel Address { get; set; }
         public ContactDetailsViewModel ContactDetails { get; set; }
 
