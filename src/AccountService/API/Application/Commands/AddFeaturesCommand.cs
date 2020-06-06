@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using MediatR;
+
+namespace Reshape.AccountService.API.Application.Commands
+{
+    [DataContract]
+    public class AddFeaturesCommand : IRequest<int>
+    {
+        [DataMember]
+        public Guid AccountId { get; private set; }
+
+        [DataMember]
+        public List<Guid> FeatureIds { get; private set; }
+
+        public AddFeaturesCommand(Guid accountId, List<Guid> featureIds)
+        {
+            AccountId = accountId;
+            FeatureIds = featureIds;
+        }
+    }
+}
