@@ -44,7 +44,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             );
 
             _repository.Add(analysisProfile);
-            await _repository.UnitOfWork.SaveEntitiesAsync();
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
             var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfileDTO);
@@ -63,19 +63,22 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             public ScriptParametersFileDTO ScriptParametersFile { get; set; }
         }
 
-        public class MediaTypeDTO {
+        public class MediaTypeDTO
+        {
             public Guid Id { get; set; }
             public string Name { get; set; }
         }
 
-        public class ScriptFileDTO {
+        public class ScriptFileDTO
+        {
             public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public string Script { get; set; }
         }
 
-        public class ScriptParametersFileDTO {
+        public class ScriptParametersFileDTO
+        {
             public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
