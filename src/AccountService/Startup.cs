@@ -18,6 +18,7 @@ using Reshape.AccountService.Infrastructure.Repositories;
 using Reshape.AccountService.API.Infrastructure.AutoMapper;
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
 using Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries;
+using Microsoft.OpenApi.Models;
 
 namespace Reshape.AccountService
 {
@@ -42,6 +43,11 @@ namespace Reshape.AccountService
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountQueries, AccountQueries>();
             services.AddScoped<IAccountAdditionsQueries, AccountAdditionsQueries>();
+
+            services.AddSwaggerGen(c =>
+           {
+               c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reshape.AccountService API", Version = "v1" });
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +67,12 @@ namespace Reshape.AccountService
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reshape.AccountService API");
             });
         }
     }

@@ -3,9 +3,18 @@ version: '3.4'
 # Put image, build, depends_on and other BASE information here
 
 services:
+
+  # Other
   rabbitmq:
     image: rabbitmq:3-management
 
+  apigw:
+    image: apigw
+    build:
+      context: ./src
+      dockerfile: ApiGateway/Dockerfile
+  
+  # Databases
   bm.db:
     image: postgres
     environment:
@@ -16,12 +25,7 @@ services:
     environment:
       POSTGRES_DB: accountservice
 
-  apigw:
-    image: apigw
-    build:
-      context: ./src
-      dockerfile: ApiGateway/Dockerfile
-
+  # APIs
   bm.api:
     image: bm.api
     build:

@@ -1,8 +1,21 @@
-version: '3.4'
+version: "3.4"
 
 # Put environment, ports and other DEVELOPMENT only information here
 
 services:
+
+  # Other
+  rabbitmq:
+    ports:
+      - "5100:15672"
+
+  apigw:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:80"
+  
+  # Databases
   bm.db:
     environment:
       POSTGRES_PASSWORD: example
@@ -19,23 +32,18 @@ services:
     volumes:
       - reshape-acc-dbdata:/var/lib/postgresql/data
 
-  apigw:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - 80
-
+  # APIs
   bm.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - 80
+      - "5001:80"
 
   acc.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - 80
+      - "5002:80"
 
 volumes:
   reshape-bm-dbdata:
