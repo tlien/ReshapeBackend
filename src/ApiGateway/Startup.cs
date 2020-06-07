@@ -20,30 +20,28 @@ namespace ApiGateway
     {
         public Startup(IWebHostEnvironment env)
         {
-            // Console.WriteLine("Running in environment: {0}", env.EnvironmentName);
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddJsonFile($"configuration.{env.EnvironmentName}.json")
+                .AddEnvironmentVariables();
 
-            // var builder = new ConfigurationBuilder()
-            //     .SetBasePath(env.ContentRootPath)
-            //     .AddJsonFile("appsettings.json", true, true)
-            //     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-            //     .AddJsonFile($"configuration.{env.EnvironmentName}.json")
-            //     .AddEnvironmentVariables();
-
-            // Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddOcelot(Configuration);
+            services.AddOcelot(Configuration);
+            services.AddSwaggerForOcelot(Configuration);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // app.UseOcelot().Wait();
+            app.UseSwaggerForOcelotUI();
+            app.UseOcelot().Wait();
         }
     }
 }

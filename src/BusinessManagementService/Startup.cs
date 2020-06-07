@@ -30,6 +30,7 @@ using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Consumers;
 using GreenPipes;
+using Microsoft.OpenApi.Models;
 
 namespace Reshape.BusinessManagementService
 {
@@ -71,14 +72,7 @@ namespace Reshape.BusinessManagementService
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
-                    if (Environment.IsDevelopment())
-                    {
-                        cfg.Host("rabbitmq://localhost");
-                    }
-                    else
-                    {
-                        cfg.Host("rabbitmq");
-                    }
+                    cfg.Host("rabbitmq");
 
                     cfg.ReceiveEndpoint("newanalysisprofile_queue", e =>
                     {
@@ -129,6 +123,10 @@ namespace Reshape.BusinessManagementService
 
             services.AddSingleton<IEventTracker, EventTracker>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reshape.BusinessManagementService API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -140,7 +138,12 @@ namespace Reshape.BusinessManagementService
 
             app.UseRouting();
             app.UseMvc();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reshape.BusinessManagementService API");
+            });
+            
             ConfigureEvents(app);
         }
 
