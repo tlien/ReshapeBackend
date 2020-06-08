@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
@@ -13,12 +15,14 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         private readonly IBusinessTierRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IBusinessManagementIntegrationEventService _integrationEventService;
 
-        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper)
+        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IBusinessManagementIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _integrationEventService = integrationEventService;
         }
 
         public async Task<BusinessTierDTO> Handle(CreateBusinessTierCommand message, CancellationToken cancellationToken)
@@ -27,7 +31,12 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             _repository.Add(businessTier);
             await _repository.UnitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<BusinessTierDTO>(businessTier);
+            var businessTierDTO = _mapper.Map<BusinessTierDTO>(businessTier);
+
+            var integrationEvent = new NewBusinessTierIntegrationEvent(businessTierDTO);
+            await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
+
+            return businessTierDTO;
         }
     }
 

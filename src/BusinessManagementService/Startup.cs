@@ -60,6 +60,7 @@ namespace Reshape.BusinessManagementService
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<NewAnalysisProfileConsumer>();
+                x.AddConsumer<NewBusinessTierConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
@@ -69,6 +70,11 @@ namespace Reshape.BusinessManagementService
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
                         e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
+                    });
+                    cfg.ReceiveEndpoint("newbusinesstier_queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(2, 100));
+                        e.ConfigureConsumer<NewBusinessTierConsumer>(provider);
                     });
                 }));
             });
@@ -153,6 +159,7 @@ namespace Reshape.BusinessManagementService
             var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
 
             eventTracker.AddEventType<NewAnalysisProfileIntegrationEvent>();
+            eventTracker.AddEventType<NewBusinessTierIntegrationEvent>();
         }
     }
 }
