@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
@@ -8,24 +9,33 @@ namespace Reshape.AccountService.API.Application.Commands
     public class CreateAccountCommand : IRequest<int>
     {
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string Street1 { get; private set; }
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string Street2 { get; private set; }
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string City { get; private set; }
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string ZipCode { get; private set; }
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string Country { get; private set; }
 
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string ContactPersonFullName { get; private set; }
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string Phone { get; private set; }
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public string Email { get; private set; }
 
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public Guid BusinessTierId { get; private set; }
 
         public CreateAccountCommand(string street1, string street2, string city, string zipCode, string country, string contactPersonFullName, string phone, string email, Guid businessTierId)

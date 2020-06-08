@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
@@ -9,9 +10,11 @@ namespace Reshape.AccountService.API.Application.Commands
     public class RemoveAnalysisProfilesCommand : IRequest<int>
     {
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public Guid AccountId { get; private set; }
 
         [DataMember]
+        [SwaggerSchema(ReadOnly = false)]
         public List<Guid> AnalysisProfileIds { get; private set; }
 
         public RemoveAnalysisProfilesCommand(Guid accountId, List<Guid> analysisProfileIds)

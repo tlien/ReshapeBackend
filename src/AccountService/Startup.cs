@@ -97,6 +97,7 @@ namespace Reshape.AccountService
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reshape.AccountService API", Version = "v1" });
+                c.EnableAnnotations();
             });
 
             return services;
