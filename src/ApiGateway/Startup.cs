@@ -24,7 +24,6 @@ namespace Reshape.ApiGateway
 
         public void Configure(IApplicationBuilder app, ILogger<Startup> logger)
         {
-
             logger.LogInformation("Startup Configuring... woah!");
             app.UseSwaggerForOcelotUI();
             app.UseOcelot().Wait();
