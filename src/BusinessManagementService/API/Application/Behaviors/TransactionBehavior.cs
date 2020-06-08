@@ -1,24 +1,28 @@
-using System.Threading;
 using System;
-using Microsoft.EntityFrameworkCore;
+using System.Threading;
 using System.Threading.Tasks;
-using Reshape.BusinessManagementService.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MediatR;
+
+using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 
 namespace Reshape.BusinessManagementService.API.Application.Behaviors
 {
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
+        private readonly ILogger _logger;
         private readonly BusinessManagementContext _context;
         private readonly IBusinessManagementIntegrationEventService _integrationEventService;
 
-        public TransactionBehavior(BusinessManagementContext context, IBusinessManagementIntegrationEventService integrationEventService)
+        public TransactionBehavior(BusinessManagementContext context, IBusinessManagementIntegrationEventService integrationEventService, ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         {
+            _logger = logger;
             _context = context;
             _integrationEventService = integrationEventService;
         }
-        
+
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
 
@@ -26,13 +30,13 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
 
             try
             {
-                if(_context.HasActiveTransaction)
+                if (_context.HasActiveTransaction)
                 {
-                    // Console.WriteLine("Has active transaction.");
-                    // response = await next();
-                    // Console.WriteLine("Response: {0}", response);
-                    // return response;
-                    return await next();
+                    _logger.LogDebug("Has active transaction.");
+                    response = await next();
+                    _logger.LogDebug("Response: {0}", response);
+                    return response;
+                    // return await next();
                 }
 
                 // Execution strategy includes retry on failure
@@ -42,25 +46,27 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
                 {
                     Guid transactionId;
 
-                    using (var transaction = await _context.BeginTransactionAsync()) 
+                    using (var transaction = await _context.BeginTransactionAsync())
                     {
-                        Console.WriteLine("Before");
+                        _logger.LogDebug("Before");
                         response = await next();
-                        Console.WriteLine("Response: {0}", response);
-                        Console.WriteLine("After");
+                        _logger.LogDebug("Response: {0}", response);
+                        _logger.LogDebug("After");
                         await _context.CommitTransactionAsync(transaction);
 
                         transactionId = transaction.TransactionId;
                     }
 
-                    Console.WriteLine("TransactionId: {0}", transactionId);
+                    _logger.LogDebug("TransactionId: {0}", transactionId);
                     await _integrationEventService.PublishEventsThroughEventBusAsync(transactionId);
                 });
 
                 return response;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                throw ex;
+                _logger.LogError(ex, "Something terrible happened in the MediatR Pipeline!");
+                throw;
             }
         }
     }
