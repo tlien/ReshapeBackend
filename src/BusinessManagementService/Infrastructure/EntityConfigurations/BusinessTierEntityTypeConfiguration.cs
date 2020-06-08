@@ -1,9 +1,9 @@
-using System;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Reshape.BusinessManagementService.Infrastructure.EntityConfigurations 
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+
+namespace Reshape.BusinessManagementService.Infrastructure.EntityConfigurations
 {
     public class BusinessTierEntityTypeConfiguration : IEntityTypeConfiguration<BusinessTier>
     {

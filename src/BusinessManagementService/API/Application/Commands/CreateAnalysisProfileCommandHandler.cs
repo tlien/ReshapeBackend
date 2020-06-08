@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
-using Reshape.Common.EventBus.Events;
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
+
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
@@ -47,43 +44,43 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             await _repository.UnitOfWork.SaveChangesAsync();
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
+
             var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfileDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return analysisProfileDTO;
         }
+    }
 
-        public class AnalysisProfileDTO
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal Price { get; set; }
-            public MediaTypeDTO MediaType { get; set; }
-            public ScriptFileDTO ScriptFile { get; set; }
-            public ScriptParametersFileDTO ScriptParametersFile { get; set; }
-        }
+    public class AnalysisProfileDTO
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public MediaTypeDTO MediaType { get; set; }
+        public ScriptFileDTO ScriptFile { get; set; }
+        public ScriptParametersFileDTO ScriptParametersFile { get; set; }
+    }
 
-        public class MediaTypeDTO
-        {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-        }
+    public class MediaTypeDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+    }
 
-        public class ScriptFileDTO
-        {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string Script { get; set; }
-        }
+    public class ScriptFileDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Script { get; set; }
+    }
 
-        public class ScriptParametersFileDTO
-        {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string ScriptParameters { get; set; }
-        }
-
+    public class ScriptParametersFileDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string ScriptParameters { get; set; }
     }
 }

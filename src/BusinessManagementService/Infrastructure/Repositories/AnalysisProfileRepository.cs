@@ -2,23 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace Reshape.BusinessManagementService.Infrastructure.Repositories {
+using Reshape.Common.SeedWork;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+
+namespace Reshape.BusinessManagementService.Infrastructure.Repositories
+{
     public class AnalysisProfileRepository : IAnalysisProfileRepository
     {
         private readonly BusinessManagementContext _context;
-        public IUnitOfWork UnitOfWork 
+        public IUnitOfWork UnitOfWork
         {
-            get 
-            { 
-                return _context; 
-            } 
+            get
+            {
+                return _context;
+            }
         }
 
-        public AnalysisProfileRepository(BusinessManagementContext context) 
+        public AnalysisProfileRepository(BusinessManagementContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -30,7 +32,7 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories {
 
         public async Task<AnalysisProfile> GetAsync(Guid id)
         {
-            var analysisProfile = 
+            var analysisProfile =
             await _context.AnalysisProfiles
                     .Include(a => a.MediaType)
                     .Include(a => a.ScriptFile)
@@ -60,21 +62,21 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories {
             // _context.AnalysisProfiles.Remove(analysisProfile);
             _context.Entry(analysisProfile).State = EntityState.Deleted;
 
-            // @TODO: Launch domain event from command handler? AnalysisProfiles are not likely to be removed once pushed to clients.
+            // TODO: Launch domain event from command handler? AnalysisProfiles are not likely to be removed once pushed to clients.
         }
 
         public void Update(AnalysisProfile analysisProfile)
         {
             _context.Entry(analysisProfile).State = EntityState.Modified;
 
-            // @TODO: Launch domain event from command handler? Useful if updating file contents to fix bugs or improve the analysis script.
+            // TODO: Launch domain event from command handler? Useful if updating file contents to fix bugs or improve the analysis script.
         }
 
         public MediaType AddMediaType(MediaType mediaType)
         {
             var existing = _context.MediaTypes.FirstOrDefault(m => m.Id == mediaType.Id || m.Name == mediaType.Name);
 
-            if(existing != null)
+            if (existing != null)
                 return existing;
 
             return _context.Add(mediaType).Entity;
@@ -84,7 +86,7 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories {
         {
             var existing = _context.ScriptFiles.FirstOrDefault(s => s.Id == scriptFile.Id);
 
-            if(existing != null)
+            if (existing != null)
                 return existing;
 
             return _context.Add(scriptFile).Entity;

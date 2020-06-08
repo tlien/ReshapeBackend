@@ -1,12 +1,10 @@
 using System;
-using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
+
 using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
@@ -24,14 +22,14 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync() 
+        public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _analysisProfileQueries.GetAllAsync());
         }
 
         [Route("{id:Guid}")]
         [HttpGet]
-        public async Task<IActionResult> GetAsync(Guid id) 
+        public async Task<IActionResult> GetAsync(Guid id)
         {
             return Ok(await _analysisProfileQueries.GetById(id));
         }
@@ -44,7 +42,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
 
         // [Route("update")]
         // [HttpPut]
-        // public Task<IActionResult> UpdateAsync() 
+        // public Task<IActionResult> UpdateAsync()
         // {
         // }
 

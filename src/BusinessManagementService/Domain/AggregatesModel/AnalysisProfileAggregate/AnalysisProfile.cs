@@ -1,8 +1,11 @@
 using System;
+
 using Reshape.Common.SeedWork;
 
-namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate {
-    public class AnalysisProfile : Entity, IAggregateRoot {
+namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
+{
+    public class AnalysisProfile : Entity, IAggregateRoot
+    {
         public string Name { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+
 using Reshape.Common.EventBus.Events;
 
 namespace Reshape.BusinessManagementService.API.Application.IntegrationEvents

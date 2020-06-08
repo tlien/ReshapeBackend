@@ -2,8 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 using MediatR;
+
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {

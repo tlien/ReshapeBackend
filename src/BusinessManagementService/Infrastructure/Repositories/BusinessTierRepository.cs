@@ -1,16 +1,17 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
-using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace Reshape.BusinessManagementService.Infrastructure.Repositories 
+using Reshape.Common.SeedWork;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+
+namespace Reshape.BusinessManagementService.Infrastructure.Repositories
 {
     public class BusinessTierRepository : IBusinessTierRepository
     {
         private readonly BusinessManagementContext _context;
-        public IUnitOfWork UnitOfWork 
+        public IUnitOfWork UnitOfWork
         {
             get
             {
@@ -31,7 +32,7 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories
         public async Task<BusinessTier> GetAsync(Guid id)
         {
             var businessTier = await _context.BusinessTiers.FirstOrDefaultAsync(b => b.Id == id);
-            
+
             if (businessTier == null)
             {
                 businessTier = _context.BusinessTiers.Local.FirstOrDefault(b => b.Id == id);
@@ -49,7 +50,7 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories
 
         public void Update(BusinessTier businessTier)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

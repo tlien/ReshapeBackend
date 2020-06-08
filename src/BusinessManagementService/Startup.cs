@@ -47,7 +47,6 @@ namespace Reshape.BusinessManagementService
                 .AddNewtonsoftJson();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
@@ -70,7 +69,6 @@ namespace Reshape.BusinessManagementService
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
                         e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
-                        e.Consumer<NewAnalysisProfileConsumer>();
                     });
                 }));
             });

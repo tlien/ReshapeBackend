@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;

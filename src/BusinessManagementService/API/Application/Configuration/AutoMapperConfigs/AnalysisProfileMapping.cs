@@ -1,14 +1,14 @@
 using AutoMapper;
+
+using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommand;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs
 {
     public class AnalysisProfileMapping : Profile
     {
-        public AnalysisProfileMapping() 
+        public AnalysisProfileMapping()
         {
             CreateMap<AnalysisProfileViewModel, AnalysisProfileDTO>().ReverseMap();
             CreateMap<AnalysisProfileViewModel, AnalysisProfile>().ReverseMap();

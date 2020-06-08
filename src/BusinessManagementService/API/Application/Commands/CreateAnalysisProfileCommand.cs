@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using MediatR;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateAnalysisProfileCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
@@ -21,10 +17,10 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
         [DataMember]
         public MediaTypeDTO MediaType { get; private set; }
-        
+
         [DataMember]
         public ScriptFileDTO ScriptFile { get; private set; }
-        
+
         [DataMember]
         public ScriptParametersFileDTO ScriptParametersFile { get; private set; }
 

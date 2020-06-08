@@ -1,9 +1,10 @@
 using System.Runtime.Serialization;
 using MediatR;
+
 using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
-{   
+{
     [DataContract]
     public class CreateFeatureCommand : IRequest<FeatureDTO>
     {

@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+
 using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate

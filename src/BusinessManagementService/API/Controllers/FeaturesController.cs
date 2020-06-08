@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Reshape.BusinessManagementService.API.Application.Commands;
-using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
+
+using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
+using Reshape.BusinessManagementService.API.Application.Commands;
 using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Controllers

@@ -1,21 +1,22 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
-using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace Reshape.BusinessManagementService.Infrastructure.Repositories 
+using Reshape.Common.SeedWork;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+
+namespace Reshape.BusinessManagementService.Infrastructure.Repositories
 {
     public class FeatureRepository : IFeatureRepository
     {
         private readonly BusinessManagementContext _context;
-        public IUnitOfWork UnitOfWork 
+        public IUnitOfWork UnitOfWork
         {
             get
             {
                 return _context;
-            }    
+            }
         }
 
         public FeatureRepository(BusinessManagementContext context)
@@ -46,7 +47,7 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories
             // _context.Features.Remove(feature);
             _context.Entry(feature).State = EntityState.Deleted;
 
-            // @TODO: Launch domain event from command handler? Features are not likely to be removed.
+            // TODO: Launch domain event from command handler? Features are not likely to be removed.
         }
 
         public void Update(Feature feature)

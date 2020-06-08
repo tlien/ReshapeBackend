@@ -1,20 +1,23 @@
+using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Reshape.Common.SeedWork;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage;
+using MediatR;
+
+using Reshape.Common.SeedWork;
+using Reshape.BusinessManagementService.Infrastructure.EntityConfigurations;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
-using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using Reshape.BusinessManagementService.Infrastructure.EntityConfigurations;
-using Microsoft.EntityFrameworkCore.Design;
-using System.Data;
 
-namespace Reshape.BusinessManagementService.Infrastructure {
+namespace Reshape.BusinessManagementService.Infrastructure
+{
 
-    public class BusinessManagementContext : DbContext, IUnitOfWork {
+    public class BusinessManagementContext : DbContext, IUnitOfWork
+    {
 
         public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
         public DbSet<BusinessTier> BusinessTiers { get; set; }
@@ -26,17 +29,19 @@ namespace Reshape.BusinessManagementService.Infrastructure {
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
 
-        public BusinessManagementContext (DbContextOptions<BusinessManagementContext> options) : base(options) { }
+        public BusinessManagementContext(DbContextOptions<BusinessManagementContext> options) : base(options) { }
 
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
         public bool HasActiveTransaction => _currentTransaction != null;
 
-        public BusinessManagementContext (DbContextOptions<BusinessManagementContext> options, IMediator mediator) : base(options) {
+        public BusinessManagementContext(DbContextOptions<BusinessManagementContext> options, IMediator mediator) : base(options)
+        {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.ApplyConfiguration(new AnalysisProfileEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BusinessTierEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new FeatureEntityTypeConfiguration());
@@ -44,7 +49,7 @@ namespace Reshape.BusinessManagementService.Infrastructure {
             modelBuilder.ApplyConfiguration(new ScriptFileEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ScriptParametersFileEntityTypeConfiguration());
         }
-        
+
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
             await _mediator.DispatchDomainEventsAsync(this);
@@ -112,8 +117,8 @@ namespace Reshape.BusinessManagementService.Infrastructure {
         {
             var optionsBuilder = new DbContextOptionsBuilder<BusinessManagementContext>();
 
-            optionsBuilder.UseNpgsql(".", options => 
-                { 
+            optionsBuilder.UseNpgsql(".", options =>
+                {
                     options.MigrationsAssembly(GetType().Assembly.GetName().Name);
                     options.EnableRetryOnFailure();
                 }

@@ -2,9 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using MediatR;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
+
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
@@ -30,12 +30,13 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             return _mapper.Map<FeatureDTO>(feature);
         }
 
-        public class FeatureDTO
-        {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal Price { get; set; }
-        }
+    }
+
+    public class FeatureDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
     }
 }

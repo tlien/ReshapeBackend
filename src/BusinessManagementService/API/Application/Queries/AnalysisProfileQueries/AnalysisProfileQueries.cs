@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dapper;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using Npgsql;
-using System.Data;
-using Reshape.BusinessManagementService.Infrastructure;
-using System.Linq;
-using AutoMapper.QueryableExtensions;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+
+using Reshape.BusinessManagementService.Infrastructure;
 
 namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries
 {

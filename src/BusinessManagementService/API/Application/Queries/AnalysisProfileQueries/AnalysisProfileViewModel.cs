@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 
-namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries 
+namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries
 {
     public class AnalysisProfileViewModel
     {
@@ -9,9 +8,9 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProf
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public MediaTypeViewModel MediaType { get; set;}
-        public ScriptFileViewModel ScriptFile { get; set;}
-        public ScriptParametersFileViewModel ScriptParametersFile { get; set;}
+        public MediaTypeViewModel MediaType { get; set; }
+        public ScriptFileViewModel ScriptFile { get; set; }
+        public ScriptParametersFileViewModel ScriptParametersFile { get; set; }
     }
 
     public class MediaTypeViewModel
