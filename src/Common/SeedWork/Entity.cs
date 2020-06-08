@@ -1,6 +1,6 @@
 ﻿using System;
-using MediatR;
 using System.Collections.Generic;
+using MediatR;
 
 namespace Reshape.Common.SeedWork
 {
@@ -25,7 +25,7 @@ namespace Reshape.Common.SeedWork
 
         public void AddDomainEvent(INotification eventItem)
         {
-            _domainEvents = _domainEvents ?? new List<INotification>();
+            _domainEvents ??= new List<INotification>();
             _domainEvents.Add(eventItem);
         }
 
@@ -41,7 +41,7 @@ namespace Reshape.Common.SeedWork
 
         public bool IsTransient()
         {
-            return this.Id == default(Guid);
+            return Id == default;
         }
 
         public override bool Equals(object obj)
@@ -49,7 +49,7 @@ namespace Reshape.Common.SeedWork
             if (obj == null || !(obj is Entity))
                 return false;
 
-            if (Object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
                 return true;
 
             if (this.GetType() != obj.GetType())
@@ -68,7 +68,7 @@ namespace Reshape.Common.SeedWork
             if (!IsTransient())
             {
                 if (!_requestedHashCode.HasValue)
-                    _requestedHashCode = this.Id.GetHashCode() ^ 31; // XOR for random distribution (http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx)
+                    _requestedHashCode = Id.GetHashCode() ^ 31; // XOR for random distribution (http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx)
 
                 return _requestedHashCode.Value;
             }
@@ -78,8 +78,8 @@ namespace Reshape.Common.SeedWork
         }
         public static bool operator ==(Entity left, Entity right)
         {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null)) ? true : false;
+            if (Equals(left, null))
+                return Equals(right, null);
             else
                 return left.Equals(right);
         }

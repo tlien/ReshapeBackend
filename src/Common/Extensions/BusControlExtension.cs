@@ -1,8 +1,6 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 namespace Reshape.Common.EventBus.Services
@@ -17,6 +15,7 @@ namespace Reshape.Common.EventBus.Services
             var endPoint = await busControl.GetSendEndpoint(uri);
 
             // Send message
+            // TODO: See if this can't be done with System.Text.Json instead
             var message = JsonConvert.DeserializeObject(content, eventType);
             await endPoint.Send(message);
             return;

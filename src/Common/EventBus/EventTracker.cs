@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Reshape.Common.EventBus.Events;
 
 namespace Reshape.Common.EventBus
@@ -16,12 +17,12 @@ namespace Reshape.Common.EventBus
 
         public void AddEventType<T>() where T : IntegrationEvent
         {
-            if(!_eventTypes.Contains(typeof(T)))
+            if (!_eventTypes.Contains(typeof(T)))
             {
                 _eventTypes.Add(typeof(T));
             }
         }
 
-        public Type GetEventTypeByName(string eventName) =>  _eventTypes.SingleOrDefault(e => e.Name == eventName);
+        public Type GetEventTypeByName(string eventName) => _eventTypes.SingleOrDefault(e => e.Name == eventName);
     }
 }

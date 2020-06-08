@@ -1,4 +1,5 @@
 using System;
+
 using Reshape.Common.EventBus.Events;
 
 namespace Reshape.Common.EventBus

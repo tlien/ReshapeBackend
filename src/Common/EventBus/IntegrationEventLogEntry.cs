@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
+using System.Linq;
+using Newtonsoft.Json;
+
 using Reshape.Common.EventBus.Events;
 
 namespace Reshape.Common.EventBus
@@ -14,7 +12,7 @@ namespace Reshape.Common.EventBus
         private IntegrationEventLogEntry() { }
         public IntegrationEventLogEntry(IntegrationEvent @event, Guid transactionId)
         {
-            EventId = @event.Id;            
+            EventId = @event.Id;
             CreationTime = @event.CreationDate;
             EventTypeName = @event.GetType().FullName;
             Content = JsonConvert.SerializeObject(@event);

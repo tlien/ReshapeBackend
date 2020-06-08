@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Reshape.Common.EventBus
+﻿namespace Reshape.Common.EventBus
 {
     public enum EventStateEnum
     {

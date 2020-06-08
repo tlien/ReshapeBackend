@@ -1,14 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Reshape.Common.EventBus
 {
     public class IntegrationEventLogContext : DbContext
-    {       
+    {
         public IntegrationEventLogContext(DbContextOptions<IntegrationEventLogContext> options) : base(options)
         {
         }
@@ -16,7 +13,7 @@ namespace Reshape.Common.EventBus
         public DbSet<IntegrationEventLogEntry> IntegrationEventLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
-        {          
+        {
             builder.Entity<IntegrationEventLogEntry>(ConfigureIntegrationEventLogEntry);
         }
 
@@ -47,7 +44,8 @@ namespace Reshape.Common.EventBus
     }
 
     // Allow webhosting extension to migrate database at design time
-    // The factory is accessed simply by being in the same project root or namespace Reshape.as the context it is producing, hence no code references to the factory
+    // The factory is accessed simply by being in the same project root
+    // or namespace Reshape as the context it is producing, hence no code references to the factory
     public class IntegrationEventLogContextDesignTimeFactory : IDesignTimeDbContextFactory<IntegrationEventLogContext>
     {
         public IntegrationEventLogContext CreateDbContext(string[] args)
