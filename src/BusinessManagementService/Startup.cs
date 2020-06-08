@@ -1,63 +1,55 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data.Common;
 using System.Reflection;
-using System.Threading.Tasks;
-using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
-using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
-using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
-using Reshape.BusinessManagementService.API.Configuration;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
-using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
-using Reshape.BusinessManagementService.Infrastructure;
-using Reshape.BusinessManagementService.Infrastructure.Repositories;
-using Reshape.Common.EventBus;
-using Reshape.Common.EventBus.Services;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using AutoMapper;
 using MassTransit;
+using MediatR;
+using GreenPipes;
+
+using Reshape.Common.EventBus;
+using Reshape.Common.EventBus.Services;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
+using Reshape.BusinessManagementService.Infrastructure;
+using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
-using System.Data.Common;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Consumers;
-using GreenPipes;
-using Microsoft.OpenApi.Models;
+using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
+using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
 
 namespace Reshape.BusinessManagementService
 {
     public class Startup
     {
-        private IHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration, IHostEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Environment = env;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddMvc(options =>
-                    {
-                        options.EnableEndpointRouting = false;
-                    })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            services.AddHealthChecks();
+            services.AddControllers()
                 .AddNewtonsoftJson();
 
-            services.AddSingleton(AutoMapperConfig.CreateMapper());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             // ### MassTransit setup ###
             // Consumer configurations are only here for show. BusinessManagementContext will not be consuming any integration event messages.
@@ -129,21 +121,32 @@ namespace Reshape.BusinessManagementService
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            logger.LogInformation("Startup Configuring... woah!");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseRouting();
-            app.UseMvc();
+
+            // Auth goes between UseRouting and UseEndpoints!
+            // app.UseAuthentication();
+            // app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecks("/health");
+                endpoints.MapControllers();
+            });
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reshape.BusinessManagementService API");
             });
-            
+
             ConfigureEvents(app);
         }
 

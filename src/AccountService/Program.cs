@@ -3,13 +3,12 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Npgsql;
 using Serilog;
 
-using Reshape.AccountService.Infrastructure;
 using Reshape.Common.Extensions;
 using Reshape.Common.DevelopmentTools;
+using Reshape.AccountService.Infrastructure;
 
 namespace Reshape.AccountService
 {
@@ -27,7 +26,7 @@ namespace Reshape.AccountService
             try
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
-                var host = CreateHostBuilder(configuration, args).Build();
+                var host = CreateHostBuilder(args).Build();
 
                 // Run the migration between the build and run steps to ensure there are no attempts at using the db until after migration has finished.
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
@@ -57,42 +56,33 @@ namespace Reshape.AccountService
             }
         }
 
-        private static IHostBuilder CreateHostBuilder(IConfiguration configuration, string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            // Why IHost and not IWebHost and why ConfigureWebHost instead of ConfigureWebHostDefaults? Check the link!
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.1
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
-                .ConfigureWebHostDefaults(webBuilder =>
-                    {
-                        webBuilder.UseStartup<Startup>();
-                    })
-                // Check link below when configuring this service for production
-                // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.1
-                // .ConfigureWebHost(x =>
-                //     x.UseStartup<Startup>()
-                //      .UseContentRoot(Directory.GetCurrentDirectory())
-                // )
+                .ConfigureWebHost(webBuilder =>
+                {
+                    webBuilder
+                        .UseKestrel()
+                        .UseStartup<Startup>();
+                })
                 .UseSerilog();
 
-
-
-        private static IConfiguration GetConfiguration()
-        {
-            var builder = new ConfigurationBuilder()
+        private static IConfiguration GetConfiguration() =>
+            new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
 
-            return builder.Build();
-        }
-
-        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
-        {
-            return new LoggerConfiguration()
-                .MinimumLevel.Verbose()
+        private static ILogger CreateSerilogLogger(IConfiguration configuration) =>
+            new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
                 .Enrich.WithProperty("ApplicationContext", AppName)
                 .Enrich.FromLogContext()
+                // .WriteTo.Debug()
                 .WriteTo.Console()
-                .ReadFrom.Configuration(configuration)
                 .CreateLogger();
-        }
     }
 }
