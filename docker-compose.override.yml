@@ -1,4 +1,4 @@
-version: "3.4"
+version: '3.4'
 
 # Put environment, ports and other DEVELOPMENT only information here
 
@@ -14,7 +14,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5000:80"
-  
+
   # Databases
   bm.db:
     environment:
