@@ -38,21 +38,9 @@
 				"problemMatcher": []
 			},
 			{
-				"label": "rebuild and re-up all apps",
+				"label": "rebuild and re-up",
 				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d bm.api, acc.api, apigw",
-				"presentation": {
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "dockerCompose"
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "rebuild and re-up specific",
-				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d ${inpus:serviceName}",
+				"command": "docker-compose up --build --no-deps -d ${input:serviceName}",
 				"presentation": {
 					"panel": "shared",
 					"showReuseMessage": true,
@@ -119,11 +107,13 @@
 			{
 				"id": "serviceName",
 				"type": "pickString",
-				"description": "Pick service to rebuild and re-up",
+				"description": "Pick service to rebuild and re-up (default = all)",
+				"default": "",
 				"options": [
 					"bm.api",
 					"acc.api",
-					"apigw"
+					"apigw",
+					""
 				]
 			}
 		]
