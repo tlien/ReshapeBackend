@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Serilog;
 
+using Reshape.Common.EventBus;
 using Reshape.Common.Extensions;
 using Reshape.Common.DevelopmentTools;
 using Reshape.AccountService.Infrastructure;
@@ -31,6 +32,7 @@ namespace Reshape.AccountService
                 // Run the migration between the build and run steps to ensure there are no attempts at using the db until after migration has finished.
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
                 host.MigrateDatabase<AccountContext, NpgsqlException>();
+                host.MigrateDatabase<IntegrationEventLogContext, NpgsqlException>();
 
                 // Seed db if developing and seeding is enabled
                 if (isDevelopment && configuration["USE_SEEDING"] == "true")
