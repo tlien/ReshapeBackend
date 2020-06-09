@@ -1,3 +1,5 @@
+using System;
+using System.Data.Common;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,16 +32,13 @@ namespace Reshape.AccountService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHealthChecks();
-            services.AddCustomDbContext(Configuration);
-            services.AddCustomControllers();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IAccountQueries, AccountQueries>();
-            services.AddScoped<IAccountAdditionsQueries, AccountAdditionsQueries>();
-
-            services.AddCustomSwagger();
+            services.AddDbContexts(Configuration);
+            services.AddCustomMediatR();
+            services.AddRepositories();
+            services.AddCQRS();
+            services.AddCustomControllers();
+            services.AddSwagger();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -72,14 +71,17 @@ namespace Reshape.AccountService
 
     static class CustomExtensionMethods
     {
-        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("AccountDbContext");
+
             services.AddDbContext<AccountContext>(opt =>
             {
-                opt.UseNpgsql(configuration.GetConnectionString("AccountDbContext"));
-            },
-                ServiceLifetime.Scoped
-            );
+                opt.UseNpgsql(connectionString, npgsqlOpt =>
+                {
+                    npgsqlOpt.EnableRetryOnFailure();
+            });
+            });
 
             return services;
         }
@@ -92,11 +94,39 @@ namespace Reshape.AccountService
             return services;
         }
 
-        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
+        public static IServiceCollection AddCQRS(this IServiceCollection services)
+        {
+            services.AddScoped<IAccountQueries, AccountQueries>();
+            services.AddScoped<IAccountAdditionsQueries, AccountAdditionsQueries>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IAccountRepository, AccountRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomMediatR(this IServiceCollection services)
+        {
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            return services;
+
+            return services;
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reshape.AccountService API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Reshape.AccountService API",
+                    Version = "v1"
+                });
                 c.EnableAnnotations();
             });
 
