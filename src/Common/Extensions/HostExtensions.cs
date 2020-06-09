@@ -47,7 +47,7 @@ namespace Reshape.Common.Extensions
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Throws exception if service is not registered
                 var context = services.GetService<TDbContext>(); // Returns null if service is not registered
-                var dbname = context.Database.GetDbConnection().Database;
+                var contextName = context.GetType().Name;
 
                 try
                 {
@@ -58,21 +58,21 @@ namespace Reshape.Common.Extensions
                             .WaitAndRetry(
                                 retryCount: 10, // Raise this if db is exceptionally slow at starting up.
                                 sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), // Exponential backoff
-                                onRetry: (exception, timeSpan, retry, ctx) =>
+                                onRetry: (ex, timeSpan, retry, ctx) =>
                                 {
-                                    logger.LogWarning(exception, "[{prefix}] Exception {ExceptionType} with message {Message} detected on attempt {retry}", nameof(TDbContext), exception.GetType().Name, exception.Message, retry);
+                                    logger.LogWarning(ex, "[{prefix}] Exception {ExceptionType} with message {Message} detected on attempt {retry}", contextName, ex.GetType().Name, ex.Message, retry);
                                 })
                             .Execute(() =>
-                                {
-                                    logger.LogInformation("Attempting to apply migrations to database ({DatabaseName})", dbname);
-                                    context.Database.Migrate();
-                                });
+                            {
+                                logger.LogInformation("Attempting to apply migrations to database ({DbContext})", contextName);
+                                context.Database.Migrate();
+                            });
 
-                    logger.LogInformation("Successfully migrated database ({DatabaseName})", dbname);
+                    logger.LogInformation("Successfully migrated database ({DbContext})", contextName);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while migrating the database ({DatabaseName})", dbname);
+                    logger.LogError(ex, "An error occurred while migrating the database ({DbContext})", contextName);
                 }
             }
             return host;

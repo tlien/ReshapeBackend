@@ -15,17 +15,17 @@ namespace Reshape.Common.DevelopmentTools
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Throws exception if service is not registered
                 var context = services.GetService<TDbContext>(); // Returns null if service is not registered
-                var dbname = context.Database.GetDbConnection().Database;
+                var contextName = context.GetType().Name;
 
                 try
                 {
-                    logger.LogInformation("Seeding database ({DatabaseName}) with default data -- THIS SHOULD ONLY HAPPEN WHEN DEVELOPING! --", dbname);
+                    logger.LogInformation("Attempting to seed database ({DbContext}) with development data", contextName);
                     context.AddSeedData();
-                    logger.LogInformation("Successfully seeded database ({DatabaseName})", dbname);
+                    logger.LogInformation("Successfully seeded database ({DbContext})", contextName);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding the database ({DatabaseName})", dbname);
+                    logger.LogError(ex, "An error occurred while seeding the database ({DbContext})", contextName);
                 }
             }
             return host;
