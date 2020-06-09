@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 using AutoMapper;
 using MassTransit;
 using MediatR;
-using GreenPipes;
 
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Services;
@@ -23,7 +22,6 @@ using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Consumers;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
@@ -58,23 +56,10 @@ namespace Reshape.BusinessManagementService
             // You may configure as many endpoints as needed for all incoming integration event type messages.
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<NewAnalysisProfileConsumer>();
-                x.AddConsumer<NewBusinessTierConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
                     cfg.Host("rabbitmq");
-
-                    cfg.ReceiveEndpoint("newanalysisprofile_queue", e =>
-                    {
-                        e.UseMessageRetry(r => r.Interval(2, 100));
-                        e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
-                    });
-                    cfg.ReceiveEndpoint("newbusinesstier_queue", e =>
-                    {
-                        e.UseMessageRetry(r => r.Interval(2, 100));
-                        e.ConfigureConsumer<NewBusinessTierConsumer>(provider);
-                    });
                 }));
             });
             services.AddMassTransitHostedService();
@@ -160,6 +145,7 @@ namespace Reshape.BusinessManagementService
 
             eventTracker.AddEventType<NewAnalysisProfileIntegrationEvent>();
             eventTracker.AddEventType<NewBusinessTierIntegrationEvent>();
+            eventTracker.AddEventType<NewFeatureIntegrationEvent>();
         }
     }
 }

@@ -84,6 +84,7 @@ namespace Reshape.AccountService
 
             eventTracker.AddEventType<NewAnalysisProfileIntegrationEvent>();
             eventTracker.AddEventType<NewBusinessTierIntegrationEvent>();
+            eventTracker.AddEventType<NewFeatureIntegrationEvent>();
         }
     }
 
@@ -157,6 +158,7 @@ namespace Reshape.AccountService
             {
                 x.AddConsumer<NewAnalysisProfileConsumer>();
                 x.AddConsumer<NewBusinessTierConsumer>();
+                x.AddConsumer<NewFeatureConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
@@ -171,6 +173,11 @@ namespace Reshape.AccountService
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
                         e.ConfigureConsumer<NewBusinessTierConsumer>(provider);
+                    });
+                    cfg.ReceiveEndpoint("newfeature_queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(2, 100));
+                        e.ConfigureConsumer<NewFeatureConsumer>(provider);
                     });
                 }));
             });
