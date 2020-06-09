@@ -10,7 +10,7 @@ using Reshape.AccountService.Infrastructure;
 namespace AccountService.API.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountContext))]
-    [Migration("20200605225958_InitialCreate")]
+    [Migration("20200609003337_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,165 +25,208 @@ namespace AccountService.API.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("BusinessTierId")
+                        .HasColumnName("business_tier_id")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnName("is_active")
                         .HasColumnType("boolean");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_accounts");
 
-                    b.HasIndex("BusinessTierId");
+                    b.HasIndex("BusinessTierId")
+                        .HasName("ix_accounts_business_tier_id");
 
-                    b.ToTable("accounts","account");
+                    b.ToTable("accounts");
                 });
 
             modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.AnalysisProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .HasColumnName("description")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
+                        .HasColumnName("price")
                         .HasColumnType("numeric");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_analysis_profiles");
 
-                    b.ToTable("analysisProfiles","account");
+                    b.ToTable("analysis_profiles");
                 });
 
             modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.BusinessTier", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .HasColumnName("description")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
+                        .HasColumnName("price")
                         .HasColumnType("numeric");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_business_tiers");
 
-                    b.ToTable("businesstiers","account");
+                    b.ToTable("business_tiers");
                 });
 
             modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Feature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .HasColumnName("description")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
+                        .HasColumnName("price")
                         .HasColumnType("numeric");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_features");
 
-                    b.ToTable("features","account");
+                    b.ToTable("features");
                 });
 
             modelBuilder.Entity("Reshape.AccountService.Infrastructure.AccountAnalysisProfile", b =>
                 {
                     b.Property<Guid>("AccountId")
+                        .HasColumnName("account_id")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("AnalysisProfileId")
+                        .HasColumnName("analysis_profile_id")
                         .HasColumnType("uuid");
 
-                    b.HasKey("AccountId", "AnalysisProfileId");
+                    b.HasKey("AccountId", "AnalysisProfileId")
+                        .HasName("pk_account_analysis_profile");
 
-                    b.HasIndex("AnalysisProfileId");
+                    b.HasIndex("AnalysisProfileId")
+                        .HasName("ix_account_analysis_profile_analysis_profile_id");
 
-                    b.ToTable("accountanalysisProfile","account");
+                    b.ToTable("account_analysis_profile");
                 });
 
             modelBuilder.Entity("Reshape.AccountService.Infrastructure.AccountFeature", b =>
                 {
                     b.Property<Guid>("AccountId")
+                        .HasColumnName("account_id")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("FeatureId")
+                        .HasColumnName("feature_id")
                         .HasColumnType("uuid");
 
-                    b.HasKey("AccountId", "FeatureId");
+                    b.HasKey("AccountId", "FeatureId")
+                        .HasName("pk_account_feature");
 
-                    b.HasIndex("FeatureId");
+                    b.HasIndex("FeatureId")
+                        .HasName("ix_account_feature_feature_id");
 
-                    b.ToTable("accountfeatures","account");
+                    b.ToTable("account_feature");
                 });
 
             modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", b =>
                 {
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.BusinessTier", "BusinessTier")
                         .WithMany()
-                        .HasForeignKey("BusinessTierId");
+                        .HasForeignKey("BusinessTierId")
+                        .HasConstraintName("fk_accounts_business_tiers_business_tier_id");
 
                     b.OwnsOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("AccountId")
+                                .HasColumnName("id")
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("City")
+                                .HasColumnName("city")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Country")
+                                .HasColumnName("country")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Street1")
+                                .HasColumnName("street1")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Street2")
+                                .HasColumnName("street2")
                                 .HasColumnType("text");
 
                             b1.Property<string>("ZipCode")
+                                .HasColumnName("zip_code")
                                 .HasColumnType("text");
 
-                            b1.HasKey("AccountId");
+                            b1.HasKey("AccountId")
+                                .HasName("pk_accounts");
 
                             b1.ToTable("accounts");
 
                             b1.WithOwner()
-                                .HasForeignKey("AccountId");
+                                .HasForeignKey("AccountId")
+                                .HasConstraintName("fk_address_accounts_account_id");
                         });
 
                     b.OwnsOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.ContactDetails", "ContactDetails", b1 =>
                         {
                             b1.Property<Guid>("AccountId")
+                                .HasColumnName("id")
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("ContactPersonFullName")
+                                .HasColumnName("contact_person_full_name")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Email")
+                                .HasColumnName("email")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Phone")
+                                .HasColumnName("phone")
                                 .HasColumnType("text");
 
-                            b1.HasKey("AccountId");
+                            b1.HasKey("AccountId")
+                                .HasName("pk_accounts");
 
                             b1.ToTable("accounts");
 
                             b1.WithOwner()
-                                .HasForeignKey("AccountId");
+                                .HasForeignKey("AccountId")
+                                .HasConstraintName("fk_contact_details_accounts_account_id");
                         });
                 });
 
@@ -192,12 +235,14 @@ namespace AccountService.API.Infrastructure.Migrations
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", "Account")
                         .WithMany("AccountAnalysisProfiles")
                         .HasForeignKey("AccountId")
+                        .HasConstraintName("fk_account_analysis_profile_accounts_account_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.AnalysisProfile", "AnalysisProfile")
                         .WithMany()
                         .HasForeignKey("AnalysisProfileId")
+                        .HasConstraintName("fk_account_analysis_profile_analysis_profiles_analysis_profile")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -207,12 +252,14 @@ namespace AccountService.API.Infrastructure.Migrations
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", "Account")
                         .WithMany("AccountFeatures")
                         .HasForeignKey("AccountId")
+                        .HasConstraintName("fk_account_feature_accounts_account_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Feature", "Feature")
                         .WithMany()
                         .HasForeignKey("FeatureId")
+                        .HasConstraintName("fk_account_feature_features_feature_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

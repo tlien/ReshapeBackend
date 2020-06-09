@@ -80,6 +80,8 @@ namespace Reshape.AccountService
                 opt.UseNpgsql(connectionString, npgsqlOpt =>
                 {
                     npgsqlOpt.EnableRetryOnFailure();
+                })
+                .UseSnakeCaseNamingConvention();
             });
             });
 

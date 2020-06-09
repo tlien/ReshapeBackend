@@ -10,8 +10,6 @@ namespace Reshape.AccountService.Infrastructure
     {
         public void Configure(EntityTypeBuilder<AccountAnalysisProfile> builder)
         {
-            builder.ToTable("accountanalysisProfile", AccountContext.DEFAULT_SCHEMA);
-
             builder.HasKey(t => new { t.AccountId, t.AnalysisProfileId });
         }
     }

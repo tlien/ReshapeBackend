@@ -10,8 +10,6 @@ namespace Reshape.AccountService.Infrastructure
     {
         public void Configure(EntityTypeBuilder<AccountFeature> builder)
         {
-            builder.ToTable("accountfeatures", AccountContext.DEFAULT_SCHEMA);
-
             builder.HasKey(t => new { t.AccountId, t.FeatureId });
         }
     }

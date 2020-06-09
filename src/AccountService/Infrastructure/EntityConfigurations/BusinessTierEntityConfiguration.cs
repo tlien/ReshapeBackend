@@ -9,8 +9,6 @@ namespace Reshape.AccountService.Infrastructure
     {
         public void Configure(EntityTypeBuilder<BusinessTier> builder)
         {
-            builder.ToTable("businesstiers", AccountContext.DEFAULT_SCHEMA);
-
             builder.HasKey(b => b.Id);
 
             builder.Ignore(b => b.DomainEvents);

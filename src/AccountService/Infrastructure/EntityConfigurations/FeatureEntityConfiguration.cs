@@ -9,8 +9,6 @@ namespace Reshape.AccountService.Infrastructure
     {
         public void Configure(EntityTypeBuilder<Feature> builder)
         {
-            builder.ToTable("features", AccountContext.DEFAULT_SCHEMA);
-
             builder.HasKey(f => f.Id);
 
             builder.Ignore(f => f.DomainEvents);
