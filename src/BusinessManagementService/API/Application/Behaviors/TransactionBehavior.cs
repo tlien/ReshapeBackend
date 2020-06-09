@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MediatR;
 
+using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.Infrastructure;
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 
 namespace Reshape.BusinessManagementService.API.Application.Behaviors
 {
@@ -14,9 +14,9 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
     {
         private readonly ILogger _logger;
         private readonly BusinessManagementContext _context;
-        private readonly IBusinessManagementIntegrationEventService _integrationEventService;
+        private readonly IIntegrationEventService _integrationEventService;
 
-        public TransactionBehavior(BusinessManagementContext context, IBusinessManagementIntegrationEventService integrationEventService, ILogger<TransactionBehavior<TRequest, TResponse>> logger)
+        public TransactionBehavior(BusinessManagementContext context, IIntegrationEventService integrationEventService, ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         {
             _logger = logger;
             _context = context;

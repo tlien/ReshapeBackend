@@ -22,7 +22,6 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Consumers;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
@@ -115,7 +114,7 @@ namespace Reshape.BusinessManagementService
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                sp => (DbConnection c) => new IntegrationEventLogService(c));
 
-            services.AddTransient<IBusinessManagementIntegrationEventService, BusinessManagementIntegrationEventService>();
+            services.AddTransient<IIntegrationEventService, IntegrationEventService<BusinessManagementContext>>();
 
             services.AddSingleton<IEventTracker, EventTracker>();
 

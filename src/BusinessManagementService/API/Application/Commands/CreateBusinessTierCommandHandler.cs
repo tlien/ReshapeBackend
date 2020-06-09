@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
+using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 
@@ -15,9 +15,9 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         private readonly IBusinessTierRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IBusinessManagementIntegrationEventService _integrationEventService;
+        private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IBusinessManagementIntegrationEventService integrationEventService)
+        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
