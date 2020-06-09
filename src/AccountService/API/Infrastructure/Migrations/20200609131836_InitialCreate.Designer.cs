@@ -10,7 +10,7 @@ using Reshape.AccountService.Infrastructure;
 namespace AccountService.API.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountContext))]
-    [Migration("20200609003337_InitialCreate")]
+    [Migration("20200609131836_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace AccountService.API.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Reshape.AccountService.Domain.AggregatesModel.AccountAggregate.Account", b =>

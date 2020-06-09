@@ -16,7 +16,7 @@ namespace Common.EventBus.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Reshape.Common.EventBus.IntegrationEventLogEntry", b =>
@@ -53,9 +53,9 @@ namespace Common.EventBus.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("EventId")
-                        .HasName("pk_integration_event_log");
+                        .HasName("pk_integration_event_logs");
 
-                    b.ToTable("IntegrationEventLog");
+                    b.ToTable("integration_event_logs");
                 });
 #pragma warning restore 612, 618
         }
