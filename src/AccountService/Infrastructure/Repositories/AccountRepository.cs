@@ -13,13 +13,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
     {
         private readonly AccountContext _context;
 
-        public IUnitOfWork UnitOfWork
-        {
-            get
-            {
-                return _context;
-            }
-        }
+        public IUnitOfWork UnitOfWork => _context;
 
         public AccountRepository(AccountContext ctx)
         {
@@ -78,10 +72,11 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return features;
         }
 
-        public async void AddFeature(Feature feature)
+        public async Task<Feature> AddFeature(Feature feature)
         {
-            _context.Features.Add(feature);
+            var res = _context.Features.Add(feature).Entity;
             await _context.SaveChangesAsync();
+            return res;
         }
 
         public async Task<BusinessTier> GetBusinessTierAsync(Guid businessTierId)
@@ -92,10 +87,11 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return businessTier;
         }
 
-        public async void AddBusinessTier(BusinessTier businessTier)
+        public async Task<BusinessTier> AddBusinessTier(BusinessTier businessTier)
         {
-            _context.BusinessTiers.Add(businessTier);
+            var res = _context.BusinessTiers.Add(businessTier).Entity;
             await _context.SaveChangesAsync();
+            return res;
         }
 
         public async Task<List<AnalysisProfile>> GetAnalysisProfilesAsync(List<Guid> analysisProfileIds)
@@ -107,10 +103,11 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return analysisProfiles;
         }
 
-        public async void AddAnalysisProfile(AnalysisProfile analysisProfile)
+        public async Task<AnalysisProfile> AddAnalysisProfile(AnalysisProfile analysisProfile)
         {
-            _context.AnalysisProfiles.Add(analysisProfile);
+            var res = _context.AnalysisProfiles.Add(analysisProfile).Entity;
             await _context.SaveChangesAsync();
+            return res;
         }
     }
 }

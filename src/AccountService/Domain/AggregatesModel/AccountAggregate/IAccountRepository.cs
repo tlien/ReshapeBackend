@@ -13,10 +13,12 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         Task<Account> GetAsync(Guid accountId);
 
         Task<List<Feature>> GetFeaturesAsync(List<Guid> featureIds);
-        void AddFeature(Feature feature);
+        Task<Feature> AddFeature(Feature feature);
+
         Task<BusinessTier> GetBusinessTierAsync(Guid businessTierId);
-        void AddBusinessTier(BusinessTier businessTier);
+        Task<BusinessTier> AddBusinessTier(BusinessTier businessTier);
+
         Task<List<AnalysisProfile>> GetAnalysisProfilesAsync(List<Guid> analysisProfileIds);
-        void AddAnalysisProfile(AnalysisProfile analysisProfile);
+        Task<AnalysisProfile> AddAnalysisProfile(AnalysisProfile analysisProfile);
     }
 }

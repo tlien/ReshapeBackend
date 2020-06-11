@@ -20,9 +20,10 @@ namespace Reshape.AccountService.API.Application.IntegrationEvents.Consumers
 
         public async Task Consume(ConsumeContext<AnalysisProfileCreated> context)
         {
-            await Task.Run(() => _logger.LogDebug("Message received with MassTransit consumer. A NEW ANALYSISPROFILE HAS BEEN CREATED"));
-            var lol = context.Message;
-            _logger.LogDebug("Message: {lol}", lol);
+            _logger.LogDebug("Integration event received by {name}\n\tEventId {eventId}\n\tTimeStamp {timeStamp}", GetType().Name, context.Message.EventId, context.Message.TimeStamp);
+            var analysisProfile = await _repository.AddAnalysisProfile(new AnalysisProfile(context.Message.Id, context.Message.Name, context.Message.Description, context.Message.Price));
+            _logger.LogDebug("A NEW ANALYSIS PROFILE HAS BEEN CREATED! ヾ(^▽^*)))");
+            _logger.LogDebug("New AnalysisProfile: \n\tId: {Id}\n\tName: {Name}\n\tDescription: {Description}\n\tPrice: {Price}", analysisProfile.Id, analysisProfile.Name, analysisProfile.Description, analysisProfile.Price);
             return;
         }
     }

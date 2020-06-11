@@ -23,6 +23,7 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.FeatureQueri
         public async Task<IEnumerable<FeatureViewModel>> GetAllAsync()
         {
             return await _context.Features
+                .AsNoTracking()
                 .ProjectTo<FeatureViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -30,6 +31,7 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.FeatureQueri
         public async Task<FeatureViewModel> GetById(Guid id)
         {
             return await _context.Features
+                .AsNoTracking()
                 .ProjectTo<FeatureViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }

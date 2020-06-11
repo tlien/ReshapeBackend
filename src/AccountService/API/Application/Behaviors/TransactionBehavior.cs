@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using Reshape.AccountService.Infrastructure;
+
 using Reshape.Common.EventBus.Services;
+using Reshape.AccountService.Infrastructure;
 
 namespace Reshape.AccountService.API.Application.Behaviors
 {
@@ -24,18 +25,16 @@ namespace Reshape.AccountService.API.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-
             var response = default(TResponse);
 
             try
             {
                 if (_context.HasActiveTransaction)
                 {
-                    _logger.LogDebug("Has active transaction.");
+                    _logger.LogDebug("Has active transaction. Calling command handler.");
                     response = await next();
                     _logger.LogDebug("Response: {0}", response);
                     return response;
-                    // return await next();
                 }
 
                 // Execution strategy includes retry on failure
@@ -47,10 +46,9 @@ namespace Reshape.AccountService.API.Application.Behaviors
 
                     using (var transaction = await _context.BeginTransactionAsync())
                     {
-                        _logger.LogDebug("Before");
+                        _logger.LogDebug("New transaction begun. Calling command handler.");
                         response = await next();
                         _logger.LogDebug("Response: {0}", response);
-                        _logger.LogDebug("After");
                         await _context.CommitTransactionAsync(transaction);
 
                         transactionId = transaction.TransactionId;

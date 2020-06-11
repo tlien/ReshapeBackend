@@ -20,9 +20,10 @@ namespace Reshape.AccountService.API.Application.IntegrationEvents.Consumers
 
         public async Task Consume(ConsumeContext<BusinessTierCreated> context)
         {
-            await Task.Run(() => _logger.LogDebug("Message received with MassTransit consumer. A NEW BUSINESSTIER HAS BEEN CREATED!"));
-            var lol = context.Message;
-            _repository.AddBusinessTier(new BusinessTier(context.Message.Id, context.Message.Name, context.Message.Description, context.Message.Price));
+            _logger.LogDebug("Integration event received by {name}\n\tEventId {eventId}\n\tTimeStamp {timeStamp}", GetType().Name, context.Message.EventId, context.Message.TimeStamp);
+            var businessTier = await _repository.AddBusinessTier(new BusinessTier(context.Message.Id, context.Message.Name, context.Message.Description, context.Message.Price));
+            _logger.LogDebug("A NEW BUSINESSTIER HAS BEEN CREATED! ヾ(^▽^*)))");
+            _logger.LogDebug("New BusinessTier: \n\tId: {Id}\n\tName: {Name}\n\tDescription: {Description}\n\tPrice: {Price}", businessTier.Id, businessTier.Name, businessTier.Description, businessTier.Price);
             return;
         }
     }
