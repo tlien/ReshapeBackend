@@ -7,6 +7,6 @@ namespace Reshape.Common.EventBus
     public interface IEventTracker
     {
         Type GetEventTypeByName(string eventName);
-        void AddEventType<T>() where T : IntegrationEvent;
+        void AddEventType<T>() where T : IIntegrationEvent;
     }
 }

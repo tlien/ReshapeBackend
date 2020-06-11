@@ -78,12 +78,24 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return features;
         }
 
+        public async void AddFeature(Feature feature)
+        {
+            _context.Features.Add(feature);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<BusinessTier> GetBusinessTierAsync(Guid businessTierId)
         {
             var businessTier = await _context
                                     .BusinessTiers
                                     .FirstOrDefaultAsync(bt => bt.Id == businessTierId);
             return businessTier;
+        }
+
+        public async void AddBusinessTier(BusinessTier businessTier)
+        {
+            _context.BusinessTiers.Add(businessTier);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<AnalysisProfile>> GetAnalysisProfilesAsync(List<Guid> analysisProfileIds)
@@ -93,6 +105,12 @@ namespace Reshape.AccountService.Infrastructure.Repositories
                                     .Where(ap => analysisProfileIds.Contains(ap.Id))
                                     .ToListAsync();
             return analysisProfiles;
+        }
+
+        public async void AddAnalysisProfile(AnalysisProfile analysisProfile)
+        {
+            _context.AnalysisProfiles.Add(analysisProfile);
+            await _context.SaveChangesAsync();
         }
     }
 }

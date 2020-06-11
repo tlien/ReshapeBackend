@@ -15,7 +15,7 @@ namespace Reshape.Common.EventBus
             _eventTypes = new List<Type>();
         }
 
-        public void AddEventType<T>() where T : IntegrationEvent
+        public void AddEventType<T>() where T : IIntegrationEvent
         {
             if (!_eventTypes.Contains(typeof(T)))
             {

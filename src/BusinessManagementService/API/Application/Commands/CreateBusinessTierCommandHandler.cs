@@ -33,7 +33,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             var businessTierDTO = _mapper.Map<BusinessTierDTO>(businessTier);
 
-            var integrationEvent = new NewBusinessTierIntegrationEvent(businessTierDTO);
+            var integrationEvent = new BusinessTierCreatedEvent(businessTierDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return businessTierDTO;

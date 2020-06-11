@@ -33,7 +33,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             var featureDTO = _mapper.Map<FeatureDTO>(feature);
 
-            var integrationEvent = new NewFeatureIntegrationEvent(featureDTO);
+            var integrationEvent = new FeatureCreatedEvent(featureDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return featureDTO;

@@ -83,9 +83,9 @@ namespace Reshape.BusinessManagementService
         {
             var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
 
-            eventTracker.AddEventType<NewAnalysisProfileIntegrationEvent>();
-            eventTracker.AddEventType<NewBusinessTierIntegrationEvent>();
-            eventTracker.AddEventType<NewFeatureIntegrationEvent>();
+            eventTracker.AddEventType<AnalysisProfileCreatedEvent>();
+            eventTracker.AddEventType<BusinessTierCreatedEvent>();
+            eventTracker.AddEventType<FeatureCreatedEvent>();
         }
     }
 

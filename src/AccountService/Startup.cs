@@ -2,6 +2,7 @@ using System;
 using System.Data.Common;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,6 @@ using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 using Reshape.AccountService.Infrastructure;
 using Reshape.AccountService.Infrastructure.Repositories;
 using Reshape.AccountService.API.Application.Behaviors;
-using Reshape.AccountService.API.Application.IntegrationEvents.Events;
 using Reshape.AccountService.API.Application.IntegrationEvents.Consumers;
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
 using Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries;
@@ -63,10 +63,22 @@ namespace Reshape.AccountService
             // app.UseAuthentication();
             // app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(ep =>
             {
-                endpoints.MapHealthChecks("/health");
-                endpoints.MapControllers();
+                ep.MapControllers();
+
+                ep.MapHealthChecks("/health/live", new HealthCheckOptions()
+                {
+                    // Exclude all checks and return a 200-Ok. Basically just a check to see if we can get requests through
+                    Predicate = (_) => false
+                });
+
+                ep.MapHealthChecks("/health/ready", new HealthCheckOptions()
+                {
+                    // The readiness check uses all registered checks with the 'ready' tag.
+                    Predicate = (check) => check.Tags.Contains("ready")
+                });
+
             });
 
             app.UseSwagger();
@@ -75,16 +87,12 @@ namespace Reshape.AccountService
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reshape.AccountService API");
             });
 
-            ConfigureEvents(app);
+            // ConfigureEvents(app);
         }
 
         public void ConfigureEvents(IApplicationBuilder app)
         {
             var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
-
-            eventTracker.AddEventType<NewAnalysisProfileIntegrationEvent>();
-            eventTracker.AddEventType<NewBusinessTierIntegrationEvent>();
-            eventTracker.AddEventType<NewFeatureIntegrationEvent>();
         }
     }
 
@@ -148,36 +156,33 @@ namespace Reshape.AccountService
 
         public static IServiceCollection AddEventBus(this IServiceCollection services)
         {
-            // ### MassTransit setup ###
-            // Make sure that whatever your consumers are consuming is an IntegrationEvent type, as all integration events extend that class.
-            // Published message and consumed message must be the same, otherwise the message will be skipped by RabbitMQ.
-            // ReceiveEndpoint must be the name of the integration event (without the IntegrationEvent suffix) followed by "_queue",
-            // e.g. "newanalysisprofile_queue".
-            // You may configure as many endpoints as needed for all incoming integration event type messages.
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<NewAnalysisProfileConsumer>();
-                x.AddConsumer<NewBusinessTierConsumer>();
-                x.AddConsumer<NewFeatureConsumer>();
+                x.AddConsumer<AnalysisProfileCreatedConsumer>();
+                x.AddConsumer<BusinessTierCreatedConsumer>();
+                x.AddConsumer<FeatureCreatedConsumer>();
+
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
+
+                    // Hand this whatever name the rabbitmq service has in the docker-compose file
                     cfg.Host("rabbitmq");
 
-                    cfg.ReceiveEndpoint("newanalysisprofile_queue", e =>
+                    cfg.ReceiveEndpoint("analysis_profile_created_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
-                        e.ConfigureConsumer<NewAnalysisProfileConsumer>(provider);
+                        e.ConfigureConsumer<AnalysisProfileCreatedConsumer>(provider);
                     });
-                    cfg.ReceiveEndpoint("newbusinesstier_queue", e =>
+                    cfg.ReceiveEndpoint("business_tier_created_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
-                        e.ConfigureConsumer<NewBusinessTierConsumer>(provider);
+                        e.ConfigureConsumer<BusinessTierCreatedConsumer>(provider);
                     });
-                    cfg.ReceiveEndpoint("newfeature_queue", e =>
+                    cfg.ReceiveEndpoint("feature_created_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
-                        e.ConfigureConsumer<NewFeatureConsumer>(provider);
+                        e.ConfigureConsumer<FeatureCreatedConsumer>(provider);
                     });
                 }));
             });

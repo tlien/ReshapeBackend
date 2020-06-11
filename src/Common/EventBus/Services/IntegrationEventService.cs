@@ -33,7 +33,7 @@ namespace Reshape.Common.EventBus.Services
             _eventTracker = eventTracker;
         }
 
-        public async Task AddAndSaveEventAsync(IntegrationEvent evt)
+        public async Task AddAndSaveEventAsync<T>(T evt) where T : IIntegrationEvent
         {
             _logger.LogDebug("Storing event for processing. Details: {0}", evt);
             await _integrationEventLogService.SaveEventAsync(evt, _dbContext.GetCurrentTransaction());

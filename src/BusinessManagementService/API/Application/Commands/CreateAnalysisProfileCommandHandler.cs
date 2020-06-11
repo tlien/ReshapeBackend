@@ -45,7 +45,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
 
-            var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfileDTO);
+            var integrationEvent = new AnalysisProfileCreatedEvent(analysisProfileDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return analysisProfileDTO;
@@ -54,6 +54,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
     public class AnalysisProfileDTO
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

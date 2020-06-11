@@ -25,7 +25,7 @@ namespace Reshape.Common.EventBus
             builder.Property(e => e.Content)
                 .IsRequired();
 
-            builder.Property(e => e.CreationTime)
+            builder.Property(e => e.TimeStamp)
                 .IsRequired();
 
             builder.Property(e => e.State)
