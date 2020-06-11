@@ -70,6 +70,7 @@ namespace Reshape.AccountService.API.Controllers
             return Ok(await _mediator.Send(command));
         }
 
+        [Route("deactivate")]
         [HttpPut]
         public async Task<IActionResult> DeactivateAccount([FromBody] DeactivateAccountCommand command)
         {

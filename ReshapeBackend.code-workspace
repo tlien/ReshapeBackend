@@ -38,9 +38,9 @@
 				"problemMatcher": []
 			},
 			{
-				"label": "rebuild all containers (no deps)",
+				"label": "rebuild and re-up",
 				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d bm.api, acc.api, apigw",
+				"command": "docker-compose up --build --no-deps -d ${input:serviceName}",
 				"presentation": {
 					"panel": "shared",
 					"showReuseMessage": true,
@@ -50,9 +50,9 @@
 				"problemMatcher": []
 			},
 			{
-				"label": "rebuild BM container",
+				"label": "rebuild all apps",
 				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d bm.api",
+				"command": "docker-compose build",
 				"presentation": {
 					"panel": "shared",
 					"showReuseMessage": true,
@@ -62,28 +62,59 @@
 				"problemMatcher": []
 			},
 			{
-				"label": "rebuild ACC container",
+				"label": "add migration (IntegrationsDb)",
 				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d acc.api",
+				"command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\Common\\Common.csproj --context IntegrationEventLogContext -o .\\EventBus\\Migrations",
 				"presentation": {
 					"panel": "shared",
 					"showReuseMessage": true,
 					"clear": false,
-					"group": "dockerCompose"
+					"group": "migrations"
 				},
 				"problemMatcher": []
 			},
 			{
-				"label": "rebuild gateway container",
+				"label": "add migration (AccountDb)",
 				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d apigw",
+				"command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\AccountService\\AccountService.csproj --context AccountContext -o .\\API\\Infrastructure\\Migrations",
 				"presentation": {
 					"panel": "shared",
 					"showReuseMessage": true,
 					"clear": false,
-					"group": "dockerCompose"
+					"group": "migrations"
 				},
 				"problemMatcher": []
+			},
+			{
+				"label": "add migration (BusinessDb)",
+				"type": "shell",
+				"command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\BusinessManagementService\\BusinessManagementService.csproj --context BusinessManagementContext -o .\\Infrastructure\\Migrations",
+				"presentation": {
+					"panel": "shared",
+					"showReuseMessage": true,
+					"clear": false,
+					"group": "migrations"
+				},
+				"problemMatcher": []
+			}
+		],
+		"inputs": [
+			{
+				"id": "migrationName",
+				"type": "promptString",
+				"description": "Type desired name of migration"
+			},
+			{
+				"id": "serviceName",
+				"type": "pickString",
+				"description": "Pick service to rebuild and re-up (default = all)",
+				"default": "",
+				"options": [
+					"bm.api",
+					"acc.api",
+					"apigw",
+					""
+				]
 			}
 		]
 	}

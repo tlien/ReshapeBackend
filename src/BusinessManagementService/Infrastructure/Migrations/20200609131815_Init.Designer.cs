@@ -10,7 +10,7 @@ using Reshape.BusinessManagementService.Infrastructure;
 namespace BusinessManagementService.Infrastructure.Migrations
 {
     [DbContext(typeof(BusinessManagementContext))]
-    [Migration("20200528123042_Init")]
+    [Migration("20200609131815_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace BusinessManagementService.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.AnalysisProfile", b =>

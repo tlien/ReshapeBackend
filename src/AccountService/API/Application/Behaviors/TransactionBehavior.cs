@@ -6,17 +6,17 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 
 using Reshape.Common.EventBus.Services;
-using Reshape.BusinessManagementService.Infrastructure;
+using Reshape.AccountService.Infrastructure;
 
-namespace Reshape.BusinessManagementService.API.Application.Behaviors
+namespace Reshape.AccountService.API.Application.Behaviors
 {
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ILogger _logger;
-        private readonly BusinessManagementContext _context;
+        private readonly AccountContext _context;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public TransactionBehavior(BusinessManagementContext context, IIntegrationEventService integrationEventService, ILogger<TransactionBehavior<TRequest, TResponse>> logger)
+        public TransactionBehavior(AccountContext context, IIntegrationEventService integrationEventService, ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         {
             _logger = logger;
             _context = context;
@@ -25,18 +25,16 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-
             var response = default(TResponse);
 
             try
             {
                 if (_context.HasActiveTransaction)
                 {
-                    _logger.LogDebug("Has active transaction.");
+                    _logger.LogDebug("Has active transaction. Calling command handler.");
                     response = await next();
                     _logger.LogDebug("Response: {0}", response);
                     return response;
-                    // return await next();
                 }
 
                 // Execution strategy includes retry on failure
@@ -48,10 +46,9 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
 
                     using (var transaction = await _context.BeginTransactionAsync())
                     {
-                        _logger.LogDebug("Before");
+                        _logger.LogDebug("New transaction begun. Calling command handler.");
                         response = await next();
                         _logger.LogDebug("Response: {0}", response);
-                        _logger.LogDebug("After");
                         await _context.CommitTransactionAsync(transaction);
 
                         transactionId = transaction.TransactionId;

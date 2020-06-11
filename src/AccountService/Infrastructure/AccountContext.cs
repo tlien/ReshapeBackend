@@ -1,9 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
 using System.Data;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Design;
@@ -51,7 +49,6 @@ namespace Reshape.AccountService.Infrastructure
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-
             // DO STUFF WITH DOMAIN EVENTS HERE!
 
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -129,14 +126,13 @@ namespace Reshape.AccountService.Infrastructure
     {
         public AccountContext CreateDbContext(string[] args)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
-
             var optionsBuilder = new DbContextOptionsBuilder<AccountContext>();
-            optionsBuilder.UseNpgsql(configuration["ConnectionString"]);
+            optionsBuilder.UseNpgsql(".", opt =>
+            {
+                opt.MigrationsAssembly(GetType().Assembly.GetName().Name);
+                opt.EnableRetryOnFailure();
+            })
+            .UseSnakeCaseNamingConvention();
 
             return new AccountContext(optionsBuilder.Options);
         }

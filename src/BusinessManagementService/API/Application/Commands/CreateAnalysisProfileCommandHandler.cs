@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents;
+using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 
@@ -15,9 +15,9 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         private readonly IAnalysisProfileRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IBusinessManagementIntegrationEventService _integrationEventService;
+        private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper, IBusinessManagementIntegrationEventService integrationEventService)
+        public CreateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -45,7 +45,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
 
-            var integrationEvent = new NewAnalysisProfileIntegrationEvent(analysisProfileDTO);
+            var integrationEvent = new AnalysisProfileCreatedEvent(analysisProfileDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return analysisProfileDTO;
@@ -54,6 +54,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
     public class AnalysisProfileDTO
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

@@ -23,6 +23,7 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.BusinessTier
         public async Task<IEnumerable<BusinessTierViewModel>> GetAllAsync()
         {
             return await _context.BusinessTiers
+                .AsNoTracking()
                 .ProjectTo<BusinessTierViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -30,6 +31,7 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.BusinessTier
         public async Task<BusinessTierViewModel> GetById(Guid id)
         {
             return await _context.BusinessTiers
+                .AsNoTracking()
                 .ProjectTo<BusinessTierViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }

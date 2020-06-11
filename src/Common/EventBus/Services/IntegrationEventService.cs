@@ -5,40 +5,38 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MassTransit;
 
-using Reshape.Common.EventBus;
+using Reshape.Common.SeedWork;
 using Reshape.Common.EventBus.Events;
-using Reshape.Common.EventBus.Services;
-using Reshape.BusinessManagementService.Infrastructure;
 
-namespace Reshape.BusinessManagementService.API.Application.IntegrationEvents
+namespace Reshape.Common.EventBus.Services
 {
-    public class BusinessManagementIntegrationEventService : IBusinessManagementIntegrationEventService
+    public class IntegrationEventService<TDbContext> : IIntegrationEventService where TDbContext : DbContext, IUnitOfWork
     {
         private readonly ILogger _logger;
         private readonly IBusControl _eventBus;
-        private readonly BusinessManagementContext _bmContext;
+        private readonly TDbContext _dbContext;
         private readonly IIntegrationEventLogService _integrationEventLogService;
         private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
         private readonly IEventTracker _eventTracker;
-        public BusinessManagementIntegrationEventService(
+        public IntegrationEventService(
             IBusControl eventBus,
-            BusinessManagementContext bmContext,
+            TDbContext dbContext,
             Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
             IEventTracker eventTracker,
-            ILogger<BusinessManagementIntegrationEventService> logger)
+            ILogger<IntegrationEventService<TDbContext>> logger)
         {
             _logger = logger;
-            _bmContext = bmContext ?? throw new ArgumentNullException(nameof(bmContext));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
-            _integrationEventLogService = _integrationEventLogServiceFactory(_bmContext.Database.GetDbConnection());
+            _integrationEventLogService = _integrationEventLogServiceFactory(_dbContext.Database.GetDbConnection());
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             _eventTracker = eventTracker;
         }
 
-        public async Task AddAndSaveEventAsync(IntegrationEvent evt)
+        public async Task AddAndSaveEventAsync<T>(T evt) where T : IIntegrationEvent
         {
             _logger.LogDebug("Storing event for processing. Details: {0}", evt);
-            await _integrationEventLogService.SaveEventAsync(evt, _bmContext.GetCurrentTransaction());
+            await _integrationEventLogService.SaveEventAsync(evt, _dbContext.GetCurrentTransaction());
         }
 
         public async Task PublishEventsThroughEventBusAsync(Guid transactionId)

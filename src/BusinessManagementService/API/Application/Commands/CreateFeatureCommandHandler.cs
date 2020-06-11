@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 
+using Reshape.Common.EventBus.Services;
+using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
@@ -13,12 +15,14 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         private readonly IFeatureRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateFeatureCommandHandler(IFeatureRepository repository, IMediator mediator, IMapper mapper)
+        public CreateFeatureCommandHandler(IFeatureRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _integrationEventService = integrationEventService;
         }
 
         public async Task<FeatureDTO> Handle(CreateFeatureCommand message, CancellationToken cancellationToken)
@@ -27,9 +31,13 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             _repository.Add(feature);
             await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<FeatureDTO>(feature);
-        }
+            var featureDTO = _mapper.Map<FeatureDTO>(feature);
 
+            var integrationEvent = new FeatureCreatedEvent(featureDTO);
+            await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
+
+            return featureDTO;
+        }
     }
 
     public class FeatureDTO

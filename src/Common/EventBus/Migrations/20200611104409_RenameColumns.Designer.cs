@@ -10,15 +10,15 @@ using Reshape.Common.EventBus;
 namespace Common.EventBus.Migrations
 {
     [DbContext(typeof(IntegrationEventLogContext))]
-    [Migration("20200602175548_Init")]
-    partial class Init
+    [Migration("20200611104409_RenameColumns")]
+    partial class RenameColumns
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Reshape.Common.EventBus.IntegrationEventLogEntry", b =>
@@ -33,10 +33,6 @@ namespace Common.EventBus.Migrations
                         .HasColumnName("content")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnName("creation_time")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("EventTypeName")
                         .IsRequired()
                         .HasColumnName("event_type_name")
@@ -45,6 +41,10 @@ namespace Common.EventBus.Migrations
                     b.Property<int>("State")
                         .HasColumnName("state")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnName("time_stamp")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TimesSent")
                         .HasColumnName("times_sent")
@@ -55,9 +55,9 @@ namespace Common.EventBus.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("EventId")
-                        .HasName("pk_integration_event_log");
+                        .HasName("pk_integration_event_logs");
 
-                    b.ToTable("IntegrationEventLog");
+                    b.ToTable("integration_event_logs");
                 });
 #pragma warning restore 612, 618
         }

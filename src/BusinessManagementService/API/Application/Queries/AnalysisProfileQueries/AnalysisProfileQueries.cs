@@ -23,6 +23,7 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProf
         public async Task<IEnumerable<AnalysisProfileViewModel>> GetAllAsync()
         {
             return await _context.AnalysisProfiles
+                .AsNoTracking()
                 .ProjectTo<AnalysisProfileViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -30,6 +31,7 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProf
         public async Task<AnalysisProfileViewModel> GetById(Guid id)
         {
             return await _context.AnalysisProfiles
+                .AsNoTracking()
                 .ProjectTo<AnalysisProfileViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }

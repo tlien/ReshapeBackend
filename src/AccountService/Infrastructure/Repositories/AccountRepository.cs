@@ -13,13 +13,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
     {
         private readonly AccountContext _context;
 
-        public IUnitOfWork UnitOfWork
-        {
-            get
-            {
-                return _context;
-            }
-        }
+        public IUnitOfWork UnitOfWork => _context;
 
         public AccountRepository(AccountContext ctx)
         {
@@ -78,12 +72,26 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return features;
         }
 
+        public async Task<Feature> AddFeature(Feature feature)
+        {
+            var res = _context.Features.Add(feature).Entity;
+            await _context.SaveChangesAsync();
+            return res;
+        }
+
         public async Task<BusinessTier> GetBusinessTierAsync(Guid businessTierId)
         {
             var businessTier = await _context
                                     .BusinessTiers
                                     .FirstOrDefaultAsync(bt => bt.Id == businessTierId);
             return businessTier;
+        }
+
+        public async Task<BusinessTier> AddBusinessTier(BusinessTier businessTier)
+        {
+            var res = _context.BusinessTiers.Add(businessTier).Entity;
+            await _context.SaveChangesAsync();
+            return res;
         }
 
         public async Task<List<AnalysisProfile>> GetAnalysisProfilesAsync(List<Guid> analysisProfileIds)
@@ -93,6 +101,13 @@ namespace Reshape.AccountService.Infrastructure.Repositories
                                     .Where(ap => analysisProfileIds.Contains(ap.Id))
                                     .ToListAsync();
             return analysisProfiles;
+        }
+
+        public async Task<AnalysisProfile> AddAnalysisProfile(AnalysisProfile analysisProfile)
+        {
+            var res = _context.AnalysisProfiles.Add(analysisProfile).Entity;
+            await _context.SaveChangesAsync();
+            return res;
         }
     }
 }

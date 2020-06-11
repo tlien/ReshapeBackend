@@ -27,7 +27,7 @@ namespace Reshape.Common.EventBus.Services
 
             _eventTypes = Assembly.Load(Assembly.GetEntryAssembly().FullName)
                 .GetTypes()
-                .Where(t => t.Name.EndsWith(nameof(IntegrationEvent)))
+                .Where(t => t.GetInterfaces().Contains(typeof(IIntegrationEvent)))
                 .ToList();
         }
 
@@ -40,14 +40,14 @@ namespace Reshape.Common.EventBus.Services
 
             if (result != null && result.Any())
             {
-                return result.OrderBy(o => o.CreationTime)
+                return result.OrderBy(o => o.TimeStamp)
                     .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t => t.Name == e.EventTypeShortName)));
             }
 
             return new List<IntegrationEventLogEntry>();
         }
 
-        public Task SaveEventAsync(IntegrationEvent @event, IDbContextTransaction transaction)
+        public Task SaveEventAsync(IIntegrationEvent @event, IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
 

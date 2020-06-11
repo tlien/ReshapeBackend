@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Reshape.Common.EventBus;
@@ -9,9 +10,10 @@ using Reshape.Common.EventBus;
 namespace Common.EventBus.Migrations
 {
     [DbContext(typeof(IntegrationEventLogContext))]
-    partial class IntegrationEventLogContextModelSnapshot : ModelSnapshot
+    [Migration("20200609125645_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +33,10 @@ namespace Common.EventBus.Migrations
                         .HasColumnName("content")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnName("creation_time")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("EventTypeName")
                         .IsRequired()
                         .HasColumnName("event_type_name")
@@ -39,10 +45,6 @@ namespace Common.EventBus.Migrations
                     b.Property<int>("State")
                         .HasColumnName("state")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnName("time_stamp")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TimesSent")
                         .HasColumnName("times_sent")

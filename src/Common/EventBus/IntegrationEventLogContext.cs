@@ -6,9 +6,7 @@ namespace Reshape.Common.EventBus
 {
     public class IntegrationEventLogContext : DbContext
     {
-        public IntegrationEventLogContext(DbContextOptions<IntegrationEventLogContext> options) : base(options)
-        {
-        }
+        public IntegrationEventLogContext(DbContextOptions<IntegrationEventLogContext> options) : base(options) { }
 
         public DbSet<IntegrationEventLogEntry> IntegrationEventLogs { get; set; }
 
@@ -19,8 +17,6 @@ namespace Reshape.Common.EventBus
 
         void ConfigureIntegrationEventLogEntry(EntityTypeBuilder<IntegrationEventLogEntry> builder)
         {
-            builder.ToTable("IntegrationEventLog");
-
             builder.HasKey(e => e.EventId);
 
             builder.Property(e => e.EventId)
@@ -29,7 +25,7 @@ namespace Reshape.Common.EventBus
             builder.Property(e => e.Content)
                 .IsRequired();
 
-            builder.Property(e => e.CreationTime)
+            builder.Property(e => e.TimeStamp)
                 .IsRequired();
 
             builder.Property(e => e.State)
@@ -52,13 +48,12 @@ namespace Reshape.Common.EventBus
         {
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventLogContext>();
 
-
-            optionsBuilder.UseNpgsql(".", options =>
-                {
-                    options.MigrationsAssembly(GetType().Assembly.GetName().Name);
-                    options.EnableRetryOnFailure();
-                }
-            ).UseSnakeCaseNamingConvention();
+            optionsBuilder.UseNpgsql(".", opt =>
+            {
+                opt.MigrationsAssembly(GetType().Assembly.GetName().Name);
+                opt.EnableRetryOnFailure();
+            })
+            .UseSnakeCaseNamingConvention();
 
             return new IntegrationEventLogContext(optionsBuilder.Options);
         }
