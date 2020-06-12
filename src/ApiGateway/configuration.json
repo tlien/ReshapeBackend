@@ -11,6 +11,9 @@
       ],
       "UpstreamPathTemplate": "/api/v1/bm/{everything}",
       "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Options"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "SwaggerKey": "bm"
     },
     {
@@ -24,6 +27,9 @@
       ],
       "UpstreamPathTemplate": "/api/v1/acc/{everything}",
       "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Options"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "SwaggerKey": "acc"
     }
   ],
