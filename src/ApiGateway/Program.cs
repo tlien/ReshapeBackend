@@ -40,10 +40,10 @@ namespace Reshape.ApiGateway
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((ctx, cfg) =>
+                .ConfigureAppConfiguration(cfg =>
                 {
                     // Add Ocelot/Swagger config
-                    cfg.AddJsonFile($"configuration.{ctx.HostingEnvironment.EnvironmentName}.json", optional: false);
+                    cfg.AddJsonFile($"configuration.json", optional: false);
                 })
                 .ConfigureWebHost(webBuilder =>
                 {

@@ -1,10 +1,15 @@
-version: '3.4'
+version: "3.4"
 
 # Put image, build, depends_on and other BASE information here
 
 services:
-
   # Other
+  identity.svc:
+    image: identity.svc
+    build:
+      context: ./src
+      dockerfile: IdentityService/Dockerfile
+
   rabbitmq:
     image: rabbitmq:3-management
 
@@ -13,7 +18,7 @@ services:
     build:
       context: ./src
       dockerfile: ApiGateway/Dockerfile
-  
+
   # Databases
   bm.db:
     image: postgres

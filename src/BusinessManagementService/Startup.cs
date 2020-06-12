@@ -48,10 +48,20 @@ namespace Reshape.BusinessManagementService
             services.AddCQRS();
             services.AddCustomControllers();
             services.AddSwagger();
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", opt =>
+                {
+                    opt.Authority = "http://identity.svc:5002";
+                    opt.RequireHttpsMetadata = false;
+                    opt.Audience = "bm";
+                });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+
             logger.LogInformation("Startup Configuring... woah!");
             if (env.IsDevelopment())
             {
@@ -59,6 +69,8 @@ namespace Reshape.BusinessManagementService
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             // Auth goes between UseRouting and UseEndpoints!
             // app.UseAuthentication();

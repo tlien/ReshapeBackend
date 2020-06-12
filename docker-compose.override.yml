@@ -1,10 +1,15 @@
-version: '3.4'
+version: "3.4"
 
 # Put environment, ports and other DEVELOPMENT only information here
 
 services:
-
   # Other
+  identity.svc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5200:80"
+
   rabbitmq:
     ports:
       - "5100:15672"
