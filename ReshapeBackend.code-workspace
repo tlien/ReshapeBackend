@@ -52,7 +52,7 @@
 			{
 				"label": "rebuild all apps",
 				"type": "shell",
-				"command": "docker-compose build",
+				"command": "docker-compose build --parallel",
 				"presentation": {
 					"panel": "shared",
 					"showReuseMessage": true,

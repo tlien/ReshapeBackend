@@ -6,8 +6,14 @@ services:
 
   # Other
   rabbitmq:
+    hostname: rshp # this is used to set the node name, ie. rabbitmq@rshp.
     ports:
       - "5100:15672"
+    volumes:
+      - rbtmq-data:/var/lib/rabbitmq
+      # OBS: Ideally we want to use the version below. Unfortunely the cuurrent rabbitmq images create a default volume that can't be disabled.
+      # A PR with a fix is up on the docker-lib github.
+      # - rbtmq-data:/var/lib/rabbitmq/mnesia/rabbit@rshp # Persist mnesia db. The "rabbit@rshp" part is the node name.
 
   apigw:
     environment:
@@ -22,7 +28,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - reshape-bm-dbdata:/var/lib/postgresql/data
+      - bm-data:/var/lib/postgresql/data
 
   acc.db:
     environment:
@@ -30,7 +36,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - reshape-acc-dbdata:/var/lib/postgresql/data
+      - acc-data:/var/lib/postgresql/data
 
   # APIs
   bm.api:
@@ -46,7 +52,6 @@ services:
       - "5002:80"
 
 volumes:
-  reshape-bm-dbdata:
-    external: false
-  reshape-acc-dbdata:
-    external: false
+  rbtmq-data:
+  bm-data:
+  acc-data:
