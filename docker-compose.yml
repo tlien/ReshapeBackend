@@ -11,7 +11,7 @@ services:
       dockerfile: IdentityService/Dockerfile
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3-management-alpine
 
   apigw:
     image: apigw
@@ -21,12 +21,12 @@ services:
 
   # Databases
   bm.db:
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_DB: businessservice
 
   acc.db:
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_DB: accountservice
 
