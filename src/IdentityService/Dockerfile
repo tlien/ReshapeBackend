@@ -1,22 +1,26 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Copy .csproj an dependent .csproj file(s) to workdir and run restore
+# This is the step least expected to change, ie. fewest cache misses
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS restore
+WORKDIR /src
+COPY IdentityService/IdentityService.csproj IdentityService/
+WORKDIR /src/IdentityService
+# RUN dotnet restore -r linux-musl-x64
+RUN dotnet restore
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+# Copy the actual project sources to the workdir and run publish to build application
+# Any and all changes to either source folder will cause a cache miss
+FROM restore AS publish
+WORKDIR /src
+COPY IdentityService/ IdentityService/
+WORKDIR /src/IdentityService
+# RUN dotnet publish -c Release -o /app -r linux-musl-x64 --no-self-contained --no-restore
+RUN dotnet publish -c Release -o /app --no-restore
+
+# Copy output of publish step to workdir, expose ports and tell docker what and how to run it
+# If nothing changed in the previous steps, the cache will be used, meaning no building will happen at all
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine AS final
 WORKDIR /app
+COPY --from=publish /app .
 EXPOSE 80
 EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
-COPY ["IdentityService/IdentityService.csproj", "IdentityService/"]
-RUN dotnet restore "IdentityService/IdentityService.csproj"
-COPY . .
-WORKDIR "/src/IdentityService"
-RUN dotnet build "IdentityService.csproj" -c Release -o /app/build --no-restore
-
-FROM build AS publish
-RUN dotnet publish "IdentityService.csproj" -c Release -o /app/publish --no-restore
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "IdentityService.dll"]

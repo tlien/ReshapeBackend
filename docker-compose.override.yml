@@ -27,11 +27,19 @@ services:
       - "5000:80"
 
   # Databases
-  bm.db:
+  identity.db:
     environment:
       POSTGRES_PASSWORD: example
     ports:
       - "5433:5432"
+    volumes:
+      - identity-data:/var/lib/postgresql/data
+
+  bm.db:
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5434:5432"
     volumes:
       - bm-data:/var/lib/postgresql/data
 
@@ -39,7 +47,7 @@ services:
     environment:
       POSTGRES_PASSWORD: example
     ports:
-      - "5434:5432"
+      - "5435:5432"
     volumes:
       - acc-data:/var/lib/postgresql/data
 
@@ -58,5 +66,6 @@ services:
 
 volumes:
   rbtmq-data:
+  identity-data:
   bm-data:
   acc-data:

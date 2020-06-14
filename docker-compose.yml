@@ -9,6 +9,8 @@ services:
     build:
       context: ./src
       dockerfile: IdentityService/Dockerfile
+    depends_on:
+      - identity.db
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -20,6 +22,11 @@ services:
       dockerfile: ApiGateway/Dockerfile
 
   # Databases
+  identity.db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: identityservice
+
   bm.db:
     image: postgres:alpine
     environment:

@@ -1,46 +1,51 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using System;
 
-namespace IdentityService
+namespace Reshape.IdentityService
 {
-    public class Program
+    public static class Program
     {
+        public static readonly string Namespace = typeof(Program).Namespace;
+        public static readonly string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+
         public static int Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
-                .MinimumLevel.Override("System", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                // uncomment to write to Azure diagnostics stream
-                //.WriteTo.File(
-                //    @"D:\home\LogFiles\Application\identityserver.txt",
-                //    fileSizeLimitBytes: 1_000_000,
-                //    rollOnFileSizeLimit: true,
-                //    shared: true,
-                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
-                .CreateLogger();
+            var configuration = GetConfiguration();
+            var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
+            Log.Logger = CreateSerilogLogger(configuration);
 
             try
             {
-                Log.Information("Starting host...");
-                CreateHostBuilder(args).Build().Run();
+                Log.Information("Configuring web host ({ApplicationContext})...", AppName);
+                var host = CreateHostBuilder(args).Build();
+
+
+                // Run the migration between the build and run steps to ensure there are no attempts at using the db until after migration has finished.
+                // Log.Information("Applying migrations ({ApplicationContext})...", AppName);
+                // host.MigrateDatabase<AccountContext, NpgsqlException>();
+                // host.MigrateDatabase<IntegrationEventLogContext, NpgsqlException>();
+
+                // // Seed db if developing and seeding is enabled
+                // if (isDevelopment && configuration["USE_SEEDING"] == "true")
+                // {
+                Log.Information("Seeding database ({ApplicationContext})...", AppName);
+                SeedData.EnsureSeedData(configuration.GetConnectionString("DefaultConnection"));
+                //     host.SeedDatabase<AccountContext>();
+                // }
+
+                Log.Information("Starting web host ({ApplicationContext})...", AppName);
+                host.Run();
+
                 return 0;
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly.");
+                Log.Fatal(ex, "Program terminated unexpectedly ({ApplicationContext})!", AppName);
                 return 1;
             }
             finally
@@ -50,11 +55,32 @@ namespace IdentityService
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+            // Why IHost and not IWebHost and why ConfigureWebHost instead of ConfigureWebHostDefaults? Check the link!
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.1
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureWebHost(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    webBuilder
+                        .UseKestrel()
+                        .UseStartup<Startup>();
+                })
+                .UseSerilog();
+
+        private static IConfiguration GetConfiguration() =>
+            new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+        private static ILogger CreateSerilogLogger(IConfiguration configuration) =>
+            new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .Enrich.WithProperty("ApplicationContext", AppName)
+                .Enrich.FromLogContext()
+                // .WriteTo.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
     }
 }
