@@ -1,5 +1,5 @@
-﻿using IdentityServer4.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using IdentityServer4.Models;
 
 namespace Reshape.IdentityService
 {
@@ -12,13 +12,11 @@ namespace Reshape.IdentityService
                 new IdentityResources.Profile(),
             };
 
-
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
                 new ApiResource("api1", "My API #1")
             };
-
 
         public static IEnumerable<Client> Clients =>
             new Client[]

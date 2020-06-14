@@ -1,10 +1,11 @@
-﻿using Reshape.IdentityService.UI;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+using Reshape.IdentityService.Infrastructure;
 
 namespace Reshape.IdentityService
 {
@@ -47,8 +48,11 @@ namespace Reshape.IdentityService
                     options.EnableTokenCleanup = true;
                 });
 
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            if (Environment.IsDevelopment())
+            {
+                // not recommended for production - you need to store your key material somewhere secure
+                builder.AddDeveloperSigningCredential();
+            }
 
             services.AddAuthentication();
         }

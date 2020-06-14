@@ -1,5 +1,3 @@
-using System;
-
 namespace Reshape.IdentityService.Models
 {
     public class LoginViewModel : LoginInputModel

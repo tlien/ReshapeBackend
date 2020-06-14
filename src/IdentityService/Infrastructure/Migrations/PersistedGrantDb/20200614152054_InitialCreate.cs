@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Reshape.Migrations.PersistedGrantDb
+namespace IdentityService.Infrastructure.Migrations.PersistedGrantDb
 {
-    public partial class Grants : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

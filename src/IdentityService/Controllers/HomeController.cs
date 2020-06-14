@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Reshape.IdentityService.Infrastructure;
 
 namespace Reshape.IdentityService.Controllers

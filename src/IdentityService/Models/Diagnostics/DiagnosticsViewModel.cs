@@ -1,8 +1,8 @@
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using IdentityModel;
+using Newtonsoft.Json;
 
 namespace Reshape.IdentityService.Models
 {

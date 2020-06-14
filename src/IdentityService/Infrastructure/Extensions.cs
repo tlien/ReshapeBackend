@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
-using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Mvc;
+using IdentityServer4.Stores;
+
 using Reshape.IdentityService.Models;
 
 namespace Reshape.IdentityService.Infrastructure

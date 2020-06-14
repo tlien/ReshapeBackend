@@ -9,6 +9,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5200:80"
+      - "5201:443"
 
   rabbitmq:
     hostname: rshp # this is used to set the node name, ie. rabbitmq@rshp.

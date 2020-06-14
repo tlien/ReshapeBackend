@@ -3,7 +3,6 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Npgsql;
 using Serilog;
 
 namespace Reshape.IdentityService
@@ -23,7 +22,6 @@ namespace Reshape.IdentityService
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
                 var host = CreateHostBuilder(args).Build();
-
 
                 // Run the migration between the build and run steps to ensure there are no attempts at using the db until after migration has finished.
                 // Log.Information("Applying migrations ({ApplicationContext})...", AppName);
