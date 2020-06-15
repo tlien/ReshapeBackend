@@ -52,7 +52,7 @@ namespace Reshape.BusinessManagementService
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", opt =>
                 {
-                    opt.Authority = "http://identity.svc:5002";
+                    opt.Authority = "http://identity.svc";
                     opt.RequireHttpsMetadata = false;
                     opt.Audience = "bm";
                 });

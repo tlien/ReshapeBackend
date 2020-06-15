@@ -122,7 +122,6 @@ namespace Reshape.IdentityService.Controllers
                     };
 
                     await HttpContext.SignInAsync(isuser, props);
-
                     if (context != null)
                     {
                         if (await _clientStore.IsPkceClientAsync(context.ClientId))
@@ -144,6 +143,7 @@ namespace Reshape.IdentityService.Controllers
                     else if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
                         return RedirectToAction("index", "Diagnostics");
+                        // return Redirect("http://spa");
                     }
                     else
                     {

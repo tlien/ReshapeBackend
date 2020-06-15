@@ -10,6 +10,8 @@ namespace Reshape.IdentityService
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource { Name = "features", DisplayName = "Features", UserClaims = new[] { "features" }}
             };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -29,8 +31,8 @@ namespace Reshape.IdentityService
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "api1" }
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowedScopes = { "api1", "features", "email" }
                 },
 
                 // MVC client using code flow + pkce
