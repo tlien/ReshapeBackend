@@ -11,71 +11,45 @@ namespace Reshape.IdentityService
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                new IdentityResource { Name = "features", DisplayName = "Features", UserClaims = new[] { "features" }}
             };
 
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("api1", "My API #1")
+                new ApiResource("acc", "Account Service API"),
+                new ApiResource("bm", "Business Management Service API")
             };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                // client credentials flow client
+                // Reshape frontend
                 new Client
                 {
-                    ClientId = "client",
-                    ClientName = "Client Credentials Client",
+                    ClientId = "ReshapeFrontend",
+                    ClientName = "Reshape Frontend",
 
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    AllowedScopes = { "api1", "features", "email" }
-                },
+                    RequireConsent = false,
 
-                // MVC client using code flow + pkce
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-
-                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
-                    RequirePkce = true,
-                    ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
-                    RedirectUris = { "http://localhost:5003/signin-oidc" },
-                    FrontChannelLogoutUri = "http://localhost:5003/signout-oidc",
-                    PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
-
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "api1" }
-                },
-
-                // SPA client using code flow + pkce
-                new Client
-                {
-                    ClientId = "spa",
-                    ClientName = "SPA Client",
-                    ClientUri = "http://identityserver.io",
-
+                    // https://identityserver4.readthedocs.io/en/latest/topics/grant_types.html#grant-types
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
-                    RequireClientSecret = false,
+                    // RequireClientSecret = false,
+                    // ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
 
-                    RedirectUris =
-                    {
-                        "http://localhost:5002/index.html",
-                        "http://localhost:5002/callback.html",
-                        "http://localhost:5002/silent.html",
-                        "http://localhost:5002/popup.html",
-                    },
+                    // Specifies the allowed URIs to return tokens or authorization codes to
+                    // RedirectUris = { "<FRONTEND_URL>, <GATEWAY_URL>, <OTHER???>" },
 
-                    PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
-                    AllowedCorsOrigins = { "http://localhost:5002" },
+                    // FrontChannelLogoutUri = "http://localhost:5003/signout-oidc",
+                    // PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
 
-                    AllowedScopes = { "openid", "profile", "api1" }
+                    AlwaysIncludeUserClaimsInIdToken = true,
+
+                    // https://identityserver4.readthedocs.io/en/latest/topics/refresh_tokens.html#refresh-tokens
+                    AllowOfflineAccess = true, // allow refresh tokens
+                    AccessTokenType = AccessTokenType.Reference, // set token type to reference
+
+                    AllowedScopes = { "openId", "profile", "acc", "bm" },
                 }
             };
     }
