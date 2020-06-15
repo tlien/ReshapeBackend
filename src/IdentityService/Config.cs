@@ -20,6 +20,7 @@ namespace Reshape.IdentityService
                 new ApiResource("bm", "Business Management Service API")
             };
 
+        public static string spaUrl => "http://localhost:8080";
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
@@ -34,14 +35,13 @@ namespace Reshape.IdentityService
                     // https://identityserver4.readthedocs.io/en/latest/topics/grant_types.html#grant-types
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
-                    // RequireClientSecret = false,
+                    RequireClientSecret = false,
                     // ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
 
                     // Specifies the allowed URIs to return tokens or authorization codes to
-                    // RedirectUris = { "<FRONTEND_URL>, <GATEWAY_URL>, <OTHER???>" },
-
-                    // FrontChannelLogoutUri = "http://localhost:5003/signout-oidc",
-                    // PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
+                    RedirectUris = { spaUrl, $"{spaUrl}/callback.html", $"{spaUrl}/silent-renew.html" },
+                    PostLogoutRedirectUris = { $"{spaUrl}/", $"{spaUrl}" },
+                    AllowedCorsOrigins = { $"{spaUrl}" },
 
                     AlwaysIncludeUserClaimsInIdToken = true,
 
@@ -49,7 +49,7 @@ namespace Reshape.IdentityService
                     AllowOfflineAccess = true, // allow refresh tokens
                     AccessTokenType = AccessTokenType.Reference, // set token type to reference
 
-                    AllowedScopes = { "openId", "profile", "acc", "bm" },
+                    AllowedScopes = { "openid", "profile", "acc", "bm" },
                 }
             };
     }
