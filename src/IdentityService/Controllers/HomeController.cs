@@ -10,6 +10,12 @@ namespace Reshape.IdentityService.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        public IActionResult Index() => RedirectToAction("login", "Account");
+        public IActionResult Index()
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("login", "Account");
+
+            return RedirectToAction("index", "Diagnostics");
+        }
     }
 }

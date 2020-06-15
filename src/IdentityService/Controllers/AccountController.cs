@@ -55,6 +55,14 @@ namespace Reshape.IdentityService.Controllers
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                if (string.IsNullOrWhiteSpace(returnUrl))
+                    return RedirectToAction("index", "Diagnostics");
+
+                return Redirect(returnUrl);
+            }
+
             return View(vm);
         }
 
@@ -142,8 +150,8 @@ namespace Reshape.IdentityService.Controllers
                     }
                     else if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
-                        return RedirectToAction("index", "Diagnostics");
-                        // return Redirect("http://spa");
+                        // return RedirectToAction("index", "Diagnostics");
+                        return Redirect("http://spa:80");
                     }
                     else
                     {
