@@ -36,6 +36,7 @@ namespace Reshape.IdentityService
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
+                    options.IssuerUri = "null";
                 })
                 .AddTestUsers(TestUsers.Users)
                 // this adds the config data from DB (clients, resources, CORS)
