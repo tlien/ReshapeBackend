@@ -36,7 +36,6 @@ namespace Reshape.IdentityService
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
-                    options.IssuerUri = "null";
                 })
                 .AddTestUsers(TestUsers.Users)
                 .AddInMemoryIdentityResources(Config.Ids)

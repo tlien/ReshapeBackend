@@ -18,7 +18,14 @@ namespace Reshape.IdentityService
             new ApiResource[]
             {
                 new ApiResource("acc", "Account Service API"),
-                new ApiResource("bm", "Business Management Service API")
+                new ApiResource("bm", "Business Management Service API"),
+                new ApiResource("gateway", "Api gateway" )
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                }
             };
 
         public static IEnumerable<Client> Clients(IConfigurationSection conf)
@@ -51,7 +58,7 @@ namespace Reshape.IdentityService
                     AllowOfflineAccess = true, // allow refresh tokens
                     AccessTokenType = AccessTokenType.Reference, // set token type to reference
 
-                    AllowedScopes = { "openid", "profile", "acc", "bm" },
+                    AllowedScopes = { "openid", "profile", "acc", "bm", "gateway" },
                 }
             };
         }
