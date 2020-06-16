@@ -26,15 +26,6 @@ namespace Reshape.IdentityService
                 // Run the migration between the build and run steps to ensure there are no attempts at using the db until after migration has finished.
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
                 DbUtils.Migrate(configuration.GetConnectionString("DefaultConnection"));
-                // host.MigrateDatabase<AccountContext, NpgsqlException>();
-                // host.MigrateDatabase<IntegrationEventLogContext, NpgsqlException>();
-
-                // Seed db if developing and seeding is enabled
-                // if (isDevelopment && configuration["USE_SEEDING"] == "true")
-                // {
-                //     Log.Information("Seeding database ({ApplicationContext})...", AppName);
-                //     host.SeedDatabase<AccountContext>();
-                // }
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();

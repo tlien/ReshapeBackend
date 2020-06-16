@@ -39,11 +39,6 @@ namespace Reshape.IdentityService
                     options.IssuerUri = "null";
                 })
                 .AddTestUsers(TestUsers.Users)
-                // this adds the config data from DB (clients, resources, CORS)
-                // .AddConfigurationStore(options =>
-                // {
-                //     options.ConfigureDbContext = builder => builder.UseNpgsql(connectionString);
-                // })
                 .AddInMemoryIdentityResources(Config.Ids)
                 .AddInMemoryApiResources(Config.Apis(authSecretsConfiguration))
                 .AddInMemoryClients(Config.Clients(authConfiguration))
