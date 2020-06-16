@@ -38,6 +38,7 @@ namespace Reshape.AccountService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddHealthChecks();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddDbContexts(Configuration);
@@ -47,6 +48,15 @@ namespace Reshape.AccountService
             services.AddCQRS();
             services.AddCustomControllers();
             services.AddSwagger();
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", opt =>
+                {
+                    opt.Authority = "http://identity.svc";
+                    // opt.Authority = "http://localhost:5200";
+                    opt.RequireHttpsMetadata = false;
+                    opt.Audience = "bm";
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -57,11 +67,18 @@ namespace Reshape.AccountService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader();
+                opt.AllowAnyMethod();
+                opt.AllowAnyOrigin();
+            });
+
             app.UseRouting();
 
             // Auth goes between UseRouting and UseEndpoints!
-            // app.UseAuthentication();
-            // app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(ep =>
             {

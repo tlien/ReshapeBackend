@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.IdentityModel.Logging;
 using Reshape.IdentityService.Infrastructure;
 
 namespace Reshape.IdentityService
@@ -27,6 +27,8 @@ namespace Reshape.IdentityService
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             var authConfiguration = Configuration.GetSection("AuthConfiguration");
             var authSecretsConfiguration = Configuration.GetSection("AuthSecretsConfiguration");
+
+            IdentityModelEventSource.ShowPII = true;
 
             var builder = services.AddIdentityServer(options =>
                 {

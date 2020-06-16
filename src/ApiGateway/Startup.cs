@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -20,6 +21,8 @@ namespace Reshape.ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddCors();
             services.AddOcelot(Configuration);
             services.AddSwaggerForOcelot(Configuration);
@@ -28,6 +31,7 @@ namespace Reshape.ApiGateway
                 .AddJwtBearer("Bearer", opt =>
                 {
                     opt.Authority = "http://identity.svc";
+                    // opt.Authority = "http://localhost:5200";
                     opt.RequireHttpsMetadata = false;
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {

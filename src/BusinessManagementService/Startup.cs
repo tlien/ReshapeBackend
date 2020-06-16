@@ -39,6 +39,7 @@ namespace Reshape.BusinessManagementService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddHealthChecks();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddDbContexts(Configuration);
@@ -53,10 +54,10 @@ namespace Reshape.BusinessManagementService
                 .AddJwtBearer("Bearer", opt =>
                 {
                     opt.Authority = "http://identity.svc";
+                    // opt.Authority = "http://localhost:5200";
                     opt.RequireHttpsMetadata = false;
                     opt.Audience = "bm";
                 });
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -67,6 +68,13 @@ namespace Reshape.BusinessManagementService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader();
+                opt.AllowAnyMethod();
+                opt.AllowAnyOrigin();
+            });
 
             app.UseRouting();
             app.UseAuthentication();

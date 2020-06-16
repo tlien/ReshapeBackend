@@ -6,7 +6,6 @@ namespace Reshape.BusinessManagementService.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize]
     public class IdentityController : ControllerBase
     {
         [HttpGet]
