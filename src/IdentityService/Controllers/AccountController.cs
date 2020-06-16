@@ -52,9 +52,7 @@ namespace Reshape.IdentityService.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
         {
-            // build a model so we know what to show on the login page
-            var vm = await BuildLoginViewModelAsync(returnUrl);
-
+            // redirect if user is already logged in
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 if (string.IsNullOrWhiteSpace(returnUrl))
@@ -62,6 +60,9 @@ namespace Reshape.IdentityService.Controllers
 
                 return Redirect(returnUrl);
             }
+
+            // build and return login page
+            var vm = await BuildLoginViewModelAsync(returnUrl);
 
             return View(vm);
         }
@@ -150,8 +151,7 @@ namespace Reshape.IdentityService.Controllers
                     }
                     else if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
-                        // return RedirectToAction("index", "Diagnostics");
-                        return Redirect("http://spa:80");
+                        return RedirectToAction("index", "Diagnostics");
                     }
                     else
                     {
@@ -164,7 +164,7 @@ namespace Reshape.IdentityService.Controllers
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
-            // something went wrong, show form with error
+            // something went wrong, show login form with error
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
         }
