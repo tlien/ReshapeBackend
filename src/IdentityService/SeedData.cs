@@ -9,19 +9,19 @@ using Serilog;
 
 namespace Reshape.IdentityService
 {
-    public class SeedData
+    public class DbUtils
     {
-        public static void EnsureSeedData(string connectionString)
+        public static void Migrate(string connectionString)
         {
             var services = new ServiceCollection();
             services.AddOperationalDbContext(options =>
             {
-                options.ConfigureDbContext = db => db.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+                options.ConfigureDbContext = db => db.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(typeof(DbUtils).Assembly.FullName));
             });
-            services.AddConfigurationDbContext(options =>
-            {
-                options.ConfigureDbContext = db => db.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
-            });
+            // services.AddConfigurationDbContext(options =>
+            // {
+            //     options.ConfigureDbContext = db => db.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+            // });
 
             var serviceProvider = services.BuildServiceProvider();
 
@@ -29,55 +29,55 @@ namespace Reshape.IdentityService
             {
                 scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.Migrate();
 
-                var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
-                context.Database.Migrate();
-                EnsureSeedData(context);
+                // var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
+                // context.Database.Migrate();
+                // EnsureSeedData(context);
             }
         }
 
-        private static void EnsureSeedData(IConfigurationDbContext context)
-        {
-            if (!context.Clients.Any())
-            {
-                Log.Debug("Clients being populated");
-                foreach (var client in Config.Clients.ToList())
-                {
-                    context.Clients.Add(client.ToEntity());
-                }
-                context.SaveChanges();
-            }
-            else
-            {
-                Log.Debug("Clients already populated");
-            }
+        // private static void EnsureSeedData(IConfigurationDbContext context)
+        // {
+        //     if (!context.Clients.Any())
+        //     {
+        //         Log.Debug("Clients being populated");
+        //         foreach (var client in Config.Clients.ToList())
+        //         {
+        //             context.Clients.Add(client.ToEntity());
+        //         }
+        //         context.SaveChanges();
+        //     }
+        //     else
+        //     {
+        //         Log.Debug("Clients already populated");
+        //     }
 
-            if (!context.IdentityResources.Any())
-            {
-                Log.Debug("IdentityResources being populated");
-                foreach (var resource in Config.Ids.ToList())
-                {
-                    context.IdentityResources.Add(resource.ToEntity());
-                }
-                context.SaveChanges();
-            }
-            else
-            {
-                Log.Debug("IdentityResources already populated");
-            }
+        //     if (!context.IdentityResources.Any())
+        //     {
+        //         Log.Debug("IdentityResources being populated");
+        //         foreach (var resource in Config.Ids.ToList())
+        //         {
+        //             context.IdentityResources.Add(resource.ToEntity());
+        //         }
+        //         context.SaveChanges();
+        //     }
+        //     else
+        //     {
+        //         Log.Debug("IdentityResources already populated");
+        //     }
 
-            if (!context.ApiResources.Any())
-            {
-                Log.Debug("ApiResources being populated");
-                foreach (var resource in Config.Apis.ToList())
-                {
-                    context.ApiResources.Add(resource.ToEntity());
-                }
-                context.SaveChanges();
-            }
-            else
-            {
-                Log.Debug("ApiResources already populated");
-            }
-        }
+        //     if (!context.ApiResources.Any())
+        //     {
+        //         Log.Debug("ApiResources being populated");
+        //         foreach (var resource in Config.Apis.ToList())
+        //         {
+        //             context.ApiResources.Add(resource.ToEntity());
+        //         }
+        //         context.SaveChanges();
+        //     }
+        //     else
+        //     {
+        //         Log.Debug("ApiResources already populated");
+        //     }
+        // }
     }
 }

@@ -20,19 +20,19 @@ namespace Reshape.IdentityService.Infrastructure
         }
     }
 
-    public class ConfigurationDbContextFactory : IDesignTimeDbContextFactory<ConfigurationDbContext>
-    {
-        public ConfigurationDbContext CreateDbContext(string[] args)
-        {
-            var options = new IdentityServer4.EntityFramework.Options.ConfigurationStoreOptions();
-            var optionsBuilder = new DbContextOptionsBuilder<ConfigurationDbContext>();
-            optionsBuilder.UseNpgsql(".", opt =>
-            {
-                opt.MigrationsAssembly(GetType().Assembly.GetName().Name);
-                opt.EnableRetryOnFailure();
-            });
+    // public class ConfigurationDbContextFactory : IDesignTimeDbContextFactory<ConfigurationDbContext>
+    // {
+    //     public ConfigurationDbContext CreateDbContext(string[] args)
+    //     {
+    //         var options = new IdentityServer4.EntityFramework.Options.ConfigurationStoreOptions();
+    //         var optionsBuilder = new DbContextOptionsBuilder<ConfigurationDbContext>();
+    //         optionsBuilder.UseNpgsql(".", opt =>
+    //         {
+    //             opt.MigrationsAssembly(GetType().Assembly.GetName().Name);
+    //             opt.EnableRetryOnFailure();
+    //         });
 
-            return new ConfigurationDbContext(optionsBuilder.Options, options);
-        }
-    }
+    //         return new ConfigurationDbContext(optionsBuilder.Options, options);
+    //     }
+    // }
 }

@@ -25,6 +25,8 @@ namespace Reshape.IdentityService
             services.AddControllersWithViews();
             services.AddCors();
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var authConfiguration = Configuration.GetSection("AuthConfiguration");
+            var authSecretsConfiguration = Configuration.GetSection("AuthSecretsConfiguration");
 
             var builder = services.AddIdentityServer(options =>
                 {
@@ -35,10 +37,13 @@ namespace Reshape.IdentityService
                 })
                 .AddTestUsers(TestUsers.Users)
                 // this adds the config data from DB (clients, resources, CORS)
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseNpgsql(connectionString);
-                })
+                // .AddConfigurationStore(options =>
+                // {
+                //     options.ConfigureDbContext = builder => builder.UseNpgsql(connectionString);
+                // })
+                .AddInMemoryIdentityResources(Config.Ids)
+                .AddInMemoryApiResources(Config.Apis(authSecretsConfiguration))
+                .AddInMemoryClients(Config.Clients(authConfiguration))
                 // this adds the operational data from DB (codes, tokens, consents)
                 .AddOperationalStore(options =>
                 {

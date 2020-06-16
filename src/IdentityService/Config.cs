@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using IdentityServer4.Models;
 
 namespace Reshape.IdentityService
@@ -13,22 +14,23 @@ namespace Reshape.IdentityService
                 new IdentityResources.Email(),
             };
 
-        public static IEnumerable<ApiResource> Apis =>
+        public static IEnumerable<ApiResource> Apis(IConfigurationSection conf) =>
             new ApiResource[]
             {
                 new ApiResource("acc", "Account Service API"),
                 new ApiResource("bm", "Business Management Service API")
             };
 
-        public static string spaUrl => "http://localhost:8080";
-        public static IEnumerable<Client> Clients =>
-            new Client[]
+        public static IEnumerable<Client> Clients(IConfigurationSection conf)
+        {
+            var frontendUrl = conf["FrontendUrl"];
+            return new Client[]
             {
                 // Reshape frontend
                 new Client
                 {
-                    ClientId = "ReshapeFrontend",
                     ClientName = "Reshape Frontend",
+                    ClientId = "ReshapeFrontend",
 
                     RequireConsent = false,
 
@@ -39,9 +41,9 @@ namespace Reshape.IdentityService
                     // ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
 
                     // Specifies the allowed URIs to return tokens or authorization codes to
-                    RedirectUris = { spaUrl, $"{spaUrl}/callback.html", $"{spaUrl}/silent-renew.html" },
-                    PostLogoutRedirectUris = { $"{spaUrl}/", $"{spaUrl}" },
-                    AllowedCorsOrigins = { $"{spaUrl}" },
+                    RedirectUris = { frontendUrl, $"{frontendUrl}/callback.html", $"{frontendUrl}/silent-renew.html" },
+                    PostLogoutRedirectUris = { $"{frontendUrl}/", $"{frontendUrl}" },
+                    AllowedCorsOrigins = { $"{frontendUrl}" },
 
                     AlwaysIncludeUserClaimsInIdToken = true,
 
@@ -52,5 +54,6 @@ namespace Reshape.IdentityService
                     AllowedScopes = { "openid", "profile", "acc", "bm" },
                 }
             };
+        }
     }
 }
