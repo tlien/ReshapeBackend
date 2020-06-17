@@ -29,10 +29,10 @@ namespace Reshape.IdentityService
                     {
                         JwtClaimTypes.Name,
                         JwtClaimTypes.Email,
+                        JwtClaimTypes.Role,
                         CustomClaims.Account.Name,
                         CustomClaims.Feature.Name,
                         CustomClaims.BusinessTier.Name,
-                        CustomClaims.Role.Name
                     },
                 },
                 new ApiResource("bm", "Business Management Service API")
@@ -43,7 +43,7 @@ namespace Reshape.IdentityService
                     },
                     UserClaims =
                     {
-                        CustomClaims.Role.Name
+                        JwtClaimTypes.Role
                     },
                 },
                 new ApiResource("gateway", "Api gateway" )

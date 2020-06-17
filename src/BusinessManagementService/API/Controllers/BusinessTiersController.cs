@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
-    [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize]
+    [ApiController]
+    [Authorize(Roles = "admin")]
     public class BusinessTiersController : ControllerBase
     {
         private readonly IMediator _mediator;

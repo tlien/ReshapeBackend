@@ -12,7 +12,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class FeaturesController : ControllerBase
     {
         private readonly IMediator _mediator;

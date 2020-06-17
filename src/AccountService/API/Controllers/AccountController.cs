@@ -24,6 +24,7 @@ namespace Reshape.AccountService.API.Controllers
 
         #region Queries
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAllAccountsAsync()
         {
             return Ok(await _accountQueries.GetAllAccountsAsync());
