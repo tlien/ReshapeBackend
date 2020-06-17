@@ -9,7 +9,7 @@ namespace Reshape.IdentityService.Infrastructure
     {
         public static List<TestUser> Users = new List<TestUser>
         {
-            new TestUser{SubjectId = "818727", Username = "alice", Password = "alice",
+            new TestUser{SubjectId = "bec823e4-aced-4b92-9442-70c2f32c65f9", Username = "alice", Password = "alice",
                 Claims =
                 {
                     new Claim(JwtClaimTypes.Name, "Alice Smith"),
@@ -26,7 +26,7 @@ namespace Reshape.IdentityService.Infrastructure
                     new Claim("businesstier", "0c69921b-afa7-4eba-a69f-aaef3a5c3f5b")
                 }
             },
-            new TestUser{SubjectId = "88421113", Username = "bob", Password = "bob",
+            new TestUser{SubjectId = "74c20cbc-9e0c-4cef-8325-27b8a26a64b1", Username = "bob", Password = "bob",
                 Claims =
                 {
                     new Claim(JwtClaimTypes.Name, "Bob Smith"),

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,6 +37,13 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         {
             Address = address;
             ContactDetails = contactDetails;
+        }
+
+        // For seeding purposes only!
+        // Remove when building for production
+        public Account(Guid id) : this()
+        {
+            base.Id = id;
         }
 
         public void SetAddress(Address newAddress)

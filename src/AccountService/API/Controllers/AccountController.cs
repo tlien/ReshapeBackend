@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace Reshape.AccountService.API.Controllers
         #region Queries
         [HttpGet]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> GetAllAccountsAsync()
         {
             return Ok(await _accountQueries.GetAllAccountsAsync());
@@ -33,9 +35,18 @@ namespace Reshape.AccountService.API.Controllers
         [Route("{id:Guid}")]
         [HttpGet]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> GetAccountAsync(Guid id)
         {
             return Ok(await _accountQueries.GetAccountById(id));
+        }
+
+        [Route("own")]
+        [HttpGet]
+        public async Task<IActionResult> GetUserAssociatedAccountAsync()
+        {
+            var ownId = User.Claims.SingleOrDefault(x => x.Type == "sub").Value;
+            return Ok(await _accountQueries.GetAccountById(Guid.Parse(ownId)));
         }
         #endregion
 
@@ -50,6 +61,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("address")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> SetAddress([FromBody] SetAddressCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -58,6 +70,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("contactdetails")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> SetContactDetails([FromBody] SetContactDetailsCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -66,6 +79,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("businesstier")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> SetBusinessTier([FromBody] SetBusinessTierCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -90,6 +104,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("features/add")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> AddFeatures([FromBody] AddFeaturesCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -98,6 +113,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("analysisprofiles/add")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> AddAnalysisProfiles([FromBody] AddAnalysisProfilesCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -106,6 +122,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("features/remove")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> RemoveFeatures([FromBody] RemoveFeaturesCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -114,6 +131,7 @@ namespace Reshape.AccountService.API.Controllers
         [Route("analysisprofiles/remove")]
         [HttpPut]
         [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "accountAdmin")]
         public async Task<IActionResult> RemoveAnalysisProfiles([FromBody] RemoveAnalysisProfilesCommand command)
         {
             return Ok(await _mediator.Send(command));
