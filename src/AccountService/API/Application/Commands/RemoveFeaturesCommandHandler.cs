@@ -24,7 +24,7 @@ namespace Reshape.AccountService.API.Application.Commands
             var account = await _accountRepository.GetAsync(request.AccountId);
             var features = await _accountRepository.GetFeaturesAsync(request.FeatureIds);
 
-            features.ForEach(f => account.RemoveFeatures(f));
+            features.ForEach(f => account.RemoveFeature(f));
 
             _accountRepository.Update(account);
 

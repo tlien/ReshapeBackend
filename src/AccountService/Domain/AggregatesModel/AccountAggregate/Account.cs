@@ -25,12 +25,6 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         public IReadOnlyCollection<AccountAnalysisProfile> AccountAnalysisProfiles => _accountAnalysisProfiles;
         public IReadOnlyCollection<AnalysisProfile> AnalysisProfiles => _accountAnalysisProfiles.Select(aap => aap.AnalysisProfile).ToList();
 
-        public static Account NewAccount()
-        {
-            var Account = new Account();
-            return Account;
-        }
-
         protected Account()
         {
             IsActive = true;
@@ -54,7 +48,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
             ContactDetails = newContactDetails;
         }
 
-        public void AddFeatures(Feature feature)
+        public void AddFeature(Feature feature)
         {
             if (!_accountFeatures.Exists(af => af.FeatureId == feature.Id))
             {
@@ -63,10 +57,9 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
                     FeatureId = feature.Id
                 });
             }
-            // TODO: Maybe log that an attempt to add an existing analysisProfile happened?
         }
 
-        public void RemoveFeatures(Feature feature)
+        public void RemoveFeature(Feature feature)
         {
             var itemToRemove = _accountFeatures.Find(af => af.FeatureId == feature.Id);
             if (itemToRemove != null)
@@ -84,7 +77,6 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
                     AnalysisProfileId = analysisProfile.Id
                 });
             }
-            // TODO: Maybe log that an attempt to add an existing analysisProfile happened?
         }
 
         public void RemoveAnalysisProfile(AnalysisProfile analysisProfile)
@@ -100,8 +92,6 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         {
             if (BusinessTier?.Id != businessTier.Id)
                 BusinessTier = businessTier;
-
-            // TODO: What if this is already the current businessTier?
         }
 
         public void SetAccountActive()

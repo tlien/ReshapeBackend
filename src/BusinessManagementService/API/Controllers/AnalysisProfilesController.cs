@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
 using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
