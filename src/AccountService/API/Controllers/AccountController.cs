@@ -5,11 +5,13 @@ using MediatR;
 
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
 using Reshape.AccountService.API.Application.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Reshape.AccountService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;

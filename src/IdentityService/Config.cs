@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using IdentityServer4.Models;
+using IdentityModel;
 
 namespace Reshape.IdentityService
 {
@@ -12,13 +13,39 @@ namespace Reshape.IdentityService
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
+                CustomClaims.Role,
             };
 
         public static IEnumerable<ApiResource> Apis(IConfigurationSection conf) =>
             new ApiResource[]
             {
-                new ApiResource("acc", "Account Service API"),
-                new ApiResource("bm", "Business Management Service API"),
+                new ApiResource("acc", "Account Service API")
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("!s3cr3t".Sha256())
+                    },
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Email,
+                        CustomClaims.Account.Name,
+                        CustomClaims.Feature.Name,
+                        CustomClaims.BusinessTier.Name,
+                        CustomClaims.Role.Name
+                    },
+                },
+                new ApiResource("bm", "Business Management Service API")
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("s3cr3t".Sha256())
+                    },
+                    UserClaims =
+                    {
+                        CustomClaims.Role.Name
+                    },
+                },
                 new ApiResource("gateway", "Api gateway" )
                 {
                     ApiSecrets =
@@ -58,9 +85,40 @@ namespace Reshape.IdentityService
                     AllowOfflineAccess = true, // allow refresh tokens
                     AccessTokenType = AccessTokenType.Reference, // set token type to reference
 
-                    AllowedScopes = { "openid", "profile", "acc", "bm", "gateway" },
+                    AllowedScopes = { "openid", "profile", "role", "acc", "bm", "gateway"},
                 }
             };
         }
+    }
+
+    public static class CustomClaims
+    {
+        public static IdentityResource Role =>
+            new IdentityResource(
+                name: "role",
+                displayName: "User Role",
+                claimTypes: new[] { JwtClaimTypes.Role }
+            );
+
+        public static IdentityResource Account =>
+            new IdentityResource(
+                    name: "account",
+                    displayName: "Company Account",
+                    claimTypes: new[] { "account" }
+                );
+
+        public static IdentityResource Feature =>
+            new IdentityResource(
+                    name: "features",
+                    displayName: "Account Features",
+                    claimTypes: new[] { "features" }
+                );
+
+        public static IdentityResource BusinessTier =>
+            new IdentityResource(
+                    name: "businesstier",
+                    displayName: "Account Business Tier",
+                    claimTypes: new[] { "businesstier" }
+                );
     }
 }

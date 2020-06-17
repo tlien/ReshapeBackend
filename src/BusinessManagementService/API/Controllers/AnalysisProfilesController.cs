@@ -5,11 +5,13 @@ using MediatR;
 
 using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class AnalysisProfilesController : ControllerBase
     {
         private readonly IMediator _mediator;

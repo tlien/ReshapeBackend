@@ -6,11 +6,13 @@ using MediatR;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
 using Reshape.BusinessManagementService.API.Application.Commands;
 using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class FeaturesController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -5,11 +5,13 @@ using MediatR;
 
 using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class BusinessTiersController : ControllerBase
     {
         private readonly IMediator _mediator;

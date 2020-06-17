@@ -1,5 +1,7 @@
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries;
@@ -8,6 +10,7 @@ namespace Reshape.AccountService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountAdditionsController : ControllerBase
     {
         private readonly IAccountAdditionsQueries _accountAdditionsQueries;
@@ -21,6 +24,7 @@ namespace Reshape.AccountService.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllFeaturesAsync()
         {
+            var user = HttpContext.User as ClaimsPrincipal;
             return Ok(await _accountAdditionsQueries.GetAllFeaturesAsync());
         }
 

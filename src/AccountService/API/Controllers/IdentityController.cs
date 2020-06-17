@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Reshape.BusinessManagementService.API.Controllers
+namespace Reshape.AccountService.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -12,7 +12,6 @@ namespace Reshape.BusinessManagementService.API.Controllers
         [HttpGet]
         public IActionResult GetClaims()
         {
-            var user = User;
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }

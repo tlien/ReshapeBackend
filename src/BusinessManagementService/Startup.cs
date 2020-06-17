@@ -25,6 +25,7 @@ using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
+using IdentityServer4.AccessTokenValidation;
 
 namespace Reshape.BusinessManagementService
 {
@@ -50,14 +51,14 @@ namespace Reshape.BusinessManagementService
             services.AddCustomControllers();
             services.AddSwagger();
 
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", opt =>
-                {
-                    opt.Authority = "http://identity.svc";
-                    // opt.Authority = "http://localhost:5200";
-                    opt.RequireHttpsMetadata = false;
-                    opt.Audience = "bm";
-                });
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+               .AddIdentityServerAuthentication(opt =>
+               {
+                   opt.Authority = "http://identity.svc";
+                   opt.ApiName = "bm";
+                   opt.ApiSecret = "s3cr3t";
+                   opt.RequireHttpsMetadata = false;
+               });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)

@@ -24,6 +24,7 @@ using Reshape.AccountService.API.Application.Behaviors;
 using Reshape.AccountService.API.Application.IntegrationEvents.Consumers;
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
 using Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries;
+using IdentityServer4.AccessTokenValidation;
 
 namespace Reshape.AccountService
 {
@@ -49,14 +50,14 @@ namespace Reshape.AccountService
             services.AddCustomControllers();
             services.AddSwagger();
 
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", opt =>
-                {
-                    opt.Authority = "http://identity.svc";
-                    // opt.Authority = "http://localhost:5200";
-                    opt.RequireHttpsMetadata = false;
-                    opt.Audience = "bm";
-                });
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+               .AddIdentityServerAuthentication(opt =>
+               {
+                   opt.Authority = "http://identity.svc";
+                   opt.ApiName = "acc";
+                   opt.ApiSecret = "!s3cr3t";
+                   opt.RequireHttpsMetadata = false;
+               });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
