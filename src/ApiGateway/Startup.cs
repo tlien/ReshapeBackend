@@ -1,13 +1,11 @@
-using System;
-using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
+using IdentityServer4.AccessTokenValidation;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Serilog;
 
 namespace Reshape.ApiGateway
 {
@@ -22,7 +20,7 @@ namespace Reshape.ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
-            IdentityModelEventSource.ShowPII = true;
+            IdentityModelEventSource.ShowPII = true; // for dev only!
 
             services.AddCors();
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
@@ -36,14 +34,13 @@ namespace Reshape.ApiGateway
                     // opt.CacheDuration = TimeSpan.FromMinutes(10);
                 });
             services.AddSwaggerForOcelot(Configuration);
-            services.AddOcelot(Configuration);
+            services.AddOcelot(Configuration)
+                .AddDelegatingHandler<AddJWTHandler>(global: true); // Change reference token to jwt
         }
 
         public void Configure(IApplicationBuilder app, ILogger<Startup> logger)
         {
             logger.LogInformation("Startup Configuring... woah!");
-
-            // app.UseSerilogRequestLogging();
 
             app.UseCors(opt =>
             {
@@ -53,7 +50,6 @@ namespace Reshape.ApiGateway
             });
 
             app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseSwaggerForOcelotUI();
             app.UseOcelot().Wait();

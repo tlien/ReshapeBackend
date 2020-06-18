@@ -48,7 +48,8 @@ namespace Reshape.IdentityService
 
                     // this enables automatic token cleanup. this is optional.
                     options.EnableTokenCleanup = true;
-                });
+                })
+                .AddExtensionGrantValidator<ExchangeReferenceTokenGrantValidator>();
 
             if (Environment.IsDevelopment())
             {

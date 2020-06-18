@@ -86,6 +86,16 @@ namespace Reshape.IdentityService
                     AccessTokenType = AccessTokenType.Reference, // set token type to reference
 
                     AllowedScopes = { "openid", "profile", "role", "acc", "bm", "gateway"},
+                },
+                new Client
+                {
+                    ClientName = "Reshape API Gateway",
+                    ClientId = "rshp.gateway",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = { "exchange_reference_token" },
+
+                    AllowedScopes = {"openid", "profile", "role", "acc", "bm",}
                 }
             };
         }

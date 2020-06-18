@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using GreenPipes;
+using IdentityServer4.AccessTokenValidation;
 using MassTransit;
 using MediatR;
 
@@ -24,7 +25,6 @@ using Reshape.AccountService.API.Application.Behaviors;
 using Reshape.AccountService.API.Application.IntegrationEvents.Consumers;
 using Reshape.AccountService.API.Application.Queries.AccountQueries;
 using Reshape.AccountService.API.Application.Queries.AccountAdditionsQueries;
-using IdentityServer4.AccessTokenValidation;
 
 namespace Reshape.AccountService
 {
@@ -51,13 +51,13 @@ namespace Reshape.AccountService
             services.AddSwagger();
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-               .AddIdentityServerAuthentication(opt =>
-               {
-                   opt.Authority = "http://identity.svc";
-                   opt.ApiName = "acc";
-                   opt.ApiSecret = "!s3cr3t";
-                   opt.RequireHttpsMetadata = false;
-               });
+                .AddIdentityServerAuthentication(opt =>
+                {
+                    opt.Authority = "http://identity.svc";
+                    opt.ApiName = "acc";
+                    opt.ApiSecret = "!s3cr3t";
+                    opt.RequireHttpsMetadata = false;
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -77,7 +77,6 @@ namespace Reshape.AccountService
 
             app.UseRouting();
 
-            // Auth goes between UseRouting and UseEndpoints!
             app.UseAuthentication();
             app.UseAuthorization();
 
