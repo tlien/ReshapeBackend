@@ -36,6 +36,7 @@ namespace Reshape.IdentityService
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
+                    options.IssuerUri = "http://identity.svc";
                 })
                 .AddTestUsers(TestUsers.Users)
                 .AddInMemoryIdentityResources(Config.Ids)
@@ -48,7 +49,8 @@ namespace Reshape.IdentityService
 
                     // this enables automatic token cleanup. this is optional.
                     options.EnableTokenCleanup = true;
-                });
+                })
+                .AddExtensionGrantValidator<ExchangeReferenceTokenGrantValidator>();
 
             if (Environment.IsDevelopment())
             {

@@ -58,6 +58,10 @@ namespace Reshape.IdentityService
         public static IEnumerable<Client> Clients(IConfigurationSection conf)
         {
             var frontendUrl = conf["FrontendUrl"];
+            var swaggerUrl = conf["SwaggerUrl"];
+            var bmUrl = conf["BmUrl"];
+            var accUrl = conf["AccUrl"];
+
             return new Client[]
             {
                 // Reshape frontend
@@ -83,9 +87,38 @@ namespace Reshape.IdentityService
 
                     // https://identityserver4.readthedocs.io/en/latest/topics/refresh_tokens.html#refresh-tokens
                     AllowOfflineAccess = true, // allow refresh tokens
-                    AccessTokenType = AccessTokenType.Reference, // set token type to reference
+                    AccessTokenType = AccessTokenType.Reference,
 
                     AllowedScopes = { "openid", "profile", "role", "acc", "bm", "gateway"},
+                },
+                new Client
+                {
+                    ClientName = "Reshape API Gateway",
+                    ClientId = "rshp.gateway",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = { "exchange_reference_token" },
+
+                    AllowedScopes = {"openid", "profile", "role", "acc", "bm",}
+                },
+                new Client
+                {
+                    ClientName = "Reshape Account API Swagger",
+                    ClientId = "rshp.acc.swagger",
+                    ClientSecrets = { new Secret("!s3cr3t".Sha256()) },
+
+                    RequireConsent = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    // RequireClientSecret = false,
+
+                    RedirectUris = { accUrl, $"{accUrl}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{accUrl}/swagger" },
+                    AllowedCorsOrigins = { accUrl },
+
+                    AccessTokenType = AccessTokenType.Jwt,
+
+                    AllowedScopes = {"openid", "profile", "role", "acc", "bm",}
                 }
             };
         }
