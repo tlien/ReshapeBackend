@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using GreenPipes;
@@ -16,6 +18,7 @@ using IdentityServer4.AccessTokenValidation;
 using MassTransit;
 using MediatR;
 
+using Reshape.Common.DevelopmentTools;
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Services;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
@@ -39,6 +42,8 @@ namespace Reshape.AccountService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddCors();
             services.AddHealthChecks();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -57,6 +62,7 @@ namespace Reshape.AccountService
                     opt.ApiName = "acc";
                     opt.ApiSecret = "!s3cr3t";
                     opt.RequireHttpsMetadata = false;
+                    opt.SupportedTokens = SupportedTokens.Both;
                 });
         }
 
@@ -102,6 +108,10 @@ namespace Reshape.AccountService
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reshape.AccountService API");
+                c.OAuthClientId("rshp.acc.swagger");
+                c.OAuthClientSecret("!s3cr3t");
+                c.OAuthAppName("Account Swagger");
+                c.OAuthUsePkce();
             });
 
             // ConfigureEvents(app);
@@ -226,6 +236,29 @@ namespace Reshape.AccountService
                     Version = "v1"
                 });
                 c.EnableAnnotations();
+                c.OperationFilter<AuthorizeOperationFilter>();
+                c.AddSecurityDefinition("OAuth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("http://localhost:5200/connect/authorize"),
+                            TokenUrl = new Uri("http://localhost:5200/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "openid", "openid scope" },
+                                { "profile", "profile scope"},
+                                { "role", "role scope"},
+                                { "acc", "acc scope"},
+                                { "bm", "bm scope"},
+                            },
+                        }
+                    },
+                    Description = "Account Service OpenId Scheme"
+                });
             });
 
             return services;
