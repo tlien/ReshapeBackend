@@ -1,7 +1,9 @@
-using System;
-using System.Data.Common;
-using System.Reflection;
+using AutoMapper;
+using IdentityServer4.AccessTokenValidation;
+using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,9 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using AutoMapper;
-using MassTransit;
-using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Reflection;
 
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Services;
@@ -25,7 +28,8 @@ using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
-using IdentityServer4.AccessTokenValidation;
+using Reshape.Common.DevelopmentTools;
+
 
 namespace Reshape.BusinessManagementService
 {
@@ -52,13 +56,14 @@ namespace Reshape.BusinessManagementService
             services.AddSwagger();
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-               .AddIdentityServerAuthentication(opt =>
-               {
-                   opt.Authority = "http://identity.svc";
-                   opt.ApiName = "bm";
-                   opt.ApiSecret = "s3cr3t";
-                   opt.RequireHttpsMetadata = false;
-               });
+                .AddIdentityServerAuthentication(opt =>
+                {
+                    opt.Authority = "http://identity.svc";
+                    opt.ApiName = "bm";
+                    opt.ApiSecret = "!s3cr3t";
+                    opt.RequireHttpsMetadata = false;
+                    opt.SupportedTokens = SupportedTokens.Both;
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -81,20 +86,31 @@ namespace Reshape.BusinessManagementService
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Auth goes between UseRouting and UseEndpoints!
-            // app.UseAuthentication();
-            // app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(ep =>
             {
-                endpoints.MapHealthChecks("/health");
-                endpoints.MapControllers();
+                ep.MapControllers();
+
+                ep.MapHealthChecks("/health/live", new HealthCheckOptions()
+                {
+                    // Exclude all checks and return a 200-Ok. Basically just a check to see if we can get requests through
+                    Predicate = (_) => false
+                });
+
+                ep.MapHealthChecks("/health/ready", new HealthCheckOptions()
+                {
+                    // The readiness check uses all registered checks with the 'ready' tag.
+                    Predicate = (check) => check.Tags.Contains("ready")
+                });
             });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reshape.BusinessManagementService API");
+                c.OAuthClientId("rshp.bm.swagger");
+                c.OAuthClientSecret("!s3cr3t");
+                c.OAuthAppName("Business Management Swagger");
+                c.OAuthUsePkce();
             });
 
             ConfigureEvents(app);
@@ -210,6 +226,29 @@ namespace Reshape.BusinessManagementService
                     Version = "v1"
                 });
                 c.EnableAnnotations();
+                c.OperationFilter<AuthorizeOperationFilter>();
+                c.AddSecurityDefinition("OAuth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("http://localhost:5200/connect/authorize"),
+                            TokenUrl = new Uri("http://localhost:5200/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "openid", "openid scope" },
+                                { "profile", "profile scope"},
+                                { "role", "role scope"},
+                                // { "acc", "acc scope"},
+                                { "bm", "bm scope"},
+                            },
+                        }
+                    },
+                    Description = "Business Management Service OpenId Scheme"
+                });
             });
 
             return services;

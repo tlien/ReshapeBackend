@@ -110,7 +110,6 @@ namespace Reshape.IdentityService
                     RequireConsent = false,
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
-                    // RequireClientSecret = false,
 
                     RedirectUris = { accUrl, $"{accUrl}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{accUrl}/swagger" },
@@ -118,7 +117,25 @@ namespace Reshape.IdentityService
 
                     AccessTokenType = AccessTokenType.Jwt,
 
-                    AllowedScopes = {"openid", "profile", "role", "acc", "bm",}
+                    AllowedScopes = {"openid", "profile", "role", "acc"}
+                },
+                    new Client
+                {
+                    ClientName = "Reshape Business Management API Swagger",
+                    ClientId = "rshp.bm.swagger",
+                    ClientSecrets = { new Secret("!s3cr3t".Sha256()) },
+
+                    RequireConsent = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+
+                    RedirectUris = { bmUrl, $"{bmUrl}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{bmUrl}/swagger" },
+                    AllowedCorsOrigins = { bmUrl },
+
+                    AccessTokenType = AccessTokenType.Jwt,
+
+                    AllowedScopes = {"openid", "profile", "role", "bm" }
                 }
             };
         }

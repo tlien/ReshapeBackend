@@ -1,6 +1,6 @@
 using System;
-
 using Newtonsoft.Json;
+
 using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.Common.EventBus.Events.Contracts;
 

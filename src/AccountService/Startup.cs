@@ -253,7 +253,6 @@ namespace Reshape.AccountService
                                 { "profile", "profile scope"},
                                 { "role", "role scope"},
                                 { "acc", "acc scope"},
-                                { "bm", "bm scope"},
                             },
                         }
                     },
