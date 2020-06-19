@@ -8,8 +8,7 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggreg
     public interface IFeatureRepository : IRepository<Feature>
     {
         Feature Add(Feature feature);
-        void Update(Feature feature);
-        void Remove(Guid id);
         Task<Feature> GetAsync(Guid id);
+        void Update(Feature feature);
     }
 }

@@ -41,16 +41,9 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories
             return businessTier;
         }
 
-        public async void Remove(Guid id)
-        {
-            var businessTier = await _context.BusinessTiers.FirstOrDefaultAsync(b => b.Id == id);
-            // _context.BusinessTiers.Remove(businessTier);
-            _context.Entry(businessTier).State = EntityState.Deleted;
-        }
-
         public void Update(BusinessTier businessTier)
         {
-            throw new NotImplementedException();
+            _context.Entry(businessTier).State = EntityState.Modified;
         }
     }
 }
