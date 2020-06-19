@@ -22,5 +22,20 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierA
         {
             base.Id = id;
         }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetPrice(decimal price)
+        {
+            Price = price;
+        }
     }
 }

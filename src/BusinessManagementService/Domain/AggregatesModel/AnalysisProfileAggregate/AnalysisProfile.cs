@@ -43,5 +43,20 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
         {
             MediaType = mediaType;
         }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetPrice(decimal price)
+        {
+            Price = price;
+        }
     }
 }

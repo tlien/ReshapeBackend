@@ -41,15 +41,6 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories
             return feature;
         }
 
-        public async void Remove(Guid id)
-        {
-            var feature = await _context.Features.FirstOrDefaultAsync(f => f.Id == id);
-            // _context.Features.Remove(feature);
-            _context.Entry(feature).State = EntityState.Deleted;
-
-            // TODO: Launch domain event from command handler? Features are not likely to be removed.
-        }
-
         public void Update(Feature feature)
         {
             _context.Entry(feature).State = EntityState.Modified;

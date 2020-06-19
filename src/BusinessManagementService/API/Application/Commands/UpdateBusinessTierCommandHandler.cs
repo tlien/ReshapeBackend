@@ -4,46 +4,44 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 
-using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Reshape.Common.EventBus.Services;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
-    public class CreateBusinessTierCommandHandler : IRequestHandler<CreateBusinessTierCommand, BusinessTierDTO>
+    public class UpdateBusinessTierCommandHandler : IRequestHandler<UpdateBusinessTierCommand, BusinessTierDTO>
     {
         private readonly IBusinessTierRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public UpdateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _integrationEventService = integrationEventService;
+            _integrationEventService = integrationEventService ?? throw new ArgumentNullException(nameof(integrationEventService));
         }
 
-        public async Task<BusinessTierDTO> Handle(CreateBusinessTierCommand message, CancellationToken cancellationToken)
+        public async Task<BusinessTierDTO> Handle(UpdateBusinessTierCommand request, CancellationToken cancellationToken)
         {
-            var businessTier = new BusinessTier(message.Name, message.Description, message.Price);
-            _repository.Add(businessTier);
+            var businessTier = await _repository.GetAsync(request.Id);
+
+            businessTier.SetName(request.Name);
+            businessTier.SetDescription(request.Description);
+            businessTier.SetPrice(request.Price);
+
+            _repository.Update(businessTier);
+
             await _repository.UnitOfWork.SaveChangesAsync();
 
             var businessTierDTO = _mapper.Map<BusinessTierDTO>(businessTier);
-            var integrationEvent = new BusinessTierCreatedEvent(businessTierDTO);
+            var integrationEvent = new BusinessTierUpdatedEvent(businessTierDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 
             return businessTierDTO;
         }
-    }
-
-    public class BusinessTierDTO
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
     }
 }

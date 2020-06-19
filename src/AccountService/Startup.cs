@@ -185,9 +185,13 @@ namespace Reshape.AccountService
         {
             services.AddMassTransit(x =>
             {
+                // Register consumers with DI container
                 x.AddConsumer<AnalysisProfileCreatedConsumer>();
+                x.AddConsumer<AnalysisProfileUpdatedConsumer>();
                 x.AddConsumer<BusinessTierCreatedConsumer>();
+                x.AddConsumer<BusinessTierUpdatedConsumer>();
                 x.AddConsumer<FeatureCreatedConsumer>();
+                x.AddConsumer<FeatureUpdatedConsumer>();
 
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -196,20 +200,36 @@ namespace Reshape.AccountService
                     // Hand this whatever name the rabbitmq service has in the docker-compose file
                     cfg.Host("rabbitmq");
 
+                    // Add endpoints to route messages to their respective consumers
                     cfg.ReceiveEndpoint("analysis_profile_created_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
                         e.ConfigureConsumer<AnalysisProfileCreatedConsumer>(provider);
+                    });
+                    cfg.ReceiveEndpoint("analysis_profile_updated_queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(2, 100));
+                        e.ConfigureConsumer<AnalysisProfileUpdatedConsumer>(provider);
                     });
                     cfg.ReceiveEndpoint("business_tier_created_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
                         e.ConfigureConsumer<BusinessTierCreatedConsumer>(provider);
                     });
+                    cfg.ReceiveEndpoint("business_tier_updated_queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(2, 100));
+                        e.ConfigureConsumer<BusinessTierUpdatedConsumer>(provider);
+                    });
                     cfg.ReceiveEndpoint("feature_created_queue", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(2, 100));
                         e.ConfigureConsumer<FeatureCreatedConsumer>(provider);
+                    });
+                    cfg.ReceiveEndpoint("feature_updated_queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(2, 100));
+                        e.ConfigureConsumer<FeatureUpdatedConsumer>(provider);
                     });
                 }));
             });

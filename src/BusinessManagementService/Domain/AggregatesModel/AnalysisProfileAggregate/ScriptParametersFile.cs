@@ -26,5 +26,20 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
             Description = description;
             ScriptParameters = scriptParameters;
         }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetScriptParameters(string scriptParameters)
+        {
+            ScriptParameters = scriptParameters;
+        }
     }
 }

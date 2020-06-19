@@ -20,5 +20,10 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
         {
             Name = name;
         }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
     }
 }

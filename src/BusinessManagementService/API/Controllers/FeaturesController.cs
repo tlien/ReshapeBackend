@@ -33,11 +33,24 @@ namespace Reshape.BusinessManagementService.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            return Ok(await _featureQueries.GetById(id));
+            var feature = await _featureQueries.GetById(id);
+
+            if (feature == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(feature);
         }
 
         [HttpPost]
-        public async Task<ActionResult<FeatureDTO>> AddAsync([FromBody] CreateFeatureCommand command)
+        public async Task<ActionResult> AddAsync([FromBody] CreateFeatureCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] UpdateFeatureCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
