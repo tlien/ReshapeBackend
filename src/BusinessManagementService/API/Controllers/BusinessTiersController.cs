@@ -48,5 +48,11 @@ namespace Reshape.BusinessManagementService.API.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] UpdateBusinessTierCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
     }
 }

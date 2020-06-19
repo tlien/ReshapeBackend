@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileExtrasQueries;
 
 namespace Reshape.BusinessManagementService.API.Controllers
@@ -63,6 +63,27 @@ namespace Reshape.BusinessManagementService.API.Controllers
         public async Task<IActionResult> GetMediaTypeById(Guid id)
         {
             return Ok(await _analysisProfileExtrasQueries.GetMediaTypeById(id));
+        }
+
+        [HttpPut]
+        [Route("scriptfile")]
+        public async Task<IActionResult> UpdateScriptFile([FromBody] UpdateScriptFileCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut]
+        [Route("scriptparametersfile")]
+        public async Task<IActionResult> UpdateScriptParametersFile([FromBody] UpdateScriptParametersFileCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut]
+        [Route("mediatype")]
+        public async Task<IActionResult> UpdateMediaType([FromBody] UpdateMediaTypeCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
     }
 }

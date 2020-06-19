@@ -123,6 +123,9 @@ namespace Reshape.BusinessManagementService
             eventTracker.AddEventType<AnalysisProfileCreatedEvent>();
             eventTracker.AddEventType<BusinessTierCreatedEvent>();
             eventTracker.AddEventType<FeatureCreatedEvent>();
+            eventTracker.AddEventType<AnalysisProfileUpdatedEvent>();
+            eventTracker.AddEventType<BusinessTierUpdatedEvent>();
+            eventTracker.AddEventType<FeatureUpdatedEvent>();
         }
     }
 

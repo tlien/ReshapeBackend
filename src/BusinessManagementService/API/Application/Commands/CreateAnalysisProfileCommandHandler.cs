@@ -44,7 +44,6 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             await _repository.UnitOfWork.SaveChangesAsync();
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
-
             var integrationEvent = new AnalysisProfileCreatedEvent(analysisProfileDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 

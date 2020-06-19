@@ -44,7 +44,13 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<FeatureDTO>> AddAsync([FromBody] CreateFeatureCommand command)
+        public async Task<ActionResult> AddAsync([FromBody] CreateFeatureCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] UpdateFeatureCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

@@ -49,9 +49,29 @@ namespace Reshape.BusinessManagementService.API.Controllers
             return Ok(await _mediator.Send(command));
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateAnalysisProfileCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
         [Route("mediatype")]
         [HttpPut]
         public async Task<IActionResult> SetMediaType([FromBody] SetMediaTypeCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [Route("scriptfile")]
+        [HttpPut]
+        public async Task<IActionResult> SetScriptFile([FromBody] SetScriptFileCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [Route("scriptparametersfile")]
+        [HttpPut]
+        public async Task<IActionResult> SetScriptParametersFile([FromBody] SetScriptParametersFileCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

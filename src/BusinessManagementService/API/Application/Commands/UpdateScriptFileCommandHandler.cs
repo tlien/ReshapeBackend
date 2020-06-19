@@ -8,30 +8,32 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAg
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
-    public class SetMediaTypeCommandHandler : IRequestHandler<SetMediaTypeCommand, AnalysisProfileDTO>
+    public class UpdateScriptFileCommandHandler : IRequestHandler<UpdateScriptFileCommand, ScriptFileDTO>
     {
         private readonly IAnalysisProfileRepository _repository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public SetMediaTypeCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper)
+        public UpdateScriptFileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<AnalysisProfileDTO> Handle(SetMediaTypeCommand request, CancellationToken cancellationToken)
+        public async Task<ScriptFileDTO> Handle(UpdateScriptFileCommand request, CancellationToken cancellationToken)
         {
-            var analysisProfile = await _repository.GetAsync(request.AnalysisProfileId);
-            var mediaType = await _repository.GetMediaTypeAsync(request.MediaTypeId);
+            var scriptFile = await _repository.GetScriptFileAsync(request.Id);
 
-            analysisProfile.SetMediaType(mediaType);
-            _repository.Update(analysisProfile);
+            scriptFile.SetName(request.Name);
+            scriptFile.SetDescription(request.Description);
+            scriptFile.SetScript(request.Script);
+
+            _repository.UpdateScriptFile(scriptFile);
 
             await _repository.UnitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<AnalysisProfileDTO>(analysisProfile);
+            return _mapper.Map<ScriptFileDTO>(scriptFile);
         }
     }
 }
