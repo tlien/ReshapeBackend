@@ -11,6 +11,7 @@ namespace Reshape.AccountService.API.Controllers
     [ApiController]
     [Route("api/v1/[controller]")]
     [Authorize]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class IdentityController : ControllerBase
     {
         [HttpGet]
