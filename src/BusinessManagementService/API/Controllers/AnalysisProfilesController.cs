@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
@@ -10,6 +11,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class AnalysisProfilesController : ControllerBase
     {
         private readonly IMediator _mediator;

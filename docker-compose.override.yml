@@ -1,10 +1,16 @@
-version: '3.4'
+version: "3.4"
 
 # Put environment, ports and other DEVELOPMENT only information here
 
 services:
-
   # Other
+  identity.svc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5200:80"
+      - "5201:443"
+
   rabbitmq:
     hostname: rshp # this is used to set the node name, ie. rabbitmq@rshp.
     ports:
@@ -22,11 +28,19 @@ services:
       - "5000:80"
 
   # Databases
-  bm.db:
+  identity.db:
     environment:
       POSTGRES_PASSWORD: example
     ports:
       - "5433:5432"
+    volumes:
+      - identity-data:/var/lib/postgresql/data
+
+  bm.db:
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5434:5432"
     volumes:
       - bm-data:/var/lib/postgresql/data
 
@@ -34,7 +48,7 @@ services:
     environment:
       POSTGRES_PASSWORD: example
     ports:
-      - "5434:5432"
+      - "5435:5432"
     volumes:
       - acc-data:/var/lib/postgresql/data
 
@@ -53,5 +67,6 @@ services:
 
 volumes:
   rbtmq-data:
+  identity-data:
   bm-data:
   acc-data:

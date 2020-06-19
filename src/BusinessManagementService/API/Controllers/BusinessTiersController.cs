@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
@@ -8,8 +9,9 @@ using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQuer
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
-    [ApiController]
     [Route("api/v1/[controller]")]
+    [ApiController]
+    [Authorize(Roles = "admin")]
     public class BusinessTiersController : ControllerBase
     {
         private readonly IMediator _mediator;

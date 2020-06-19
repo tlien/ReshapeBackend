@@ -1,10 +1,15 @@
-version: '3.4'
+version: "3.4"
 
 # Put environment, ports and other PRODUCTION only information here
 
 services:
-  
   # Other
+  identity.svc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 80
+
   apigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -19,7 +24,7 @@ services:
   acc.db:
     environment:
       POSTGRES_PASSWORD: example
-  
+
   # APIs
   bm.api:
     environment:

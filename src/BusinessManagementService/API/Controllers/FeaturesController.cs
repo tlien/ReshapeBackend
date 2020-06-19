@@ -1,16 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
 using Reshape.BusinessManagementService.API.Application.Commands;
-using static Reshape.BusinessManagementService.API.Application.Commands.CreateFeatureCommandHandler;
 
 namespace Reshape.BusinessManagementService.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class FeaturesController : ControllerBase
     {
         private readonly IMediator _mediator;

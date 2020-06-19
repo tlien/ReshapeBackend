@@ -14,12 +14,12 @@
 			"**/bin/": true,
 			"**/obj/": true,
 			"**/Properties/": true,
-			"**/.vs/": true,
-		},
+			"**/.vs/": true
+		}
 	},
 	"extensions": {
 		"recommendations": [
-			"ms-dotnettools.csharp",
+			"ms-dotnettools.csharp"
 		]
 	},
 	"tasks": {
@@ -113,6 +113,7 @@
 					"bm.api",
 					"acc.api",
 					"apigw",
+					"identity.svc",
 					""
 				]
 			}
