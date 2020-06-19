@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+
 using Reshape.IdentityService.Infrastructure;
 
 namespace Reshape.IdentityService
@@ -66,7 +67,6 @@ namespace Reshape.IdentityService
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
 
             app.UseCors(opt =>
