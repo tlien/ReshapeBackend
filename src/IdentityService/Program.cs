@@ -68,7 +68,6 @@ namespace Reshape.IdentityService
                 .ReadFrom.Configuration(configuration)
                 .Enrich.WithProperty("ApplicationContext", AppName)
                 .Enrich.FromLogContext()
-                // .WriteTo.Debug()
                 .WriteTo.Console()
                 .CreateLogger();
     }

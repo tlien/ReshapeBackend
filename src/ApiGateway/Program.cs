@@ -66,7 +66,6 @@ namespace Reshape.ApiGateway
                 .ReadFrom.Configuration(configuration)
                 .Enrich.WithProperty("ApplicationContext", AppName)
                 .Enrich.FromLogContext()
-                // .WriteTo.Debug()
                 .WriteTo.Console()
                 .CreateLogger();
     }
