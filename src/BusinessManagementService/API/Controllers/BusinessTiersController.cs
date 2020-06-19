@@ -33,7 +33,14 @@ namespace Reshape.BusinessManagementService.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            return Ok(await _businessTierQueries.GetById(id));
+            var businessTier = await _businessTierQueries.GetById(id);
+
+            if (businessTier == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(businessTier);
         }
 
         [HttpPost]

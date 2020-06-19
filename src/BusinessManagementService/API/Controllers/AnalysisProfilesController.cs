@@ -33,11 +33,25 @@ namespace Reshape.BusinessManagementService.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            return Ok(await _analysisProfileQueries.GetById(id));
+            var analysisProfile = await _analysisProfileQueries.GetById(id);
+
+            if (analysisProfile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(analysisProfile);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] CreateAnalysisProfileCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [Route("mediatype")]
+        [HttpPut]
+        public async Task<IActionResult> SetMediaType([FromBody] SetMediaTypeCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

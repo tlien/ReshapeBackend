@@ -22,7 +22,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _integrationEventService = integrationEventService;
+            _integrationEventService = integrationEventService ?? throw new ArgumentNullException(nameof(integrationEventService));
         }
 
         public async Task<AnalysisProfileDTO> Handle(CreateAnalysisProfileCommand message, CancellationToken cancellationToken)
