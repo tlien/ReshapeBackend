@@ -20,6 +20,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             _context = ctx ?? throw new ArgumentNullException(nameof(ctx));
         }
 
+        #region Account
         public Account Add(Account account)
         {
             return _context.Accounts.Add(account).Entity;
@@ -27,6 +28,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
 
         public void Update(Account account)
         {
+            // Only track updates to the Account entity itself.
             _context.Entry(account).State = EntityState.Modified;
         }
 
@@ -50,7 +52,7 @@ namespace Reshape.AccountService.Infrastructure.Repositories
                             .FirstOrDefault(acc => acc.Id == accountId);
             }
 
-            // TODO: Figure out if these actually need to be loaded at this point
+            // TODO: Figure out if these actually need to be loaded at this point or if they can be lazy loaded when called for
             if (account != null)
             {
                 await _context.Entry(account).Reference(x => x.Address).LoadAsync();
@@ -62,7 +64,9 @@ namespace Reshape.AccountService.Infrastructure.Repositories
 
             return account;
         }
+        #endregion
 
+        #region Feature
         public async Task<List<Feature>> GetFeaturesAsync(List<Guid> featureIds)
         {
             var features = await _context
@@ -79,11 +83,20 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return res;
         }
 
+        public async Task<Feature> UpdateFeature(Feature feature)
+        {
+            var res = _context.Features.Update(feature).Entity;
+            await _context.SaveChangesAsync();
+            return res;
+        }
+        #endregion
+
+        #region BusinessTier
         public async Task<BusinessTier> GetBusinessTierAsync(Guid businessTierId)
         {
             var businessTier = await _context
-                                    .BusinessTiers
-                                    .FirstOrDefaultAsync(bt => bt.Id == businessTierId);
+                                        .BusinessTiers
+                                        .FirstOrDefaultAsync(bt => bt.Id == businessTierId);
             return businessTier;
         }
 
@@ -94,12 +107,21 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             return res;
         }
 
+        public async Task<BusinessTier> UpdateBusinessTier(BusinessTier businessTier)
+        {
+            var res = _context.BusinessTiers.Update(businessTier).Entity;
+            await _context.SaveChangesAsync();
+            return res;
+        }
+        #endregion
+
+        #region AnalysisProfile
         public async Task<List<AnalysisProfile>> GetAnalysisProfilesAsync(List<Guid> analysisProfileIds)
         {
             var analysisProfiles = await _context
-                                    .AnalysisProfiles
-                                    .Where(ap => analysisProfileIds.Contains(ap.Id))
-                                    .ToListAsync();
+                                            .AnalysisProfiles
+                                            .Where(ap => analysisProfileIds.Contains(ap.Id))
+                                            .ToListAsync();
             return analysisProfiles;
         }
 
@@ -109,5 +131,13 @@ namespace Reshape.AccountService.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return res;
         }
+
+        public async Task<AnalysisProfile> UpdateAnalysisProfile(AnalysisProfile analysisProfile)
+        {
+            var res = _context.AnalysisProfiles.Update(analysisProfile).Entity;
+            await _context.SaveChangesAsync();
+            return res;
+        }
+        #endregion
     }
 }
