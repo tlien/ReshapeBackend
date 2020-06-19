@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
 using MediatR;
 
+using Reshape.Common.DevelopmentTools;
 using Reshape.Common.SeedWork;
 using Reshape.BusinessManagementService.Infrastructure.EntityConfigurations;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
@@ -15,8 +16,7 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 
 namespace Reshape.BusinessManagementService.Infrastructure
 {
-
-    public class BusinessManagementContext : DbContext, IUnitOfWork
+    public class BusinessManagementContext : DbContext, IUnitOfWork, ISeeder<BusinessManagementContext>
     {
 
         public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
@@ -107,6 +107,13 @@ namespace Reshape.BusinessManagementService.Infrastructure
             }
         }
 
+        // TODO: This seems like a WILD hack, maybe look into what implications it has.
+        // Basically calling an extension method (static method on static object) INSIDE a method on the object it extends...
+        // Pretty sure this is a code crime on some level.
+        public BusinessManagementContext AddSeedData()
+        {
+            return BusinessManagementContextSeeder.AddSeedData(this);
+        }
     }
 
     // Allow webhosting extension to migrate database at design time

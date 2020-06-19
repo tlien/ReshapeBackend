@@ -23,6 +23,12 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
             Price = price;
         }
 
+        // ctor used for seeding don't put this in production.
+        public AnalysisProfile(Guid id, string name, string description, decimal price) : this(name, description, price)
+        {
+            base.Id = id;
+        }
+
         public void SetScriptFile(ScriptFile scriptFile)
         {
             ScriptFile = scriptFile;

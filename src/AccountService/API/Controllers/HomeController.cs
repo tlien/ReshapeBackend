@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Reshape.AccountService.API.Controllers
 {
-    [Route("/")]
     [ApiController]
+    [Route("/")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : ControllerBase
     {
         [HttpGet]

@@ -4,6 +4,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
 {
     [ApiController]
     [Route("/")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : ControllerBase
     {
         [HttpGet]
