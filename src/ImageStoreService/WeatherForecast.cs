@@ -1,6 +1,6 @@
 using System;
 
-namespace ImageStoreService
+namespace Reshape.ImageStoreService
 {
     public class WeatherForecast
     {

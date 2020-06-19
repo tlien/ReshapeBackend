@@ -1,0 +1,53 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "bm.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/bm/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Options"],
+      "SwaggerKey": "bm"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "acc.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/acc/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Options"],
+      "SwaggerKey": "acc"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "bm",
+      "Config": [
+        {
+          "Name": "Reshape.BusinessManagementService API",
+          "Version": "v1",
+          "Url": "http://bm.api/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "acc",
+      "Config": [
+        {
+          "Name": "Reshape.AccountService API",
+          "Version": "v1",
+          "Url": "http://acc.api/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {}
+}

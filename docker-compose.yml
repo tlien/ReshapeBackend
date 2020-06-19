@@ -1,0 +1,44 @@
+version: '3.4'
+
+# Put image, build, depends_on and other BASE information here
+
+services:
+
+  # Other
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  apigw:
+    image: apigw
+    build:
+      context: ./src
+      dockerfile: ApiGateway/Dockerfile
+
+  # Databases
+  bm.db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: businessservice
+
+  acc.db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: accountservice
+
+  # APIs
+  bm.api:
+    image: bm.api
+    build:
+      context: ./src
+      dockerfile: BusinessManagementService/Dockerfile
+    depends_on:
+      - bm.db
+      - rabbitmq
+
+  acc.api:
+    image: acc.api
+    build:
+      context: ./src
+      dockerfile: AccountService/Dockerfile
+    depends_on:
+      - acc.db

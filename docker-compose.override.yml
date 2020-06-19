@@ -1,0 +1,57 @@
+version: '3.4'
+
+# Put environment, ports and other DEVELOPMENT only information here
+
+services:
+
+  # Other
+  rabbitmq:
+    hostname: rshp # this is used to set the node name, ie. rabbitmq@rshp.
+    ports:
+      - "5100:15672"
+    volumes:
+      - rbtmq-data:/var/lib/rabbitmq
+      # OBS: Ideally we want to use the version below. Unfortunely the cuurrent rabbitmq images create a default volume that can't be disabled.
+      # A PR with a fix is up on the docker-lib github.
+      # - rbtmq-data:/var/lib/rabbitmq/mnesia/rabbit@rshp # Persist mnesia db. The "rabbit@rshp" part is the node name.
+
+  apigw:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:80"
+
+  # Databases
+  bm.db:
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5433:5432"
+    volumes:
+      - bm-data:/var/lib/postgresql/data
+
+  acc.db:
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5434:5432"
+    volumes:
+      - acc-data:/var/lib/postgresql/data
+
+  # APIs
+  bm.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5001:80"
+
+  acc.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5002:80"
+
+volumes:
+  rbtmq-data:
+  bm-data:
+  acc-data:

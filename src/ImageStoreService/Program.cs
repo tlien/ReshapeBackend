@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ImageStoreService
+namespace Reshape.ImageStoreService
 {
     public class Program
     {
