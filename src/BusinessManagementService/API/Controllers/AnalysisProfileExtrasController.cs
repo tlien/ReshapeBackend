@@ -38,6 +38,13 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         [HttpGet]
+        [Route("mediatypes")]
+        public async Task<IActionResult> GetMediaTypes()
+        {
+            return Ok(await _analysisProfileExtrasQueries.GetMediaTypes());
+        }
+
+        [HttpGet]
         [Route("scriptfiles/{id:Guid}")]
         public async Task<IActionResult> GetScriptFileById(Guid id)
         {
@@ -49,6 +56,13 @@ namespace Reshape.BusinessManagementService.API.Controllers
         public async Task<IActionResult> GetScriptParameterssFileById(Guid id)
         {
             return Ok(await _analysisProfileExtrasQueries.GetScriptParametersFileById(id));
+        }
+
+        [HttpGet]
+        [Route("mediatypes/{id:Guid}")]
+        public async Task<IActionResult> GetMediaTypeById(Guid id)
+        {
+            return Ok(await _analysisProfileExtrasQueries.GetMediaTypeById(id));
         }
     }
 }

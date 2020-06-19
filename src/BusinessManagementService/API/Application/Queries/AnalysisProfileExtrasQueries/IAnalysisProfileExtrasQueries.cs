@@ -10,7 +10,9 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProf
     {
         Task<IEnumerable<ScriptFileViewModel>> GetScriptFiles();
         Task<IEnumerable<ScriptParametersFileViewModel>> GetScriptParametersFiles();
+        Task<IEnumerable<MediaTypeViewModel>> GetMediaTypes();
         Task<ScriptFileViewModel> GetScriptFileById(Guid id);
         Task<ScriptParametersFileViewModel> GetScriptParametersFileById(Guid id);
+        Task<MediaTypeViewModel> GetMediaTypeById(Guid id);
     }
 }

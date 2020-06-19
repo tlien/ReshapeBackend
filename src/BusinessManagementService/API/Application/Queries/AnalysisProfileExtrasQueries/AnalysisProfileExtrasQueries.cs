@@ -37,6 +37,14 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProf
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<MediaTypeViewModel>> GetMediaTypes()
+        {
+            return await _context.MediaTypes
+                .AsNoTracking()
+                .ProjectTo<MediaTypeViewModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
         public async Task<ScriptFileViewModel> GetScriptFileById(Guid id)
         {
             return await _context.ScriptFiles
@@ -50,6 +58,14 @@ namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProf
             return await _context.ScriptParametersFiles
                 .AsNoTracking()
                 .ProjectTo<ScriptParametersFileViewModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<MediaTypeViewModel> GetMediaTypeById(Guid id)
+        {
+            return await _context.MediaTypes
+                .AsNoTracking()
+                .ProjectTo<MediaTypeViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
     }
