@@ -26,10 +26,10 @@ using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
+using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileExtrasQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
 using Reshape.Common.DevelopmentTools;
-
 
 namespace Reshape.BusinessManagementService
 {
@@ -164,6 +164,7 @@ namespace Reshape.BusinessManagementService
         public static IServiceCollection AddCQRS(this IServiceCollection services)
         {
             services.AddScoped<IAnalysisProfileQueries, AnalysisProfileQueries>();
+            services.AddScoped<IAnalysisProfileExtrasQueries, AnalysisProfileExtrasQueries>();
             services.AddScoped<IBusinessTierQueries, BusinessTierQueries>();
             services.AddScoped<IFeatureQueries, FeatureQueries>();
 
