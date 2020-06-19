@@ -6,7 +6,7 @@ using Reshape.Common.EventBus.Events.Contracts;
 
 namespace Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events
 {
-    public class BusinessTierUpdatedEvent : BusinessTierCreated
+    public class BusinessTierUpdatedEvent : BusinessTierUpdated
     {
         public Guid Id { get; }
 
