@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Serilog;
 
+using Reshape.Common.DevelopmentTools;
 using Reshape.Common.Extensions;
 using Reshape.Common.EventBus;
 using Reshape.BusinessManagementService.Infrastructure;
@@ -20,7 +21,7 @@ namespace Reshape.BusinessManagementService
         public static int Main(string[] args)
         {
             var configuration = GetConfiguration();
-            // var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
+            var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
             Log.Logger = CreateSerilogLogger(configuration);
 
             try
@@ -34,12 +35,11 @@ namespace Reshape.BusinessManagementService
                 host.MigrateDatabase<IntegrationEventLogContext, NpgsqlException>();
 
                 // Seed db if developing and seeding is enabled
-                // if (isDevelopment && configuration["USE_SEEDING"] == "true")
-                // {
-
-                //     Log.Information("Seeding database ({ApplicationContext})...", AppName);
-                //     host.SeedDatabase<BusinessManagementContext>();
-                // }
+                if (isDevelopment && configuration["USE_SEEDING"] == "true")
+                {
+                    Log.Information("Seeding database ({ApplicationContext})...", AppName);
+                    host.SeedDatabase<BusinessManagementContext>();
+                }
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();

@@ -50,36 +50,35 @@ namespace Reshape.AccountService.Infrastructure
                 context.AddRange(analysisProfiles);
             }
 
-            var account1 = new Account(Guid.Parse("bec823e4-aced-4b92-9442-70c2f32c65f9"));
-            account1.SetBusinessTier(businessTiers[2]);
-            account1.SetContactDetails(new ContactDetails("Alice Smith", "818727", "AliceSmith@email.com"));
-            account1.SetAddress(new Address("One Haxxor Way", "1337", "Heidelberg", "69118", "Germany"));
-            account1.AddFeature(features[2]);
-            account1.AddFeature(features[3]);
-            account1.AddAnalysisProfile(analysisProfiles[1]);
-            account1.AddAnalysisProfile(analysisProfiles[3]);
-            account1.AddAnalysisProfile(analysisProfiles[5]);
-
-            var account2 = new Account(Guid.Parse("74c20cbc-9e0c-4cef-8325-27b8a26a64b1"));
-            account2.SetAddress(new Address("One Hacker Way", "1337", "Heidelberg", "69118", "Germany"));
-            account2.SetContactDetails(new ContactDetails("Bob Smith", "88421113", "BobSmith@email.com"));
-            account2.SetBusinessTier(businessTiers[0]);
-            account2.AddFeature(features[0]);
-            account2.AddFeature(features[1]);
-            account2.AddFeature(features[2]);
-            account2.AddFeature(features[3]);
-            account2.AddAnalysisProfile(analysisProfiles[0]);
-            account2.AddAnalysisProfile(analysisProfiles[1]);
-            account2.AddAnalysisProfile(analysisProfiles[2]);
-            account2.AddAnalysisProfile(analysisProfiles[3]);
-            account2.AddAnalysisProfile(analysisProfiles[4]);
-            account2.AddAnalysisProfile(analysisProfiles[5]);
-
             // Check(naively) if Accounts have already been seeded
             if (!context.Accounts.Any())
             {
-                context.Add(account1);
-                context.Add(account2);
+                var account1 = new Account(Guid.Parse("bec823e4-aced-4b92-9442-70c2f32c65f9"));
+                account1.SetBusinessTier(businessTiers[2]);
+                account1.SetContactDetails(new ContactDetails("Alice Smith", "818727", "AliceSmith@email.com"));
+                account1.SetAddress(new Address("One Haxxor Way", "1337", "Heidelberg", "69118", "Germany"));
+                account1.AddFeature(features[2]);
+                account1.AddFeature(features[3]);
+                account1.AddAnalysisProfile(analysisProfiles[1]);
+                account1.AddAnalysisProfile(analysisProfiles[3]);
+                account1.AddAnalysisProfile(analysisProfiles[5]);
+
+                var account2 = new Account(Guid.Parse("74c20cbc-9e0c-4cef-8325-27b8a26a64b1"));
+                account2.SetAddress(new Address("One Hacker Way", "1337", "Heidelberg", "69118", "Germany"));
+                account2.SetContactDetails(new ContactDetails("Bob Smith", "88421113", "BobSmith@email.com"));
+                account2.SetBusinessTier(businessTiers[0]);
+                account2.AddFeature(features[0]);
+                account2.AddFeature(features[1]);
+                account2.AddFeature(features[2]);
+                account2.AddFeature(features[3]);
+                account2.AddAnalysisProfile(analysisProfiles[0]);
+                account2.AddAnalysisProfile(analysisProfiles[1]);
+                account2.AddAnalysisProfile(analysisProfiles[2]);
+                account2.AddAnalysisProfile(analysisProfiles[3]);
+                account2.AddAnalysisProfile(analysisProfiles[4]);
+                account2.AddAnalysisProfile(analysisProfiles[5]);
+
+                context.AddRange(account1, account2);
             }
 
             context.SaveChanges();
