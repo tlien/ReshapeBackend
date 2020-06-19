@@ -58,7 +58,7 @@ namespace Reshape.IdentityService
         public static IEnumerable<Client> Clients(IConfigurationSection conf)
         {
             var frontendUrl = conf["FrontendUrl"];
-            var swaggerUrl = conf["SwaggerUrl"];
+            var apigwUrl = conf["ApigwUrl"];
             var bmUrl = conf["BmUrl"];
             var accUrl = conf["AccUrl"];
 
@@ -111,7 +111,7 @@ namespace Reshape.IdentityService
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
 
-                    RedirectUris = { accUrl, $"{accUrl}/swagger/oauth2-redirect.html" },
+                    RedirectUris = { accUrl, $"{accUrl}/swagger/oauth2-redirect.html", $"{apigwUrl}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{accUrl}/swagger" },
                     AllowedCorsOrigins = { accUrl },
 
@@ -129,7 +129,7 @@ namespace Reshape.IdentityService
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
 
-                    RedirectUris = { bmUrl, $"{bmUrl}/swagger/oauth2-redirect.html" },
+                    RedirectUris = { bmUrl, $"{bmUrl}/swagger/oauth2-redirect.html", $"{apigwUrl}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{bmUrl}/swagger" },
                     AllowedCorsOrigins = { bmUrl },
 
