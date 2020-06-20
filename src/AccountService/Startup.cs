@@ -114,13 +114,6 @@ namespace Reshape.AccountService
                 c.OAuthAppName("Account Swagger");
                 c.OAuthUsePkce();
             });
-
-            // ConfigureEvents(app);
-        }
-
-        public void ConfigureEvents(IApplicationBuilder app)
-        {
-            var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
         }
     }
 
@@ -241,8 +234,6 @@ namespace Reshape.AccountService
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
 
             services.AddTransient<IIntegrationEventService, IntegrationEventService<AccountContext>>();
-
-            services.AddSingleton<IEventTracker, EventTracker>();
 
             return services;
         }

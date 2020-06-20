@@ -17,6 +17,7 @@ using IdentityServer4.AccessTokenValidation;
 using MassTransit;
 using MediatR;
 
+using Reshape.Common.DevelopmentTools;
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
@@ -25,12 +26,10 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileExtrasQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
-using Reshape.Common.DevelopmentTools;
 
 namespace Reshape.BusinessManagementService
 {
@@ -113,20 +112,6 @@ namespace Reshape.BusinessManagementService
                 c.OAuthAppName("Business Management Swagger");
                 c.OAuthUsePkce();
             });
-
-            ConfigureEvents(app);
-        }
-
-        public void ConfigureEvents(IApplicationBuilder app)
-        {
-            var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
-
-            eventTracker.AddEventType<AnalysisProfileCreatedEvent>();
-            eventTracker.AddEventType<BusinessTierCreatedEvent>();
-            eventTracker.AddEventType<FeatureCreatedEvent>();
-            eventTracker.AddEventType<AnalysisProfileUpdatedEvent>();
-            eventTracker.AddEventType<BusinessTierUpdatedEvent>();
-            eventTracker.AddEventType<FeatureUpdatedEvent>();
         }
     }
 
@@ -215,8 +200,6 @@ namespace Reshape.BusinessManagementService
                sp => (DbConnection c) => new IntegrationEventLogService(c));
 
             services.AddTransient<IIntegrationEventService, IntegrationEventService<BusinessManagementContext>>();
-
-            services.AddSingleton<IEventTracker, EventTracker>();
 
             return services;
         }

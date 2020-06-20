@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Newtonsoft.Json;
+
+using Reshape.Common.EventBus.Events;
 
 namespace Reshape.Common.EventBus.Services
 {
@@ -11,17 +12,14 @@ namespace Reshape.Common.EventBus.Services
     public static class BusControlExtension
     {
         /// <summary>
-        /// Deserialize the content of the integration event to the corresponding event type (The eventbus will only accept objects and not primitives),
-        /// then publish the message through the eventbus.
+        /// Publish an integration event through the eventbus.
+        /// A message type has to be provided in order for the message to be received by the subcribers listening for the corresponding event type.
         /// </summary>
-        /// <param name="content">The json content of an <c>IntegrationEventLog</c></param>
+        /// <param name="integrationEvent">The integration event to publish represented by the <c>IIntegrationEvent</c> interface</param>
         /// <param name="eventType">The <c>Type</c> of the <c>IIntegrationEvent</c> to publish</param>
-        public static async Task PublishIntegrationEvent(this IBusControl busControl, string content, Type eventType)
+        public static async Task PublishIntegrationEvent(this IBusControl busControl, IIntegrationEvent integrationEvent, Type eventType)
         {
-            // TODO: Use System.Text.Json when it has matured
-            // The System.Text.Json workaround is currently rather cumbersome: https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to#deserialize-to-immutable-classes-and-structs
-            var message = JsonConvert.DeserializeObject(content, eventType);
-            await busControl.Publish(message, messageType: eventType);
+            await busControl.Publish(message: integrationEvent, messageType: eventType);
             return;
         }
     }

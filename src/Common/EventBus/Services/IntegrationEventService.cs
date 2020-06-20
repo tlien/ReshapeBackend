@@ -17,12 +17,10 @@ namespace Reshape.Common.EventBus.Services
         private readonly TDbContext _dbContext;
         private readonly IIntegrationEventLogService _integrationEventLogService;
         private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
-        private readonly IEventTracker _eventTracker;
         public IntegrationEventService(
             IBusControl eventBus,
             TDbContext dbContext,
             Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
-            IEventTracker eventTracker,
             ILogger<IntegrationEventService<TDbContext>> logger)
         {
             _logger = logger;
@@ -30,7 +28,6 @@ namespace Reshape.Common.EventBus.Services
             _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
             _integrationEventLogService = _integrationEventLogServiceFactory(_dbContext.Database.GetDbConnection());
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            _eventTracker = eventTracker;
         }
 
         public async Task AddAndSaveEventAsync<T>(T evt) where T : IIntegrationEvent
@@ -50,8 +47,7 @@ namespace Reshape.Common.EventBus.Services
                     await _integrationEventLogService.MarkEventAsInProgressAsync(logEvent.EventId);
                     _logger.LogDebug("Event {0} status marked as in progress.", logEvent.EventId);
 
-                    Type eventType = _eventTracker.GetEventTypeByName(logEvent.EventTypeShortName);
-                    await _eventBus.PublishIntegrationEvent(logEvent.Content, eventType);
+                    await _eventBus.PublishIntegrationEvent(logEvent.IntegrationEvent, logEvent.EventType);
                     _logger.LogDebug("Published event {0} with content: {1}", logEvent.EventId, logEvent.Content);
 
                     await _integrationEventLogService.MarkEventAsPublishedAsync(logEvent.EventId);
