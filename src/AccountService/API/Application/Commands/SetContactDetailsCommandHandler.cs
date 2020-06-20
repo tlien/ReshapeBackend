@@ -10,12 +10,10 @@ namespace Reshape.AccountService.API.Application.Commands
 {
     public class SetContactDetailsCommandHandler : IRequestHandler<SetContactDetailsCommand, int>
     {
-        private readonly IMediator _mediator;
         private readonly IAccountRepository _accountRepository;
 
-        public SetContactDetailsCommandHandler(IMediator mediator, IAccountRepository accountRepository)
+        public SetContactDetailsCommandHandler(IAccountRepository accountRepository)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 

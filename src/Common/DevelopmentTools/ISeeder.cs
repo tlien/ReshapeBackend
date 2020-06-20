@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Reshape.Common.DevelopmentTools
 {
-    public interface ISeeder<T> where T : DbContext
+    public interface ISeeder<TDbContext> where TDbContext : DbContext
     {
-        T AddSeedData();
+        TDbContext AddSeedData();
     }
 }

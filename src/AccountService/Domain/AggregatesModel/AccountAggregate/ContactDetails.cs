@@ -9,6 +9,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         public string ContactPersonFullName { get; private set; }
         public string Phone { get; private set; }
         public string Email { get; private set; }
+
         public ContactDetails() { }
 
         public ContactDetails(string contactPersonFullName, string phone, string email)

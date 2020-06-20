@@ -10,12 +10,10 @@ namespace Reshape.AccountService.API.Application.Commands
 {
     public class RemoveAnalysisProfilesCommandHandler : IRequestHandler<RemoveAnalysisProfilesCommand, int>
     {
-        private readonly IMediator _mediator;
         private readonly IAccountRepository _accountRepository;
 
-        public RemoveAnalysisProfilesCommandHandler(IMediator mediator, IAccountRepository accountRepository)
+        public RemoveAnalysisProfilesCommandHandler(IAccountRepository accountRepository)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 

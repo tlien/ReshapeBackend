@@ -5,10 +5,10 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Design;
-using MediatR;
+// using MediatR;
 
-using Reshape.Common.SeedWork;
 using Reshape.Common.DevelopmentTools;
+using Reshape.Common.SeedWork;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
 namespace Reshape.AccountService.Infrastructure
@@ -21,7 +21,7 @@ namespace Reshape.AccountService.Infrastructure
         public DbSet<Feature> Features { get; set; }
         public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
 
-        private readonly IMediator _mediator;
+        // private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
 
         public AccountContext(DbContextOptions<AccountContext> opt) : base(opt) { }
@@ -30,12 +30,10 @@ namespace Reshape.AccountService.Infrastructure
 
         public bool HasActiveTransaction => _currentTransaction != null;
 
-        public AccountContext(DbContextOptions<AccountContext> opt, IMediator mediator) : base(opt)
-        {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
-            System.Diagnostics.Debug.WriteLine("AccountContext::ctor -> " + this.GetHashCode());
-        }
+        // public AccountContext(DbContextOptions<AccountContext> opt, IMediator mediator) : base(opt)
+        // {
+        //     _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        // }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,18 +45,12 @@ namespace Reshape.AccountService.Infrastructure
             modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
         }
 
-        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             // DO STUFF WITH DOMAIN EVENTS HERE!
+            // _mediator.DispatchDomainEvents()
 
-            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            // DO STUFF WITH DOMAIN EVENTS HERE!
-
-            return base.SaveChanges(acceptAllChangesOnSuccess);
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()

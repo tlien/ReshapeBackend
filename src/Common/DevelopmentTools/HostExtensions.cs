@@ -13,8 +13,8 @@ namespace Reshape.Common.DevelopmentTools
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Throws exception if service is not registered
-                var context = services.GetService<TDbContext>(); // Returns null if service is not registered
+                var logger = services.GetRequiredService<ILogger<TDbContext>>();
+                var context = services.GetService<TDbContext>();
                 var contextName = context.GetType().Name;
 
                 try

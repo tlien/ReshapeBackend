@@ -11,7 +11,7 @@ namespace Reshape.Common.EventBus.Services
     public static class BusControlExtension
     {
         /// <summary>
-        /// Deserialize the content of the integrationvent to the corresponding event type (The eventbus will only accept objects and not primitives),
+        /// Deserialize the content of the integration event to the corresponding event type (The eventbus will only accept objects and not primitives),
         /// then publish the message through the eventbus.
         /// </summary>
         /// <param name="content">The json content of an <c>IntegrationEventLog</c></param>
