@@ -1,7 +1,8 @@
-using AutoMapper;
-using IdentityServer4.AccessTokenValidation;
-using MassTransit;
-using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -11,11 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Reflection;
+using AutoMapper;
+using IdentityServer4.AccessTokenValidation;
+using MassTransit;
+using MediatR;
 
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Services;
