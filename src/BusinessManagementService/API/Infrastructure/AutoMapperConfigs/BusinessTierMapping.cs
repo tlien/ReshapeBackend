@@ -4,7 +4,7 @@ using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
 
-namespace Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs
+namespace Reshape.BusinessManagementService.API.Infrastructure.AutoMapperConfigs
 {
     public class BusinessTierMapping : Profile
     {

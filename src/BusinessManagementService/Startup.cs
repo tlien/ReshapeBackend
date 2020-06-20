@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.IO;
 using System.Reflection;
 
 using Reshape.Common.EventBus;
@@ -253,6 +254,11 @@ namespace Reshape.BusinessManagementService
                     },
                     Description = "Business Management Service OpenId Scheme"
                 });
+
+                // Add XML comments to Swagger api documentation
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             return services;

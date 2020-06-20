@@ -29,7 +29,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             analysisProfile.SetScriptParametersFile(scriptParametersFile);
             _repository.Update(analysisProfile);
 
-            await _repository.UnitOfWork.SaveChangesAsync();
+            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<AnalysisProfileDTO>(analysisProfile);
         }

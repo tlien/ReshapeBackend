@@ -35,7 +35,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             _repository.Update(feature);
 
-            await _repository.UnitOfWork.SaveChangesAsync();
+            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             var featureDTO = _mapper.Map<FeatureDTO>(feature);
             var integrationEvent = new FeatureUpdatedEvent(featureDTO);

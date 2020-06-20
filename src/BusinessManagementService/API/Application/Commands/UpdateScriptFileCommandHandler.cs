@@ -31,7 +31,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             _repository.UpdateScriptFile(scriptFile);
 
-            await _repository.UnitOfWork.SaveChangesAsync();
+            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<ScriptFileDTO>(scriptFile);
         }

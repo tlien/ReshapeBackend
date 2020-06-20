@@ -1,122 +1,114 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"editor.tabSize": 4,
-		"editor.formatOnSave": true,
-		"csharp.format.enable": true,
-		"files.trimFinalNewlines": true,
-		"files.trimTrailingWhitespace": true,
-		"files.exclude": {
-			"**/bin/": true,
-			"**/obj/": true,
-			"**/Properties/": true,
-			"**/.vs/": true
-		}
-	},
-	"extensions": {
-		"recommendations": [
-			"ms-dotnettools.csharp"
-		]
-	},
-	"tasks": {
-		"version": "2.0.0",
-		"tasks": [
-			{
-				"label": "Docker-compose up",
-				"type": "shell",
-				"command": "docker-compose up",
-				"presentation": {
-					"panel": "dedicated",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "dockerCompose"
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "rebuild and re-up",
-				"type": "shell",
-				"command": "docker-compose up --build --no-deps -d ${input:serviceName}",
-				"presentation": {
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "dockerCompose"
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "rebuild all apps",
-				"type": "shell",
-				"command": "docker-compose build --parallel",
-				"presentation": {
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "dockerCompose"
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "add migration (IntegrationsDb)",
-				"type": "shell",
-				"command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\Common\\Common.csproj --context IntegrationEventLogContext -o .\\EventBus\\Migrations",
-				"presentation": {
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "migrations"
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "add migration (AccountDb)",
-				"type": "shell",
-				"command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\AccountService\\AccountService.csproj --context AccountContext -o .\\API\\Infrastructure\\Migrations",
-				"presentation": {
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "migrations"
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "add migration (BusinessDb)",
-				"type": "shell",
-				"command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\BusinessManagementService\\BusinessManagementService.csproj --context BusinessManagementContext -o .\\Infrastructure\\Migrations",
-				"presentation": {
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false,
-					"group": "migrations"
-				},
-				"problemMatcher": []
-			}
-		],
-		"inputs": [
-			{
-				"id": "migrationName",
-				"type": "promptString",
-				"description": "Type desired name of migration"
-			},
-			{
-				"id": "serviceName",
-				"type": "pickString",
-				"description": "Pick service to rebuild and re-up (default = all)",
-				"default": "",
-				"options": [
-					"bm.api",
-					"acc.api",
-					"apigw",
-					"identity.svc",
-					""
-				]
-			}
-		]
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "csharp.format.enable": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "files.exclude": {
+      "**/bin/": true,
+      "**/obj/": true,
+      "**/Properties/": true,
+      "**/.vs/": true
+    }
+  },
+  "extensions": {
+    "recommendations": ["ms-dotnettools.csharp"]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Docker-compose up",
+        "type": "shell",
+        "command": "docker-compose up",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": true,
+          "clear": false,
+          "group": "dockerCompose"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "rebuild and re-up",
+        "type": "shell",
+        "command": "docker-compose up --build --no-deps -d ${input:serviceName}",
+        "presentation": {
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false,
+          "group": "dockerCompose"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "rebuild all apps",
+        "type": "shell",
+        "command": "docker-compose build --parallel",
+        "presentation": {
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false,
+          "group": "dockerCompose"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "add migration (IntegrationsDb)",
+        "type": "shell",
+        "command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\Common\\Common.csproj --context IntegrationEventLogContext -o .\\EventBus\\Migrations",
+        "presentation": {
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false,
+          "group": "migrations"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "add migration (AccountDb)",
+        "type": "shell",
+        "command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\AccountService\\AccountService.csproj --context AccountContext -o .\\API\\Infrastructure\\Migrations",
+        "presentation": {
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false,
+          "group": "migrations"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "add migration (BusinessDb)",
+        "type": "shell",
+        "command": "dotnet ef migrations add ${input:migrationName} -p .\\src\\BusinessManagementService\\BusinessManagementService.csproj --context BusinessManagementContext -o .\\API\\Infrastructure\\Migrations",
+        "presentation": {
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false,
+          "group": "migrations"
+        },
+        "problemMatcher": []
+      }
+    ],
+    "inputs": [
+      {
+        "id": "migrationName",
+        "type": "promptString",
+        "description": "Type desired name of migration"
+      },
+      {
+        "id": "serviceName",
+        "type": "pickString",
+        "description": "Pick service to rebuild and re-up (default = all)",
+        "default": "",
+        "options": ["bm.api", "acc.api", "apigw", "identity.svc", ""]
+      }
+    ]
+  }
 }

@@ -9,9 +9,6 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
         public string Name { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
-        public Guid MediaTypeId { get; private set; }
-        public Guid ScriptFileId { get; private set; }
-        public Guid ScriptParametersFileId { get; private set; }
         public virtual MediaType MediaType { get; private set; }
         public virtual ScriptFile ScriptFile { get; private set; }
         public virtual ScriptParametersFile ScriptParametersFile { get; private set; }
