@@ -10,18 +10,26 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     {
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
-        public decimal Price { get; set; }
+        public decimal Price { get; private set; }
+
+        public UpdateAnalysisProfileCommand(Guid id, string name, string description, decimal price)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Price = price;
+        }
     }
 }

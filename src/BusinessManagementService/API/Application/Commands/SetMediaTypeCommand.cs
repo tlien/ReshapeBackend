@@ -10,10 +10,16 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     {
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
-        public Guid AnalysisProfileId { get; set; }
+        public Guid AnalysisProfileId { get; private set; }
 
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
-        public Guid MediaTypeId { get; set; }
+        public Guid MediaTypeId { get; private set; }
+
+        public SetMediaTypeCommand(Guid analysisProfileId, Guid mediaTypeId)
+        {
+            AnalysisProfileId = analysisProfileId;
+            MediaTypeId = mediaTypeId;
+        }
     }
 }

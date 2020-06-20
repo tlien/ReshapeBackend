@@ -19,7 +19,6 @@ namespace Reshape.AccountService.API.Application.Behaviors
     /// To continue to the next step in the pipeline, the 'next' RequestHandlerDelegate is awaited.
     /// When all of the pipeline RequestHandlerDelegates have been awaited in sequence, the pipeline comes to a natural conclusion within the commandhandler's Handle method.
     /// </summary>
-
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ILogger _logger;
