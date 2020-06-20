@@ -10,6 +10,16 @@ using Reshape.AccountService.Infrastructure;
 
 namespace Reshape.AccountService.API.Application.Behaviors
 {
+
+    /// <summary>
+    /// TransactionBehavior extends the MediatR IPipelineBehavior.
+    /// Through transactions, it ensures that changes from incoming commands are only committed if all changes go through.
+    /// The pipeline is set in motion when a command is sent through the mediator.
+    /// Numerous classes could extend the IPipelineBehavior, allowing additional functionality in different stages of the mediation of commands.
+    /// To continue to the next step in the pipeline, the 'next' RequestHandlerDelegate is awaited.
+    /// When all of the pipeline RequestHandlerDelegates have been awaited in sequence, the pipeline comes to a natural conclusion within the commandhandler's Handle method.
+    /// </summary>
+
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ILogger _logger;
@@ -23,6 +33,10 @@ namespace Reshape.AccountService.API.Application.Behaviors
             _integrationEventService = integrationEventService;
         }
 
+        /// <summary>
+        /// Execute pipeline behavior.
+        /// Proceed to the next step in the pipeline by awaiting the result of the 'next' RequestHandlerDelegate.
+        /// </summary>
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var response = default(TResponse);
