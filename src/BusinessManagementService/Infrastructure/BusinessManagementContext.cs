@@ -50,11 +50,16 @@ namespace Reshape.BusinessManagementService.Infrastructure
             modelBuilder.ApplyConfiguration(new ScriptParametersFileEntityTypeConfiguration());
         }
 
-        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        // public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        // {
+        //     await _mediator.DispatchDomainEventsAsync(this);
+        //     var result = await base.SaveChangesAsync(cancellationToken);
+        //     return true;
+        // }
+
+        public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await _mediator.DispatchDomainEventsAsync(this);
-            var result = await base.SaveChangesAsync(cancellationToken);
-            return true;
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
