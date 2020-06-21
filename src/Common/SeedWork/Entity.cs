@@ -60,7 +60,7 @@ namespace Reshape.Common.SeedWork
         /// </summary>
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is Entity))
+            if (obj is null || !(obj is Entity))
                 return false;
 
             if (ReferenceEquals(this, obj))

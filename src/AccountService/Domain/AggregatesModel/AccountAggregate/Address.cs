@@ -23,7 +23,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
             Country = country;
         }
 
-        protected override IEnumerable<object> GetAtomicValues()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Street1;
             yield return Street2;

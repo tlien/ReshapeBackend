@@ -19,7 +19,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
             Email = email;
         }
 
-        protected override IEnumerable<object> GetAtomicValues()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return ContactPersonFullName;
             yield return Phone;

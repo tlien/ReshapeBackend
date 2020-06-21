@@ -10,34 +10,29 @@ namespace Reshape.Common.SeedWork
     public abstract class ValueObject
     {
         /// <summary>
-        /// Get ValueObject values as an IEnumerable
+        /// Get ValueObject properties as an IEnumerable
         /// </summary>
-        protected abstract IEnumerable<object> GetAtomicValues();
+        protected abstract IEnumerable<object> GetEqualityComponents();
 
         /// <summary>
         /// ValueObject Equals method override that allows for direct comparison between all ValueObject properties.
+        /// Returns false if either object has more values than the other.
         /// </summary>
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != GetType())
+            if (obj is null || !(obj is ValueObject))
             {
                 return false;
             }
-            ValueObject other = (ValueObject)obj;
-            IEnumerator<object> thisValues = GetAtomicValues().GetEnumerator();
-            IEnumerator<object> otherValues = other.GetAtomicValues().GetEnumerator();
-            while (thisValues.MoveNext() && otherValues.MoveNext())
+
+            if (this.GetType() != obj.GetType())
             {
-                if (ReferenceEquals(thisValues.Current, null) ^ ReferenceEquals(otherValues.Current, null))
-                {
-                    return false;
-                }
-                if (thisValues.Current != null && !thisValues.Current.Equals(otherValues.Current))
-                {
-                    return false;
-                }
+                return false;
             }
-            return !thisValues.MoveNext() && !otherValues.MoveNext();
+
+            var other = (ValueObject)obj;
+
+            return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
         /// <summary>
@@ -45,7 +40,7 @@ namespace Reshape.Common.SeedWork
         /// </summary>
         public override int GetHashCode()
         {
-            return GetAtomicValues()
+            return GetEqualityComponents()
                 .Select(x => x != null ? x.GetHashCode() : 0)
                 .Aggregate((x, y) => x ^ y);
         }
@@ -55,11 +50,11 @@ namespace Reshape.Common.SeedWork
         /// </summary>
         public static bool operator ==(ValueObject left, ValueObject right)
         {
-            if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
+            if (left is null ^ right is null)
             {
                 return false;
             }
-            return ReferenceEquals(left, null) || left.Equals(right);
+            return left is null || left.Equals(right);
         }
 
         /// <summary>
