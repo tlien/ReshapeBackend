@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Design;
 // using MediatR;
 
 using Reshape.Common.DevelopmentTools;
+// using Reshape.Common.Extensions;
 using Reshape.Common.SeedWork;
 using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
@@ -48,7 +48,7 @@ namespace Reshape.AccountService.Infrastructure
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             // DO STUFF WITH DOMAIN EVENTS HERE!
-            // _mediator.DispatchDomainEvents()
+            // await _mediator.DispatchDomainEventsAsync(this);
 
             return await base.SaveChangesAsync(cancellationToken);
         }
@@ -103,30 +103,12 @@ namespace Reshape.AccountService.Infrastructure
             }
         }
 
-        // TODO: This seems like a WILD hack, maybe look into what implications it has.
+        // TODO: This seems like a dumb hack, maybe look into what implications it has.
         // Basically calling an extension method (static method on static object) INSIDE a method on the object it extends...
         // Pretty sure this is a code crime on some level.
         public AccountContext AddSeedData()
         {
             return AccountContextSeeder.AddSeedData(this);
-        }
-    }
-
-    // Since Program has been heavily altered, meaning EF can't find the dbcontext during design time using that convention.
-    // Providing a factory implementing IDesignTimeDbContextFactory solves this in a graceful manner
-    public class AccountContextFactory : IDesignTimeDbContextFactory<AccountContext>
-    {
-        public AccountContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<AccountContext>();
-            optionsBuilder.UseNpgsql(".", opt =>
-            {
-                opt.MigrationsAssembly(GetType().Assembly.GetName().Name);
-                opt.EnableRetryOnFailure();
-            })
-            .UseSnakeCaseNamingConvention();
-
-            return new AccountContext(optionsBuilder.Options);
         }
     }
 }
