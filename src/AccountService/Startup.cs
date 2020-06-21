@@ -132,6 +132,7 @@ namespace Reshape.AccountService
                 .UseSnakeCaseNamingConvention();
             });
 
+            // This is used to migrate the database while building the host.
             services.AddDbContext<IntegrationEventLogContext>(opt =>
             {
                 opt.UseNpgsql(connectionString, npgsqlOpt =>
@@ -230,6 +231,10 @@ namespace Reshape.AccountService
 
             services.AddMassTransitHostedService();
 
+            // Register integration event log as an ImplementationFactory.
+            // DbConnection is provided by the service depending on this service (see IntegrationEventService).
+            // The DbContext is managed internally by the IntegrationLogService independent of the IOC provider.
+            // See IIntegrationEventLogService summary for more info.
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
 

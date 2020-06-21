@@ -13,6 +13,12 @@ namespace Reshape.Common.EventBus.Services
 {
     /// <summary>
     /// Maintains a log of integration events going out of the event bus publisher (assembly) it is registered in.
+    /// DDD dictates that everything happening in a business transaction must be either completed fully or rolled back entirely.
+    /// Integration event are therefore tightly bound to the transaction that created the event.
+    /// This requirement necessitates the reuse of the DbConnection used for other parts of the transaction, as the unique DbContextTransaction is held by the DbConnection instance.
+    /// This is enforced in the IntegrationEventLogService by requiring a DbContextTransaction for a given event in order to persist it to the database.
+    /// Failure to provide a transaction id belonging to the current DbContextTransaction when attempting to publish the events will result in the following exception:
+    /// System.InvalidOperationException: The specified transaction is not associated with the current connection. Only transactions associated with the current connection may be used.
     /// </summary>
     public class IntegrationEventLogService : IIntegrationEventLogService
     {
@@ -34,6 +40,12 @@ namespace Reshape.Common.EventBus.Services
                 .AsReadOnly();
         }
 
+        /// <summary>
+        /// Constructs the service using the provided database connection.
+        /// The database should always be the same as the one domain data is stored in to ease correlatability.
+        /// See <c>IntegrationEventService</c> for how the database connection is provided.
+        /// </summary>
+        /// <param name="dbConnection">The database connection to use for logging events.</param>
         public IntegrationEventLogService(DbConnection dbConnection)
         {
             _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
@@ -66,8 +78,10 @@ namespace Reshape.Common.EventBus.Services
         }
 
         /// <summary>
-        /// Save event to log along with the transaction id of the transaction in which the event was created.
+        /// Save event to log along with the transaction during which the event was created.
         /// </summary>
+        /// <param name="@event">The integration event to save.</param>
+        /// <param name="transaction">The transaction during which the event was created.</param>
         public Task SaveEventAsync(IIntegrationEvent @event, IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
@@ -83,8 +97,8 @@ namespace Reshape.Common.EventBus.Services
         }
 
         /// <summary>
-        /// Marks an event as in progress, meaning it has been retrieved from the log and is awaiting publishing.!--
-        /// This also increments the <c>TimesSent</c> property of the event in order to track repeated attempts at publishing.
+        /// Marks an event as in progress, meaning it has been retrieved from the log and is awaiting publishing.
+        /// This also increments the <c>TimesSent</c> property of the <c>IntegrationEventLogEntry</c>> in order to track repeated attempts at publishing.
         /// </summary>
         /// <param name="eventId">The id of the event to mark as in progress</param>
         public Task MarkEventAsInProgressAsync(Guid eventId)
@@ -110,6 +124,11 @@ namespace Reshape.Common.EventBus.Services
             return UpdateEventStatus(eventId, EventStateEnum.PublishedFailed);
         }
 
+        /// <summary>
+        /// Updates the given event with the given status and saves it to the database.
+        /// </summary>
+        /// <param name="eventId">The id of the event to change the status of.</param>
+        /// <param name="status">The new status of the event.</param>
         private Task UpdateEventStatus(Guid eventId, EventStateEnum status)
         {
             var eventLogEntry = _integrationEventLogContext.IntegrationEventLogs.Single(ie => ie.EventId == eventId);

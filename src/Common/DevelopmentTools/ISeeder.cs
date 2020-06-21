@@ -13,7 +13,6 @@ namespace Reshape.Common.DevelopmentTools
         /// <summary>
         /// Seed database with predefined data.
         /// </summary>
-        /// <returns></returns>
         TDbContext AddSeedData();
     }
 }
