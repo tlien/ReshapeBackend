@@ -64,6 +64,7 @@ namespace Reshape.AccountService
                     opt.ApiSecret = "!s3cr3t";
                     opt.RequireHttpsMetadata = false;
                     opt.SupportedTokens = SupportedTokens.Both;
+                    opt.SaveToken = true;
                 });
         }
 
@@ -75,6 +76,7 @@ namespace Reshape.AccountService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
             // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
@@ -82,22 +84,16 @@ namespace Reshape.AccountService
                 opt.AllowAnyMethod();
                 opt.AllowAnyOrigin();
             });
-
-            app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(ep =>
             {
                 ep.MapControllers();
-
                 ep.MapHealthChecks("/health/live", new HealthCheckOptions()
                 {
                     // Exclude all checks and return a 200-Ok. Basically just a check to see if we can get requests through
                     Predicate = (_) => false
                 });
-
                 ep.MapHealthChecks("/health/ready", new HealthCheckOptions()
                 {
                     // The readiness check uses all registered checks with the 'ready' tag.
@@ -105,7 +101,6 @@ namespace Reshape.AccountService
                 });
 
             });
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

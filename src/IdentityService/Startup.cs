@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -75,6 +75,8 @@ namespace Reshape.IdentityService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            app.UseRouting();
             // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
@@ -82,9 +84,6 @@ namespace Reshape.IdentityService
                 opt.AllowAnyMethod();
                 opt.AllowAnyOrigin();
             });
-
-            app.UseStaticFiles();
-            app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

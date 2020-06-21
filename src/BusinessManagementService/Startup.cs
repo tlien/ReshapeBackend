@@ -79,6 +79,7 @@ namespace Reshape.BusinessManagementService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
             // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
@@ -86,28 +87,22 @@ namespace Reshape.BusinessManagementService
                 opt.AllowAnyMethod();
                 opt.AllowAnyOrigin();
             });
-
-            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(ep =>
             {
                 ep.MapControllers();
-
                 ep.MapHealthChecks("/health/live", new HealthCheckOptions()
                 {
                     // Exclude all checks and return a 200-Ok. Basically just a check to see if we can get requests through
                     Predicate = (_) => false
                 });
-
                 ep.MapHealthChecks("/health/ready", new HealthCheckOptions()
                 {
                     // The readiness check uses all registered checks with the 'ready' tag.
                     Predicate = (check) => check.Tags.Contains("ready")
                 });
             });
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
