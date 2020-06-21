@@ -4,6 +4,10 @@ using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
+    /// <summary>
+    /// AnalysisProfile domain aggregate.
+    /// Inherits from <c>Entity</c> base class and implements the <c>IAggregateRoot</c> interface.
+    /// </summary>
     public class AnalysisProfile : Entity, IAggregateRoot
     {
         public string Name { get; private set; }

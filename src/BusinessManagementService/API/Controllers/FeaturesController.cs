@@ -59,7 +59,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates the full content of a BusinessTier
+        /// Updates the full content of a Feature
         /// </summary>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UpdateFeatureCommand command)

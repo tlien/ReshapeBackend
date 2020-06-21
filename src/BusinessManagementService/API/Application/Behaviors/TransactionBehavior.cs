@@ -11,12 +11,12 @@ using Reshape.BusinessManagementService.Infrastructure;
 namespace Reshape.BusinessManagementService.API.Application.Behaviors
 {
     /// <summary>
-    /// TransactionBehavior extends the MediatR IPipelineBehavior.
-    /// Through transactions, it ensures that changes from incoming commands are only committed if all changes go through.
+    /// <c>TransactionBehavior</c> extends <c>MediatR.IPipelineBehavior</c>.
+    /// Through database transactions, it ensures that changes from incoming commands are only committed if all changes go through.
     /// The pipeline is set in motion when a command is sent through the mediator.
-    /// Numerous classes could extend the IPipelineBehavior, allowing additional functionality in different stages of the mediation of commands.
-    /// To continue to the next step in the pipeline, the 'next' RequestHandlerDelegate is awaited.
-    /// When all of the pipeline RequestHandlerDelegates have been awaited in sequence, the pipeline comes to a natural conclusion within the commandhandler's Handle method.
+    /// Numerous classes could extend the <c>IPipelineBehavior</c>, allowing additional functionality in different stages of the mediation of commands.
+    /// To continue to the next step in the pipeline, the 'next' <c>RequestHandlerDelegate</c> is awaited.
+    /// When all of the pipeline <c>RequestHandlerDelegates</c> have been awaited in sequence, the pipeline comes to a natural conclusion within the commandhandler's <c>Handle</c> method.
     /// </summary>
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

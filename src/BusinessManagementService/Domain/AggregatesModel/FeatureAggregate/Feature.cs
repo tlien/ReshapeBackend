@@ -4,6 +4,10 @@ using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate
 {
+    /// <summary>
+    /// Feature domain aggregate.
+    /// Inherits from <c>Entity</c> base class and implements the <c>IAggregateRoot</c> interface.
+    /// </summary>
     public class Feature : Entity, IAggregateRoot
     {
         public string Name { get; private set; }

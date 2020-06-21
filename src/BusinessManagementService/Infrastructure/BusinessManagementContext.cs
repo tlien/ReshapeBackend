@@ -16,9 +16,13 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 
 namespace Reshape.BusinessManagementService.Infrastructure
 {
+    /// <summary>
+    /// <c>DbContext</c> used in the <c>BusinessManagement</c> microservice.
+    /// Setup to reflect the business management domain.
+    /// Extends the <c>DbContext</c> class and implements <c>IUnitOfWork</c>.
+    /// </summary>
     public class BusinessManagementContext : DbContext, IUnitOfWork, ISeeder<BusinessManagementContext>
     {
-
         public DbSet<AnalysisProfile> AnalysisProfiles { get; set; }
         public DbSet<BusinessTier> BusinessTiers { get; set; }
         public DbSet<Feature> Features { get; set; }
@@ -50,18 +54,22 @@ namespace Reshape.BusinessManagementService.Infrastructure
             modelBuilder.ApplyConfiguration(new ScriptParametersFileEntityTypeConfiguration());
         }
 
-        // public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
-        // {
-        //     await _mediator.DispatchDomainEventsAsync(this);
-        //     var result = await base.SaveChangesAsync(cancellationToken);
-        //     return true;
-        // }
-
+        /// <summary>
+        /// Save changes made to all tracked entities to the database.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Begins a new database transaction unless a transaction is already tracked in the <c>BusinessManagementContext</c>.
+        /// The transaction has <c>IsolationLevel.ReadCommitted</c>, allowing outside transactions to read (but not write to)
+        /// the volatile data (data affected during the transaction).
+        /// </summary>
+        /// <returns>A <c>Task</c> that returns the transaction once awaited.</returns>
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
             if (_currentTransaction != null) return null;
@@ -71,6 +79,14 @@ namespace Reshape.BusinessManagementService.Infrastructure
             return _currentTransaction;
         }
 
+        /// <summary>
+        /// Saves changes to the database and commits the transaction,
+        /// if the transaction to commit is currently tracked by the <c>BusinessManagementContext</c>.
+        /// Should any errors occur, the transaction is rolled back.
+        /// See <c>BusinessManagementContext.RollbackTransaction()</c> for more info.
+        /// </summary>
+        /// <param name="transaction">The transaction to commit</param>
+        /// <returns></returns>
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
@@ -96,6 +112,10 @@ namespace Reshape.BusinessManagementService.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Rolls back the current transaction, effectively discarding and reversing
+        /// all changes made to volatile data during the transaction.
+        /// </summary>
         public void RollbackTransaction()
         {
             try
@@ -121,8 +141,11 @@ namespace Reshape.BusinessManagementService.Infrastructure
         }
     }
 
-    // Allow webhosting extension to migrate database at design time
-    // The factory is accessed simply by being in the same project root or namespace Reshape.as the context it is producing, hence no code references to the factory
+    /// <summary>
+    /// Allows webhosting extension to migrate database at design time.
+    /// The factory is accessed simply by being in the same project root or namespace as the <c>DbContext</c>
+    /// it is producing, hence no code references to <c>BusinessManagementContextFactory</c>.
+    /// </summary>
     public class BusinessManagementContextFactory : IDesignTimeDbContextFactory<BusinessManagementContext>
     {
         public BusinessManagementContext CreateDbContext(string[] args)
