@@ -47,7 +47,7 @@ namespace Reshape.Common.EventBus.Services
                     await _integrationEventLogService.MarkEventAsInProgressAsync(logEvent.EventId);
                     _logger.LogDebug("Event {0} status marked as in progress.", logEvent.EventId);
 
-                    await _eventBus.PublishIntegrationEvent(logEvent.IntegrationEvent, logEvent.EventType);
+                    await _eventBus.Publish(logEvent.IntegrationEvent, logEvent.EventType);
                     _logger.LogDebug("Published event {0} with content: {1}", logEvent.EventId, logEvent.Content);
 
                     await _integrationEventLogService.MarkEventAsPublishedAsync(logEvent.EventId);
