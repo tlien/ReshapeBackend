@@ -20,9 +20,10 @@ namespace Reshape.ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
-            IdentityModelEventSource.ShowPII = true; // for dev only!
-
             services.AddCors();
+
+            IdentityModelEventSource.ShowPII = true; // For development only! Enables showing Personally Identifiable Information in logging.
+
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(opt =>
                 {
@@ -30,9 +31,9 @@ namespace Reshape.ApiGateway
                     opt.ApiName = "gateway";
                     opt.ApiSecret = "secret";
                     opt.RequireHttpsMetadata = false;
-                    // opt.EnableCaching = true;
-                    // opt.CacheDuration = TimeSpan.FromMinutes(10);
+                    opt.SaveToken = true;
                 });
+
             services.AddSwaggerForOcelot(Configuration);
             services.AddOcelot(Configuration)
                 .AddDelegatingHandler<AddJWTHandler>(global: true); // Change reference token to jwt
@@ -42,15 +43,14 @@ namespace Reshape.ApiGateway
         {
             logger.LogInformation("Startup Configuring... woah!");
 
+            // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
                 opt.AllowAnyHeader();
                 opt.AllowAnyMethod();
                 opt.AllowAnyOrigin();
             });
-
             app.UseAuthentication();
-
             app.UseSwaggerForOcelotUI();
             app.UseOcelot().Wait();
         }

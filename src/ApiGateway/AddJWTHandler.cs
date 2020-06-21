@@ -10,6 +10,10 @@ namespace Reshape.ApiGateway
     /// <summary>
     /// Handler for exchanging a reference token to a JWT token specced for the downstream client.
     /// If token can't be exchanged, the original reference token will be sent downstream, likely causing an authentication failure.
+    ///
+    /// Currently there isn't any caching behaviour implemented, so the JWT token will be refetched for each request.
+    /// The reason to use JWT tokens for downstream services is to loosen dependency on the IdentityServer for getting claims from reference tokens.
+    /// Downstream services are only exposed through the API gateway anyway, so arguably there should be no need to authenticate inside each downstream service.
     /// </summary>
     public class AddJWTHandler : DelegatingHandler
     {

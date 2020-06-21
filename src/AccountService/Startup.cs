@@ -43,8 +43,6 @@ namespace Reshape.AccountService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            IdentityModelEventSource.ShowPII = true;
-
             services.AddCors();
             services.AddHealthChecks();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -55,6 +53,8 @@ namespace Reshape.AccountService
             services.AddCQRS();
             services.AddCustomControllers();
             services.AddSwagger();
+
+            IdentityModelEventSource.ShowPII = true; // For development only! Enables showing Personally Identifiable Information in logging.
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(opt =>
@@ -75,6 +75,7 @@ namespace Reshape.AccountService
                 app.UseDeveloperExceptionPage();
             }
 
+            // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
                 opt.AllowAnyHeader();

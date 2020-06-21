@@ -20,7 +20,7 @@ namespace Reshape.IdentityService.Infrastructure
                     new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
                     new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
                     new Claim(JwtClaimTypes.Role, "customer"),
-                    new Claim("account", "<insert_account_id>"),
+                    new Claim("account", "bec823e4-aced-4b92-9442-70c2f32c65f9"), // This will be the account domain Account aggregate id to which this user belongs.
                     new Claim("features", "088ad0ab-57b1-48df-ac51-9c9bff608a72"),
                     new Claim("features", "36d8e579-e27a-43e4-b6c5-72fb7a55ce08"),
                     new Claim("businesstier", "0c69921b-afa7-4eba-a69f-aaef3a5c3f5b")

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using IdentityServer4.AccessTokenValidation;
@@ -55,6 +56,8 @@ namespace Reshape.BusinessManagementService
             services.AddCustomControllers();
             services.AddSwagger();
 
+            IdentityModelEventSource.ShowPII = true; // For development only! Enables showing Personally Identifiable Information in logging.
+
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(opt =>
                 {
@@ -63,6 +66,7 @@ namespace Reshape.BusinessManagementService
                     opt.ApiSecret = "!s3cr3t";
                     opt.RequireHttpsMetadata = false;
                     opt.SupportedTokens = SupportedTokens.Both;
+                    opt.SaveToken = true;
                 });
         }
 
@@ -75,6 +79,7 @@ namespace Reshape.BusinessManagementService
                 app.UseDeveloperExceptionPage();
             }
 
+            // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
                 opt.AllowAnyHeader();
