@@ -15,11 +15,11 @@ namespace Reshape.Common.EventBus.Services
         /// Publish an integration event through the eventbus.
         /// A message type has to be provided in order for the message to be received by the subcribers listening for the corresponding event type.
         /// </summary>
-        /// <param name="integrationEvent">The integration event to publish represented by the <c>IIntegrationEvent</c> interface</param>
+        /// <param name="@event">The integration event to publish represented by the <c>IIntegrationEvent</c> interface</param>
         /// <param name="eventType">The <c>Type</c> of the <c>IIntegrationEvent</c> to publish</param>
-        public static async Task PublishIntegrationEvent(this IBusControl busControl, IIntegrationEvent integrationEvent, Type eventType)
+        public static async Task PublishIntegrationEvent(this IBusControl busControl, IIntegrationEvent @event, Type eventType)
         {
-            await busControl.Publish(message: integrationEvent, messageType: eventType);
+            await busControl.Publish(message: @event, messageType: eventType);
             return;
         }
     }
