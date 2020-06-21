@@ -35,7 +35,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             _repository.Update(businessTier);
 
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             var businessTierDTO = _mapper.Map<BusinessTierDTO>(businessTier);
             var integrationEvent = new BusinessTierUpdatedEvent(businessTierDTO);

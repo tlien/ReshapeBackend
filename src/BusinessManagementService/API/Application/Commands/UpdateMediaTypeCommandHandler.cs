@@ -29,7 +29,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             _repository.UpdateMediaType(mediaType);
 
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             return _mapper.Map<MediaTypeDTO>(mediaType);
         }

@@ -43,7 +43,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
 
             _repository.Add(analysisProfile);
 
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
             var integrationEvent = new AnalysisProfileCreatedEvent(analysisProfileDTO);

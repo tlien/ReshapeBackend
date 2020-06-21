@@ -7,6 +7,7 @@ using MediatR;
 using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Serilog;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
@@ -30,7 +31,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             var businessTier = new BusinessTier(message.Name, message.Description, message.Price);
             _repository.Add(businessTier);
 
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             var businessTierDTO = _mapper.Map<BusinessTierDTO>(businessTier);
             var integrationEvent = new BusinessTierCreatedEvent(businessTierDTO);
