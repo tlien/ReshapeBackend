@@ -11,13 +11,11 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     public class SetScriptParametersFileCommandHandler : IRequestHandler<SetScriptParametersFileCommand, AnalysisProfileDTO>
     {
         private readonly IAnalysisProfileRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public SetScriptParametersFileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper)
+        public SetScriptParametersFileCommandHandler(IAnalysisProfileRepository repository, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 

@@ -13,14 +13,12 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     public class UpdateAnalysisProfileCommandHandler : IRequestHandler<UpdateAnalysisProfileCommand, AnalysisProfileDTO>
     {
         private readonly IAnalysisProfileRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public UpdateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public UpdateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _integrationEventService = integrationEventService ?? throw new ArgumentNullException(nameof(integrationEventService));
         }

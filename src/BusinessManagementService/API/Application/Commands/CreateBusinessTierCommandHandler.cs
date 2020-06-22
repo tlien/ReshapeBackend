@@ -14,14 +14,12 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     public class CreateBusinessTierCommandHandler : IRequestHandler<CreateBusinessTierCommand, BusinessTierDTO>
     {
         private readonly IBusinessTierRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _integrationEventService = integrationEventService;
         }
