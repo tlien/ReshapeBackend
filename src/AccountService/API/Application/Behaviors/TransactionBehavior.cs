@@ -12,12 +12,12 @@ namespace Reshape.AccountService.API.Application.Behaviors
 {
 
     /// <summary>
-    /// TransactionBehavior extends the MediatR IPipelineBehavior.
-    /// Through transactions, it ensures that changes from incoming commands are only committed if all changes go through.
-    /// The pipeline is set in motion when a command is sent through the mediator.
-    /// Numerous classes could extend the IPipelineBehavior, allowing additional functionality in different stages of the mediation of commands.
-    /// To continue to the next step in the pipeline, the 'next' RequestHandlerDelegate is awaited.
-    /// When all of the pipeline RequestHandlerDelegates have been awaited in sequence, the pipeline comes to a natural conclusion within the commandhandler's Handle method.
+    /// <c>TransactionBehavior</c> extends <c>MediatR.IPipelineBehavior</c>.
+    /// Through database transactions, it ensures that changes from incoming commands, as well as integration events they may spawn,
+    /// are only committed if all changes go through. The pipeline is set in motion when a command is sent through the mediator.
+    /// Numerous classes could extend the <c>IPipelineBehavior</c>, allowing additional functionality in different stages of the mediation of commands.
+    /// To continue to the next step in the pipeline, the 'next' <c>RequestHandlerDelegate</c> is awaited.
+    /// When all of the pipeline <c>RequestHandlerDelegates</c> have been awaited in sequence, the pipeline comes to a natural conclusion within the commandhandler's <c>Handle</c> method.
     /// </summary>
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
@@ -33,8 +33,12 @@ namespace Reshape.AccountService.API.Application.Behaviors
         }
 
         /// <summary>
-        /// Execute pipeline behavior.
-        /// Proceed to the next step in the pipeline by awaiting the result of the 'next' RequestHandlerDelegate.
+        /// Executes pipeline behavior:
+        ///
+        /// Create a new transaction if there is not already an active transaction within the database context,
+        /// then await the pipeline result through the <c>RequestHandlerDelegate</c> 'next'.
+        /// When the remainder of the pipeline has finished, publish whatever integration events that may have
+        /// spawned during the transaction through the event bus.
         /// </summary>
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {

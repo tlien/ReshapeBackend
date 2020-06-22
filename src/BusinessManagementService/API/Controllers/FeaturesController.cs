@@ -24,7 +24,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets all Features
+        /// Gets all <c>Features</c>
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -33,7 +33,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets a single Feature by its UUID
+        /// Gets a single <c>Feature</c> by its UUID
         /// </summary>
         [HttpGet]
         [Route("{id:Guid}")]
@@ -50,7 +50,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Creates a new Feature
+        /// Creates a new <c>Feature</c>
         /// </summary>
         [HttpPost]
         public async Task<ActionResult> AddAsync([FromBody] CreateFeatureCommand command)
@@ -59,7 +59,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates the full content of a Feature
+        /// Updates the full content of a <c>Feature</c>
         /// </summary>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UpdateFeatureCommand command)

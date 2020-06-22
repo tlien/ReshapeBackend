@@ -24,7 +24,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets all AnalysisProfiles
+        /// Gets all <c>AnalysisProfiles</c>
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -33,7 +33,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets a single AnalysisProfile by its UUID
+        /// Gets a single <c>AnalysisProfile</c> by its UUID
         /// </summary>
         [Route("{id:Guid}")]
         [HttpGet]
@@ -50,7 +50,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Creates a new AnalysisProfile
+        /// Creates a new <c>AnalysisProfile</c>
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] CreateAnalysisProfileCommand command)
@@ -59,7 +59,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates basic information of an AnalysisProfile, not related entities
+        /// Updates basic information of an <c>AnalysisProfile</c>, not related entities
         /// </summary>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateAnalysisProfileCommand command)
@@ -68,7 +68,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Sets the MediaType relation of an AnalysisProfile
+        /// Sets the <c>MediaType</c> relation of an <c>AnalysisProfile</c>
         /// </summary>
         [Route("mediatype")]
         [HttpPut]
@@ -78,7 +78,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Sets the ScriptFile relation of an AnalysisProfile
+        /// Sets the <c>ScriptFile</c> relation of an <c>AnalysisProfile</c>
         /// </summary>
         [Route("scriptfile")]
         [HttpPut]
@@ -88,7 +88,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Sets the ScriptParametersFile relation of an AnalysisProfile
+        /// Sets the <c>ScriptParametersFile</c> relation of an <c>AnalysisProfile</c>
         /// </summary>
         [Route("scriptparametersfile")]
         [HttpPut]

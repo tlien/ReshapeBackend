@@ -11,7 +11,11 @@ namespace Reshape.BusinessManagementService.API.Controllers
 {
 
     /// <summary>
-    /// Access resources that are otherwise directly tied to the AnalysisProfile aggregate
+    /// Access resources that are otherwise directly tied to the AnalysisProfile aggregate.
+    /// This controller, and all commands and queries fired inside it, inherently go against the DDD principle that
+    /// entity data should be read and written through a parent domain aggregate.
+    ///
+    /// It is present to accommodate CRUD features that the nature of the BusinessManagementService immanently calls for.
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -29,7 +33,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets all ScriptFiles
+        /// Gets all <c>ScriptFiles</c>
         /// </summary>
         [HttpGet]
         [Route("scriptfiles")]
@@ -39,7 +43,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets all ScriptParametersFiles
+        /// Gets all <c>ScriptParametersFiles</c>
         /// </summary>
         [HttpGet]
         [Route("scriptparametersfiles")]
@@ -49,7 +53,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets all MediaTypes
+        /// Gets all <c>MediaTypes</c>
         /// </summary>
         [HttpGet]
         [Route("mediatypes")]
@@ -59,7 +63,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets a single ScriptFile by its UUID
+        /// Gets a single <c>ScriptFile</c> by its UUID
         /// </summary>
         [HttpGet]
         [Route("scriptfiles/{id:Guid}")]
@@ -76,7 +80,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets a single ScriptParametersFile by its UUID
+        /// Gets a single <c>ScriptParametersFile</c> by its UUID
         /// </summary>
         [HttpGet]
         [Route("scriptparametersfiles/{id:Guid}")]
@@ -93,7 +97,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets a single MediaType file by its UUID
+        /// Gets a single <c>MediaType</c> by its UUID
         /// </summary>
         [HttpGet]
         [Route("mediatypes/{id:Guid}")]
@@ -110,7 +114,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates the full content of a ScriptFile
+        /// Updates the full content of a <c>ScriptFile</c>
         /// </summary>
         [HttpPut]
         [Route("scriptfile")]
@@ -120,7 +124,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates the full content of a ScriptParametersFile
+        /// Updates the full content of a <c>ScriptParametersFile</c>
         /// </summary>
         [HttpPut]
         [Route("scriptparametersfile")]
@@ -130,7 +134,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates the full content of a MediaType
+        /// Updates the full content of a <c>MediaType</c>
         /// </summary>
         [HttpPut]
         [Route("mediatype")]

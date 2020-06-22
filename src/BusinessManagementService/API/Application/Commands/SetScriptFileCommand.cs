@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to set the <c>ScriptFile</c> relation of an <c>AnalysisProfile</c> through the <c>SetScriptFileCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class SetScriptFileCommand : IRequest<AnalysisProfileDTO>
     {

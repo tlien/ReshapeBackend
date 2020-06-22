@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to update primitive properties of an <c>AnalysisProfile</c> through the <c>UpdateAnalysisProfileCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class UpdateAnalysisProfileCommand : IRequest<AnalysisProfileDTO>
     {

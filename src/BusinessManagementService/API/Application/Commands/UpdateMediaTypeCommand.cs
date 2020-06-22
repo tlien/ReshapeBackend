@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to update a <c>MediaType</c> through the <c>UpdateMediaTypeCommandHandler</c>.
+    /// </summary>
     [DataContract]
     public class UpdateMediaTypeCommand : IRequest<MediaTypeDTO>
     {

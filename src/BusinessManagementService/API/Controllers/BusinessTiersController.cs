@@ -24,7 +24,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets all BusinessTiers
+        /// Gets all <c>BusinessTiers</c>
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -33,7 +33,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Gets a single BusinessTier by its UUID
+        /// Gets a single <c>BusinessTier</c> by its UUID
         /// </summary>
         [HttpGet]
         [Route("{id:Guid}")]
@@ -50,7 +50,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Created a new BusinessTier
+        /// Created a new <c>BusinessTier</c>
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] CreateBusinessTierCommand command)
@@ -59,7 +59,7 @@ namespace Reshape.BusinessManagementService.API.Controllers
         }
 
         /// <summary>
-        /// Updates the full content of a BusinessTier
+        /// Updates the full content of a <c>BusinessTier</c>
         /// </summary>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UpdateBusinessTierCommand command)

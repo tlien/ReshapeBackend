@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to update a <c>BusinessTier</c> through the <c>UpdateBusinessTierCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class UpdateBusinessTierCommand : IRequest<BusinessTierDTO>
     {

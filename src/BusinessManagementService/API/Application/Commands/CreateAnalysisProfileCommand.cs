@@ -4,6 +4,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to create a new <c>AnalysisProfile</c> through the <c>CreateAnalysisProfileCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class CreateAnalysisProfileCommand : IRequest<AnalysisProfileDTO>
     {

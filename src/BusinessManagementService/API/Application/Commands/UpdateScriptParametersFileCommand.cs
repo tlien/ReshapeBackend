@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to update a <c>ScriptParametersFile</c> through the <c>UpdateScriptParametersFileCommandHandler</c>.
+    /// </summary>
     [DataContract]
     public class UpdateScriptParametersFileCommand : IRequest<ScriptParametersFileDTO>
     {
