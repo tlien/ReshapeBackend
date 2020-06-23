@@ -8,6 +8,14 @@
     "editor.tabSize": 4,
     "editor.formatOnSave": true,
     "csharp.format.enable": true,
+    "todo-tree.general.tags": [
+      "BUG",
+      "HACK",
+      "FIXME",
+      "TODO",
+      "XXX",
+      "DEV"
+    ],
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "files.exclude": {
@@ -18,7 +26,12 @@
     }
   },
   "extensions": {
-    "recommendations": ["ms-dotnettools.csharp"]
+    "recommendations": [
+      "ms-dotnettools.csharp",
+      "k--kato.docomment",
+      "ms-azuretools.vscode-docker",
+      "Gruntfuggly.todo-tree"
+    ]
   },
   "tasks": {
     "version": "2.0.0",
@@ -107,7 +120,13 @@
         "type": "pickString",
         "description": "Pick service to rebuild and re-up (default = all)",
         "default": "",
-        "options": ["bm.api", "acc.api", "apigw", "identity.svc", ""]
+        "options": [
+          "bm.api",
+          "acc.api",
+          "apigw",
+          "identity.svc",
+          ""
+        ]
       }
     ]
   }
