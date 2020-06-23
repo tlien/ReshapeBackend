@@ -13,14 +13,12 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     public class CreateFeatureCommandHandler : IRequestHandler<CreateFeatureCommand, FeatureDTO>
     {
         private readonly IFeatureRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateFeatureCommandHandler(IFeatureRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public CreateFeatureCommandHandler(IFeatureRepository repository, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _integrationEventService = integrationEventService;
         }
