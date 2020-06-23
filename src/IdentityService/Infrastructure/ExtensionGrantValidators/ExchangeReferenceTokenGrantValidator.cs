@@ -22,7 +22,7 @@ namespace Reshape.IdentityService.Infrastructure
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
             // Get current reference token from request
-            var userToken = context.Request.Raw.Get("token");
+            var userToken = context.Request.Raw.Get("reference_token");
 
             if (string.IsNullOrEmpty(userToken))
             {
@@ -40,8 +40,7 @@ namespace Reshape.IdentityService.Infrastructure
 
             // Generate the JWT as if it was for the reference token's client
             context.Request.Client = result.Client;
-            context.Request.Client.AccessTokenType = AccessTokenType.Jwt;
-            context.Request.Client.AlwaysSendClientClaims = true; // TODO: Check if this is needed
+            context.Request.AccessTokenType = AccessTokenType.Jwt;
 
             var sub = result.Claims.FirstOrDefault(c => c.Type == "sub").Value;
             context.Result = new GrantValidationResult(sub, GrantType, result.Claims);

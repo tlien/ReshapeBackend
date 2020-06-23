@@ -44,7 +44,7 @@ namespace Reshape.ApiGateway
             var opt = new Dictionary<string, string>
             {
                 { "scope", "bm acc" },
-                { "token", accessToken }
+                { "reference_token", accessToken }
             };
 
             // Send request for token using custom grant type
