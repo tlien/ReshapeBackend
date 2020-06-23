@@ -9,6 +9,9 @@ using Reshape.BusinessManagementService.Infrastructure;
 
 namespace Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries
 {
+    /// <summary>
+    /// Holds database queries to get <c>Features</c>
+    /// </summary>
     public class FeatureQueries : IFeatureQueries
     {
         private readonly BusinessManagementContext _context;

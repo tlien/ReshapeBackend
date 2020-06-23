@@ -9,6 +9,9 @@ using Reshape.BusinessManagementService.Infrastructure;
 
 namespace Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries
 {
+    /// <summary>
+    /// Holds database queries to get <c>BusinessTiers</c>
+    /// </summary>
     public class BusinessTierQueries : IBusinessTierQueries
     {
         private readonly BusinessManagementContext _context;

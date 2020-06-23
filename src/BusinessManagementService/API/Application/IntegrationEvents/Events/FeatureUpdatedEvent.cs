@@ -6,6 +6,9 @@ using Reshape.Common.EventBus.Events.Contracts;
 
 namespace Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events
 {
+    /// <summary>
+    /// Integration event to inform subscribers that a specific <c>Feature</c> has been updated.
+    /// </summary>
     public class FeatureUpdatedEvent : FeatureUpdated
     {
         public Guid Id { get; }
