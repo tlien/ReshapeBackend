@@ -56,7 +56,7 @@ namespace Reshape.BusinessManagementService
             services.AddCustomControllers();
             services.AddSwagger();
 
-            IdentityModelEventSource.ShowPII = true; // For development only! Enables showing Personally Identifiable Information in logging.
+            IdentityModelEventSource.ShowPII = true; // DEV: For development only! Enables showing Personally Identifiable Information in logging.
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(opt =>

@@ -41,14 +41,14 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
         /// </summary>
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-
             var response = default(TResponse);
 
             try
             {
+                // Do not start a new transaction if an active one already exists
                 if (_context.HasActiveTransaction)
                 {
-                    _logger.LogDebug("Has active transaction.");
+                    _logger.LogDebug("Has active transaction. Calling command handler.");
                     response = await next();
                     _logger.LogDebug("Response: {0}", response);
                     return response;
@@ -61,18 +61,21 @@ namespace Reshape.BusinessManagementService.API.Application.Behaviors
                 {
                     Guid transactionId;
 
+                    // Start a new transaction to ensure invariance in the domain
                     using (var transaction = await _context.BeginTransactionAsync())
                     {
-                        _logger.LogDebug("Before");
+                        _logger.LogDebug("New transaction begun. Calling command handler.");
                         response = await next();
                         _logger.LogDebug("Response: {0}", response);
-                        _logger.LogDebug("After");
+
+                        // Commit transaction to database, if this fails a rollback of all changes recorded during the transaction will be rolled back
                         await _context.CommitTransactionAsync(transaction);
 
                         transactionId = transaction.TransactionId;
                     }
 
                     _logger.LogDebug("TransactionId: {0}", transactionId);
+                    // Publish integration events to event bus if everything succeeded
                     await _integrationEventService.PublishEventsThroughEventBusAsync(transactionId);
                 });
 

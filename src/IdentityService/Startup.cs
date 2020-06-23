@@ -30,7 +30,9 @@ namespace Reshape.IdentityService
             var authConfiguration = Configuration.GetSection("AuthConfiguration");
             var authSecretsConfiguration = Configuration.GetSection("AuthSecretsConfiguration");
 
-            IdentityModelEventSource.ShowPII = true; // For development only! Enables showing Personally Identifiable Information in logging.
+
+
+            IdentityModelEventSource.ShowPII = true; // DEV: For development only! Enables showing Personally Identifiable Information in logging.
 
             var builder = services.AddIdentityServer(opt =>
                 {
@@ -44,7 +46,7 @@ namespace Reshape.IdentityService
                     // even though that's what docker hostnames ultimately gets resolved to internally.
                     opt.IssuerUri = "http://identity.svc";
                 })
-                // Adds static predefined test users. This is only for development.
+                // DEV: Adds static predefined test users. This is only for development.
                 .AddTestUsers(TestUsers.Users)
                 // Adds in-memory configuration data (vs. persisted to a database as with the operational data below).
                 // During development where these resources and clients change a lot, it is easiest to have them not persisted.
@@ -61,7 +63,7 @@ namespace Reshape.IdentityService
 
             if (Environment.IsDevelopment())
             {
-                // This is for development only!
+                // DEV: This is for development only!
                 builder.AddDeveloperSigningCredential();
             }
 

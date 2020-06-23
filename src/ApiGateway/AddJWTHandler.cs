@@ -30,7 +30,7 @@ namespace Reshape.ApiGateway
             TokenClientOptions tokenOptions = new TokenClientOptions
             {
                 ClientId = "rshp.gateway",
-                ClientSecret = "secret", // for development purposes. Use proper secret in prod.
+                ClientSecret = "secret", // DEV: for development purposes. Use proper secret in prod.
                 Address = "http://identity.svc/connect/token"
             };
 

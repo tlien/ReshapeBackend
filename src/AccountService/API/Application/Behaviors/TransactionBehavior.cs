@@ -10,7 +10,6 @@ using Reshape.AccountService.Infrastructure;
 
 namespace Reshape.AccountService.API.Application.Behaviors
 {
-
     /// <summary>
     /// <c>TransactionBehavior</c> extends <c>MediatR.IPipelineBehavior</c>.
     /// Through database transactions, it ensures that changes from incoming commands, as well as integration events they may spawn,
@@ -46,6 +45,7 @@ namespace Reshape.AccountService.API.Application.Behaviors
 
             try
             {
+                // Do not start a new transaction if an active one already exists
                 if (_context.HasActiveTransaction)
                 {
                     _logger.LogDebug("Has active transaction. Calling command handler.");
@@ -61,17 +61,21 @@ namespace Reshape.AccountService.API.Application.Behaviors
                 {
                     Guid transactionId;
 
+                    // Start a new transaction to ensure invariance in the domain
                     using (var transaction = await _context.BeginTransactionAsync())
                     {
                         _logger.LogDebug("New transaction begun. Calling command handler.");
                         response = await next();
                         _logger.LogDebug("Response: {0}", response);
+
+                        // Commit transaction to database, if this fails a rollback of all changes recorded during the transaction will be rolled back
                         await _context.CommitTransactionAsync(transaction);
 
                         transactionId = transaction.TransactionId;
                     }
 
                     _logger.LogDebug("TransactionId: {0}", transactionId);
+                    // Publish integration events to event bus if everything succeeded
                     await _integrationEventService.PublishEventsThroughEventBusAsync(transactionId);
                 });
 

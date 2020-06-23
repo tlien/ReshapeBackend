@@ -11,6 +11,10 @@ using Reshape.IdentityService.Models;
 
 namespace Reshape.IdentityService.Controllers
 {
+    /// <summary>
+    /// This is the home controller. Depending on whether a user is logged in on the current device/browser, it will either redirect to the login page or diagnostics page.
+    /// The diagnostics page will only be shown while in development.
+    /// </summary>
     [SecurityHeaders]
     [AllowAnonymous]
     public class HomeController : Controller
@@ -34,7 +38,7 @@ namespace Reshape.IdentityService.Controllers
 
             if (_environment.IsDevelopment())
             {
-                // only show in development
+                // DEV: only show in development
                 return RedirectToAction("index", "Diagnostics");
             }
 

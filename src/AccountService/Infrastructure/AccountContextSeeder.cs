@@ -54,9 +54,9 @@ namespace Reshape.AccountService.Infrastructure
             if (!context.Accounts.Any())
             {
                 var account1 = new Account(Guid.Parse("bec823e4-aced-4b92-9442-70c2f32c65f9"));
-                account1.SetBusinessTier(businessTiers[2]);
-                account1.SetContactDetails(new ContactDetails("Alice Smith", "818727", "AliceSmith@email.com"));
                 account1.SetAddress(new Address("One Haxxor Way", "1337", "Heidelberg", "69118", "Germany"));
+                account1.SetContactDetails(new ContactDetails("Don Keigh", "818727", "DoKeigh@email.com"));
+                account1.SetBusinessTier(businessTiers[2]);
                 account1.AddFeature(features[2]);
                 account1.AddFeature(features[3]);
                 account1.AddAnalysisProfile(analysisProfiles[1]);
