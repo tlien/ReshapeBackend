@@ -6,6 +6,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to remove one or more <c>Features</c> from an existing <c>Account</c> through the <c>RemoveFeaturesCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class RemoveFeaturesCommand : IRequest<int>
     {

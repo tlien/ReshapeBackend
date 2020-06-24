@@ -7,6 +7,10 @@ using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
 namespace Reshape.AccountService.API.Application.IntegrationEvents.Consumers
 {
+    /// <summary>
+    /// Handler for consuming <c>BusinessTierUpdated</c> integration events.
+    /// Updates an existing <c>BusinessTier</c> and saves it to the database.
+    /// </summary>
     public class BusinessTierUpdatedConsumer : IConsumer<BusinessTierUpdated>
     {
         private readonly ILogger _logger;

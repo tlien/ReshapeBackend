@@ -3,7 +3,6 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
 // using MediatR;
 
@@ -36,8 +35,14 @@ namespace Reshape.BusinessManagementService.Infrastructure
 
         public BusinessManagementContext(DbContextOptions<BusinessManagementContext> options) : base(options) { }
 
+        /// <summary>
+        /// Gets the current transaction if one exists.
+        /// </summary>
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
+        /// <summary>
+        /// Gets whether or not the context holds an active transaction.
+        /// </summary>
         public bool HasActiveTransaction => _currentTransaction != null;
 
         // public BusinessManagementContext(DbContextOptions<BusinessManagementContext> options, IMediator mediator) : base(options)

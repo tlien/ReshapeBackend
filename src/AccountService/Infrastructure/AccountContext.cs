@@ -13,6 +13,11 @@ using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
 namespace Reshape.AccountService.Infrastructure
 {
+    /// <summary>
+    /// <c>DbContext</c> used in the <c>Account</c> microservice.
+    /// Setup to reflect the account domain.
+    /// Extends the <c>DbContext</c> class and implements <c>IUnitOfWork</c>.
+    /// </summary>
     public class AccountContext : DbContext, IUnitOfWork, ISeeder<AccountContext>
     {
         public const string DEFAULT_SCHEMA = "account";
@@ -26,8 +31,14 @@ namespace Reshape.AccountService.Infrastructure
 
         public AccountContext(DbContextOptions<AccountContext> opt) : base(opt) { }
 
+        /// <summary>
+        /// Gets the current transaction if one exists.
+        /// </summary>
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
+        /// <summary>
+        /// Gets whether or not the context holds an active transaction.
+        /// </summary>
         public bool HasActiveTransaction => _currentTransaction != null;
 
         // public AccountContext(DbContextOptions<AccountContext> opt, IMediator mediator) : base(opt)
@@ -45,6 +56,11 @@ namespace Reshape.AccountService.Infrastructure
             modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
         }
 
+        /// <summary>
+        /// Save changes made to all tracked entities to the database.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             // DO STUFF WITH DOMAIN EVENTS HERE!
@@ -53,6 +69,12 @@ namespace Reshape.AccountService.Infrastructure
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Begins a new database transaction unless a transaction is already tracked in the <c>AccountContext</c>.
+        /// The transaction has <c>IsolationLevel.ReadCommitted</c>, allowing outside transactions to read (but not write to)
+        /// the volatile data (data affected during the transaction).
+        /// </summary>
+        /// <returns>A <c>Task</c> that returns the transaction once awaited.</returns>
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
             if (_currentTransaction != null) return null;
@@ -62,6 +84,14 @@ namespace Reshape.AccountService.Infrastructure
             return _currentTransaction;
         }
 
+        /// <summary>
+        /// Saves changes to the database and commits the transaction,
+        /// if the transaction to commit is currently tracked by the <c>AccountContext</c>.
+        /// Should any errors occur, the transaction is rolled back.
+        /// See <c>AccountContext.RollbackTransaction()</c> for more info.
+        /// </summary>
+        /// <param name="transaction">The transaction to commit</param>
+        /// <returns></returns>
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
@@ -87,6 +117,10 @@ namespace Reshape.AccountService.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Rolls back the current transaction, effectively discarding and reversing
+        /// all changes made to volatile data during the transaction.
+        /// </summary>
         public void RollbackTransaction()
         {
             try

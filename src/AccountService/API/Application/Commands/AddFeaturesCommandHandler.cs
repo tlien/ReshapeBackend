@@ -22,6 +22,8 @@ namespace Reshape.AccountService.API.Application.Commands
             var account = await _accountRepository.GetAsync(request.AccountId);
             var features = await _accountRepository.GetFeaturesAsync(request.FeatureIds);
 
+            // TODO: gracefully handle case where one or more features aren't found in Db for whatever reason
+
             features.ForEach(f => account.AddFeature(f));
 
             _accountRepository.Update(account);

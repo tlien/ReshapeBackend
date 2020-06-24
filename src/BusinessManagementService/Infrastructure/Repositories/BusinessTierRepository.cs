@@ -15,6 +15,10 @@ namespace Reshape.BusinessManagementService.Infrastructure.Repositories
     public class BusinessTierRepository : IBusinessTierRepository
     {
         private readonly BusinessManagementContext _context;
+
+        /// <summary>
+        /// Gets underlying DbContext (DbContexts implement the Unit of Work pattern).
+        /// </summary>
         public IUnitOfWork UnitOfWork
         {
             get

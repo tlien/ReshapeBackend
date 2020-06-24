@@ -22,6 +22,8 @@ namespace Reshape.AccountService.API.Application.Commands
             var account = await _accountRepository.GetAsync(request.AccountId);
             var analysisProfiles = await _accountRepository.GetAnalysisProfilesAsync(request.AnalysisProfileIds);
 
+            // TODO: gracefully handle case where one or more analysis profiles aren't found in Db for whatever reason
+
             analysisProfiles.ForEach(ap => account.AddAnalysisProfile(ap));
 
             _accountRepository.Update(account);

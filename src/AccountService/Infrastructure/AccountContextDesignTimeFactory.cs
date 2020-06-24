@@ -5,8 +5,11 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Reshape.AccountService.Infrastructure
 {
-    // Since Program has been heavily altered, meaning EF can't find the dbcontext during design time using that convention.
-    // Providing a factory implementing IDesignTimeDbContextFactory solves this in a graceful manner.
+    /// <summary>
+    /// Allows webhosting extension to migrate database at design time.
+    /// The factory is accessed simply by being in the same project root or namespace as the <c>DbContext</c>
+    /// it is producing, hence no code references to <c>BusinessManagementContextFactory</c>.
+    /// </summary>
     public class AccountContextFactory : IDesignTimeDbContextFactory<AccountContext>
     {
         public AccountContext CreateDbContext(string[] args)

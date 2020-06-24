@@ -7,6 +7,10 @@ using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
 namespace Reshape.AccountService.API.Application.IntegrationEvents.Consumers
 {
+    /// <summary>
+    /// Handler for consuming <c>FeatureUpdated</c> integration events.
+    /// Updates an existing <c>Feature</c> and saves it to the database.
+    /// </summary>
     public class FeatureUpdatedConsumer : IConsumer<FeatureUpdated>
     {
         private readonly ILogger _logger;
