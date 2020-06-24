@@ -30,7 +30,7 @@ the following features will be available:
 **Same as above except it's the business management API.**
 > `reshapebackend_bm.api_1` | `localhost:5001`
 
-**The API gateway. It exposes a aggregated Swagger UI, unfortunately authentication hasn't been setup for it yet, meaning only anonymous endpoints can be called - of which there are none.**
+**The API gateway exposes an aggregated Swagger UI, unfortunately authentication hasn't been setup for it yet, meaning only anonymous endpoints can be called - of which there currently are none.**
 > `reshapebackend_bm.api_1` | `localhost:5000`
 
 <br />
@@ -44,6 +44,8 @@ The following databases (postgres) will be available:\
 
 **Account API DB.**
 > `reshapebackend_acc.db_1` | `localhost:5435`
+
+Database names are for the three databases are `identityservice`, `businessservice`, `accountservice` respectively.
 
 Either use the [pgadmin](https://www.pgadmin.org/download/) management ui tool to inspect (user/pwd: postgres/example).\
 or use the console tool (psql) with the command:\
