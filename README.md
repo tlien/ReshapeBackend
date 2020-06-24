@@ -59,5 +59,5 @@ Otherwise basic syntax, e.g: `select * from <table_name>;`
 <br />
 
 The RabbitMQ instance can be found here:\
-** Exposes a UI for managing and monitoring the RabbitMQ instance (user/pwd: guest/guest).**
+**Exposes a UI for managing and monitoring the RabbitMQ instance (user/pwd: guest/guest).**
 > `reshapebackend_rabbitmq_1` | `localhost:5100`
