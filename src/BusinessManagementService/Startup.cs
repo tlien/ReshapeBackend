@@ -1,7 +1,8 @@
-using AutoMapper;
-using IdentityServer4.AccessTokenValidation;
-using MassTransit;
-using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -10,12 +11,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Reflection;
+using AutoMapper;
+using IdentityServer4.AccessTokenValidation;
+using MassTransit;
+using MediatR;
 
+using Reshape.Common.DevelopmentTools;
 using Reshape.Common.EventBus;
 using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
@@ -24,12 +27,10 @@ using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 using Reshape.BusinessManagementService.Infrastructure;
 using Reshape.BusinessManagementService.Infrastructure.Repositories;
 using Reshape.BusinessManagementService.API.Application.Behaviors;
-using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileExtrasQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.BusinessTierQueries;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
-using Reshape.Common.DevelopmentTools;
 
 namespace Reshape.BusinessManagementService
 {
@@ -55,6 +56,8 @@ namespace Reshape.BusinessManagementService
             services.AddCustomControllers();
             services.AddSwagger();
 
+            IdentityModelEventSource.ShowPII = true; // DEV: For development only! Enables showing Personally Identifiable Information in logging.
+
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(opt =>
                 {
@@ -63,6 +66,7 @@ namespace Reshape.BusinessManagementService
                     opt.ApiSecret = "!s3cr3t";
                     opt.RequireHttpsMetadata = false;
                     opt.SupportedTokens = SupportedTokens.Both;
+                    opt.SaveToken = true;
                 });
         }
 
@@ -75,34 +79,30 @@ namespace Reshape.BusinessManagementService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
+            // TODO: properly configure CORS at some point when it starts being relevant.
             app.UseCors(opt =>
             {
                 opt.AllowAnyHeader();
                 opt.AllowAnyMethod();
                 opt.AllowAnyOrigin();
             });
-
-            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(ep =>
             {
                 ep.MapControllers();
-
                 ep.MapHealthChecks("/health/live", new HealthCheckOptions()
                 {
                     // Exclude all checks and return a 200-Ok. Basically just a check to see if we can get requests through
                     Predicate = (_) => false
                 });
-
                 ep.MapHealthChecks("/health/ready", new HealthCheckOptions()
                 {
                     // The readiness check uses all registered checks with the 'ready' tag.
                     Predicate = (check) => check.Tags.Contains("ready")
                 });
             });
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -112,20 +112,6 @@ namespace Reshape.BusinessManagementService
                 c.OAuthAppName("Business Management Swagger");
                 c.OAuthUsePkce();
             });
-
-            ConfigureEvents(app);
-        }
-
-        public void ConfigureEvents(IApplicationBuilder app)
-        {
-            var eventTracker = app.ApplicationServices.GetRequiredService<IEventTracker>();
-
-            eventTracker.AddEventType<AnalysisProfileCreatedEvent>();
-            eventTracker.AddEventType<BusinessTierCreatedEvent>();
-            eventTracker.AddEventType<FeatureCreatedEvent>();
-            eventTracker.AddEventType<AnalysisProfileUpdatedEvent>();
-            eventTracker.AddEventType<BusinessTierUpdatedEvent>();
-            eventTracker.AddEventType<FeatureUpdatedEvent>();
         }
     }
 
@@ -144,6 +130,7 @@ namespace Reshape.BusinessManagementService
                 .UseSnakeCaseNamingConvention(); // sets up tables and columns with snake_case automagically
             });
 
+            // This is used to migrate the database while building the host.
             services.AddDbContext<IntegrationEventLogContext>(opt =>
             {
                 opt.UseNpgsql(connectionString, npgsqlOpt =>
@@ -210,12 +197,14 @@ namespace Reshape.BusinessManagementService
 
             services.AddMassTransitHostedService();
 
+            // Register integration event log as an ImplementationFactory.
+            // DbConnection is provided by the service depending on this service (see IntegrationEventService).
+            // The DbContext is managed internally by the IntegrationLogService independent of the IOC provider.
+            // See IIntegrationEventLogService summary for more info.
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
-               sp => (DbConnection c) => new IntegrationEventLogService(c));
+                sp => (DbConnection c) => new IntegrationEventLogService(c));
 
             services.AddTransient<IIntegrationEventService, IntegrationEventService<BusinessManagementContext>>();
-
-            services.AddSingleton<IEventTracker, EventTracker>();
 
             return services;
         }
@@ -253,6 +242,11 @@ namespace Reshape.BusinessManagementService
                     },
                     Description = "Business Management Service OpenId Scheme"
                 });
+
+                // Add XML comments to Swagger api documentation
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             return services;

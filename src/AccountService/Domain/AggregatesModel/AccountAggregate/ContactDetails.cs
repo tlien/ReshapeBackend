@@ -9,6 +9,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
         public string ContactPersonFullName { get; private set; }
         public string Phone { get; private set; }
         public string Email { get; private set; }
+
         public ContactDetails() { }
 
         public ContactDetails(string contactPersonFullName, string phone, string email)
@@ -18,7 +19,7 @@ namespace Reshape.AccountService.Domain.AggregatesModel.AccountAggregate
             Email = email;
         }
 
-        protected override IEnumerable<object> GetAtomicValues()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return ContactPersonFullName;
             yield return Phone;

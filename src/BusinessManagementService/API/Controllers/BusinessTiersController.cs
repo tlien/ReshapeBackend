@@ -23,12 +23,18 @@ namespace Reshape.BusinessManagementService.API.Controllers
             _businessTierQueries = businessTierQueries ?? throw new ArgumentNullException(nameof(businessTierQueries));
         }
 
+        /// <summary>
+        /// Gets all <c>BusinessTiers</c>
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _businessTierQueries.GetAllAsync());
         }
 
+        /// <summary>
+        /// Gets a single <c>BusinessTier</c> by its UUID
+        /// </summary>
         [HttpGet]
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
@@ -43,12 +49,18 @@ namespace Reshape.BusinessManagementService.API.Controllers
             return Ok(businessTier);
         }
 
+        /// <summary>
+        /// Created a new <c>BusinessTier</c>
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] CreateBusinessTierCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        /// <summary>
+        /// Updates the full content of a <c>BusinessTier</c>
+        /// </summary>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UpdateBusinessTierCommand command)
         {

@@ -7,6 +7,11 @@ using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
+    /// <summary>
+    /// Repository interface stating the methods necessary
+    /// to handle database writes to the <c>AnalysisProfile</c>
+    /// domain aggregate and its related entities.
+    /// </summary>
     public interface IAnalysisProfileRepository : IRepository<AnalysisProfile>
     {
         Task<List<AnalysisProfile>> GetAllAsync();

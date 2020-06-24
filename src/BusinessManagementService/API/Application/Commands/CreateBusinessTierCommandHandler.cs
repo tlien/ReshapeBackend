@@ -7,20 +7,19 @@ using MediatR;
 using Reshape.Common.EventBus.Services;
 using Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.BusinessTierAggregate;
+using Serilog;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
     public class CreateBusinessTierCommandHandler : IRequestHandler<CreateBusinessTierCommand, BusinessTierDTO>
     {
         private readonly IBusinessTierRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public CreateBusinessTierCommandHandler(IBusinessTierRepository repository, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _integrationEventService = integrationEventService;
         }
@@ -29,6 +28,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         {
             var businessTier = new BusinessTier(message.Name, message.Description, message.Price);
             _repository.Add(businessTier);
+
             await _repository.UnitOfWork.SaveChangesAsync();
 
             var businessTierDTO = _mapper.Map<BusinessTierDTO>(businessTier);

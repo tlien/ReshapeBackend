@@ -4,7 +4,7 @@ using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate;
 
-namespace Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs
+namespace Reshape.BusinessManagementService.API.Infrastructure.AutoMapperConfigs
 {
     public class AnalysisProfileMapping : Profile
     {

@@ -6,10 +6,10 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
     /// <summary>
-    /// Models the data needed to update primitive properties of an <c>AnalysisProfile</c> through the <c>UpdateAnalysisProfileCommandHandler</c>
+    /// Models the data needed to update a <c>BusinessTier</c> through the <c>UpdateBusinessTierCommandHandler</c>
     /// </summary>
     [DataContract]
-    public class UpdateAnalysisProfileCommand : IRequest<AnalysisProfileDTO>
+    public class UpdateBusinessTierCommand : IRequest<BusinessTierDTO>
     {
         [DataMember]
         [SwaggerSchema(ReadOnly = false)]
@@ -27,7 +27,7 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         [SwaggerSchema(ReadOnly = false)]
         public decimal Price { get; private set; }
 
-        public UpdateAnalysisProfileCommand(Guid id, string name, string description, decimal price)
+        public UpdateBusinessTierCommand(Guid id, string name, string description, decimal price)
         {
             Id = id;
             Name = name;

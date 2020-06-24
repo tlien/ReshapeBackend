@@ -29,13 +29,18 @@ namespace Reshape.Common.EventBus
         public string TransactionId { get; private set; }
 
         [NotMapped]
+        public Type EventType { get; private set; }
+        [NotMapped]
         public string EventTypeShortName => EventTypeName.Split('.')?.Last();
         [NotMapped]
         public IIntegrationEvent IntegrationEvent { get; private set; }
 
         public IntegrationEventLogEntry DeserializeJsonContent(Type type)
         {
+            // TODO: Use System.Text.Json when it has matured
+            // The System.Text.Json workaround is currently rather cumbersome: https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to#deserialize-to-immutable-classes-and-structs
             IntegrationEvent = JsonConvert.DeserializeObject(Content, type) as IIntegrationEvent;
+            EventType = type;
             return this;
         }
     }

@@ -10,12 +10,10 @@ namespace Reshape.AccountService.API.Application.Commands
 {
     public class AddAnalysisProfilesCommandHandler : IRequestHandler<AddAnalysisProfilesCommand, int>
     {
-        private readonly IMediator _mediator;
         private readonly IAccountRepository _accountRepository;
 
-        public AddAnalysisProfilesCommandHandler(IMediator mediator, IAccountRepository accountRepository)
+        public AddAnalysisProfilesCommandHandler(IAccountRepository accountRepository)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 
@@ -23,6 +21,8 @@ namespace Reshape.AccountService.API.Application.Commands
         {
             var account = await _accountRepository.GetAsync(request.AccountId);
             var analysisProfiles = await _accountRepository.GetAnalysisProfilesAsync(request.AnalysisProfileIds);
+
+            // TODO: gracefully handle case where one or more analysis profiles aren't found in Db for whatever reason
 
             analysisProfiles.ForEach(ap => account.AddAnalysisProfile(ap));
 

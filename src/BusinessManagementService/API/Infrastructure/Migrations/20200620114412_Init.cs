@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BusinessManagementService.Infrastructure.Migrations
+namespace BusinessManagementService.API.Infrastructure.Migrations
 {
     public partial class Init : Migration
     {
@@ -83,9 +83,9 @@ namespace BusinessManagementService.Infrastructure.Migrations
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     price = table.Column<decimal>(nullable: false),
-                    media_type_id = table.Column<Guid>(nullable: false),
-                    script_file_id = table.Column<Guid>(nullable: false),
-                    script_parameters_file_id = table.Column<Guid>(nullable: false)
+                    media_type_id = table.Column<Guid>(nullable: true),
+                    script_file_id = table.Column<Guid>(nullable: true),
+                    script_parameters_file_id = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -95,19 +95,19 @@ namespace BusinessManagementService.Infrastructure.Migrations
                         column: x => x.media_type_id,
                         principalTable: "media_types",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "fk_analysis_profiles_script_files_script_file_id",
                         column: x => x.script_file_id,
                         principalTable: "script_files",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "fk_analysis_profiles_script_parameters_files_script_parameters",
                         column: x => x.script_parameters_file_id,
                         principalTable: "script_parameters_files",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

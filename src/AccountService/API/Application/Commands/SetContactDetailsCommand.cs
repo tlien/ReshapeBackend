@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to set the <c>ContactDetails</c> value object of an existing <c>Account</c> through the <c>SetContactDetailsCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class SetContactDetailsCommand : IRequest<int>
     {

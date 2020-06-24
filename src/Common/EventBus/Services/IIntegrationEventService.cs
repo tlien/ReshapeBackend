@@ -8,6 +8,6 @@ namespace Reshape.Common.EventBus.Services
     public interface IIntegrationEventService
     {
         Task PublishEventsThroughEventBusAsync(Guid transactionId);
-        Task AddAndSaveEventAsync<T>(T evt) where T : IIntegrationEvent;
+        Task AddAndSaveEventAsync<TEvent>(TEvent @event) where TEvent : IIntegrationEvent;
     }
 }

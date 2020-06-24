@@ -7,6 +7,10 @@ using Reshape.AccountService.Domain.AggregatesModel.AccountAggregate;
 
 namespace Reshape.AccountService.API.Application.IntegrationEvents.Consumers
 {
+    /// <summary>
+    /// Handler for consuming <c>AnalysisProfileCreated</c> integration events.
+    /// Adds a new <c>AnalysisProfile</c> to the database.
+    /// </summary>
     public class AnalysisProfileCreatedConsumer : IConsumer<AnalysisProfileCreated>
     {
         private readonly ILogger _logger;

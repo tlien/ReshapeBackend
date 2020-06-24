@@ -14,6 +14,9 @@ namespace Reshape.AccountService.Infrastructure
         }
     }
 
+    /// <summary>
+    /// Represents a relation between an <c>Account</c> and a <c>Feature</c> used to map a many-to-many relation.
+    /// </summary>
     public class AccountFeature
     {
         public Guid AccountId { get; set; }

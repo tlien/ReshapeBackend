@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to create a new <c>Account</c> through the <c>CreateAccountCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class CreateAccountCommand : IRequest<int>
     {

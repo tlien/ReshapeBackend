@@ -13,20 +13,14 @@ namespace Reshape.BusinessManagementService.Infrastructure.EntityConfigurations
             builder.HasKey(a => a.Id);
             builder.Ignore(a => a.DomainEvents);
 
-            builder
-                .HasOne(a => a.MediaType)
-                .WithMany()
-                .HasForeignKey(a => a.MediaTypeId);
+            builder.Metadata
+                .FindNavigation(nameof(AnalysisProfile.MediaType));
 
-            builder
-                .HasOne(a => a.ScriptFile)
-                .WithMany()
-                .HasForeignKey(a => a.ScriptFileId);
+            builder.Metadata
+                .FindNavigation(nameof(AnalysisProfile.ScriptFile));
 
-            builder
-                .HasOne(a => a.ScriptParametersFile)
-                .WithMany()
-                .HasForeignKey(a => a.ScriptParametersFileId);
+            builder.Metadata
+                .FindNavigation(nameof(AnalysisProfile.ScriptParametersFile));
         }
     }
 }

@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +8,10 @@ using Reshape.IdentityService.Models;
 
 namespace Reshape.IdentityService.Controllers
 {
+    /// <summary>
+    /// This controller serves the Diagnostics page showing the contents of the auth cookie of the currently signed in user.
+    /// It is NOT set up to show all available information at this point.
+    /// </summary>
     [SecurityHeaders]
     [Authorize]
     public class DiagnosticsController : Controller

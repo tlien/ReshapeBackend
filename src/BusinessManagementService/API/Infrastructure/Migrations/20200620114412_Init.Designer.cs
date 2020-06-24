@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Reshape.BusinessManagementService.Infrastructure;
 
-namespace BusinessManagementService.Infrastructure.Migrations
+namespace BusinessManagementService.API.Infrastructure.Migrations
 {
     [DbContext(typeof(BusinessManagementContext))]
-    [Migration("20200609131815_Init")]
+    [Migration("20200620114412_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace BusinessManagementService.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.AnalysisProfile", b =>
@@ -32,7 +32,7 @@ namespace BusinessManagementService.Infrastructure.Migrations
                         .HasColumnName("description")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("MediaTypeId")
+                    b.Property<Guid?>("MediaTypeId")
                         .HasColumnName("media_type_id")
                         .HasColumnType("uuid");
 
@@ -44,11 +44,11 @@ namespace BusinessManagementService.Infrastructure.Migrations
                         .HasColumnName("price")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("ScriptFileId")
+                    b.Property<Guid?>("ScriptFileId")
                         .HasColumnName("script_file_id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ScriptParametersFileId")
+                    b.Property<Guid?>("ScriptParametersFileId")
                         .HasColumnName("script_parameters_file_id")
                         .HasColumnType("uuid");
 
@@ -193,23 +193,17 @@ namespace BusinessManagementService.Infrastructure.Migrations
                     b.HasOne("Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.MediaType", "MediaType")
                         .WithMany()
                         .HasForeignKey("MediaTypeId")
-                        .HasConstraintName("fk_analysis_profiles_media_types_media_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("fk_analysis_profiles_media_types_media_type_id");
 
                     b.HasOne("Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.ScriptFile", "ScriptFile")
                         .WithMany()
                         .HasForeignKey("ScriptFileId")
-                        .HasConstraintName("fk_analysis_profiles_script_files_script_file_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("fk_analysis_profiles_script_files_script_file_id");
 
                     b.HasOne("Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate.ScriptParametersFile", "ScriptParametersFile")
                         .WithMany()
                         .HasForeignKey("ScriptParametersFileId")
-                        .HasConstraintName("fk_analysis_profiles_script_parameters_files_script_parameters")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("fk_analysis_profiles_script_parameters_files_script_parameters");
                 });
 #pragma warning restore 612, 618
         }

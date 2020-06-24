@@ -5,6 +5,10 @@ using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
+    /// <summary>
+    /// The <c>MediaType</c> domain entity holds the name of a medium used
+    /// by the <c>AnalysisProfile</c> domain aggregate.
+    /// </summary>
     public class MediaType : Entity
     {
         public string Name { get; private set; }

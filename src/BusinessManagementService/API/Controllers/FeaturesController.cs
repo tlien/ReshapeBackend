@@ -23,12 +23,18 @@ namespace Reshape.BusinessManagementService.API.Controllers
             _featureQueries = featureQueries ?? throw new ArgumentNullException(nameof(featureQueries));
         }
 
+        /// <summary>
+        /// Gets all <c>Features</c>
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _featureQueries.GetAllAsync());
         }
 
+        /// <summary>
+        /// Gets a single <c>Feature</c> by its UUID
+        /// </summary>
         [HttpGet]
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
@@ -43,12 +49,18 @@ namespace Reshape.BusinessManagementService.API.Controllers
             return Ok(feature);
         }
 
+        /// <summary>
+        /// Creates a new <c>Feature</c>
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult> AddAsync([FromBody] CreateFeatureCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        /// <summary>
+        /// Updates the full content of a <c>Feature</c>
+        /// </summary>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UpdateFeatureCommand command)
         {

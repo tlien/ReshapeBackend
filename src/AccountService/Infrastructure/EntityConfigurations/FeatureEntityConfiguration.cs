@@ -13,6 +13,7 @@ namespace Reshape.AccountService.Infrastructure
 
             builder.Ignore(f => f.DomainEvents);
 
+            // one to many relation mapping, it represent one half of a many to many relation using two one-to-many relations
             builder
                 .HasMany<AccountFeature>()
                 .WithOne(af => af.Feature)

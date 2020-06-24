@@ -10,12 +10,10 @@ namespace Reshape.AccountService.API.Application.Commands
 {
     public class AddFeaturesCommandHandler : IRequestHandler<AddFeaturesCommand, int>
     {
-        private readonly IMediator _mediator;
         private readonly IAccountRepository _accountRepository;
 
-        public AddFeaturesCommandHandler(IMediator mediator, IAccountRepository accountRepository)
+        public AddFeaturesCommandHandler(IAccountRepository accountRepository)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 
@@ -23,6 +21,8 @@ namespace Reshape.AccountService.API.Application.Commands
         {
             var account = await _accountRepository.GetAsync(request.AccountId);
             var features = await _accountRepository.GetFeaturesAsync(request.FeatureIds);
+
+            // TODO: gracefully handle case where one or more features aren't found in Db for whatever reason
 
             features.ForEach(f => account.AddFeature(f));
 

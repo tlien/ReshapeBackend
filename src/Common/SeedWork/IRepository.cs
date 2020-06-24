@@ -1,6 +1,9 @@
 ﻿namespace Reshape.Common.SeedWork
 {
-    public interface IRepository<T> where T : IAggregateRoot
+    /// <summary>
+    /// A contract that states that a repository must belong to a domain aggregate
+    /// </summary>
+    public interface IRepository<TAggregate> where TAggregate : IAggregateRoot
     {
         IUnitOfWork UnitOfWork { get; }
     }

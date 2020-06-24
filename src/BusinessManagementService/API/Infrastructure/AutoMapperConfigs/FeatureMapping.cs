@@ -4,7 +4,7 @@ using Reshape.BusinessManagementService.API.Application.Commands;
 using Reshape.BusinessManagementService.API.Application.Queries.FeatureQueries;
 using Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate;
 
-namespace Reshape.BusinessManagementService.API.Configuration.AutoMapperConfigs
+namespace Reshape.BusinessManagementService.API.Infrastructure.AutoMapperConfigs
 {
     public class FeatureMapping : Profile
     {

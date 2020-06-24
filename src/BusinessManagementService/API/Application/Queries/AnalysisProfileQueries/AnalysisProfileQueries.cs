@@ -9,6 +9,9 @@ using Reshape.BusinessManagementService.Infrastructure;
 
 namespace Reshape.BusinessManagementService.API.Application.Queries.AnalysisProfileQueries
 {
+    /// <summary>
+    /// Holds database queries to get <c>AnalysisProfiles</c>
+    /// </summary>
     public class AnalysisProfileQueries : IAnalysisProfileQueries
     {
         private readonly BusinessManagementContext _context;
