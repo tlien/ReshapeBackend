@@ -4,14 +4,15 @@ using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
+    /// <summary>
+    /// AnalysisProfile domain aggregate.
+    /// Inherits from <c>Entity</c> base class and implements the <c>IAggregateRoot</c> interface.
+    /// </summary>
     public class AnalysisProfile : Entity, IAggregateRoot
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
-        public Guid MediaTypeId { get; private set; }
-        public Guid ScriptFileId { get; private set; }
-        public Guid ScriptParametersFileId { get; private set; }
         public virtual MediaType MediaType { get; private set; }
         public virtual ScriptFile ScriptFile { get; private set; }
         public virtual ScriptParametersFile ScriptParametersFile { get; private set; }
@@ -21,6 +22,12 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
             Name = name;
             Description = description;
             Price = price;
+        }
+
+        // ctor used for seeding don't put this in production.
+        public AnalysisProfile(Guid id, string name, string description, decimal price) : this(name, description, price)
+        {
+            base.Id = id;
         }
 
         public void SetScriptFile(ScriptFile scriptFile)
@@ -36,6 +43,21 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
         public void SetMediaType(MediaType mediaType)
         {
             MediaType = mediaType;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetPrice(decimal price)
+        {
+            Price = price;
         }
     }
 }

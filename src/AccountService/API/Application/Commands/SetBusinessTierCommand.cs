@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to set the <c>BusinessTier</c> of an existing <c>Account</c> through the <c>SetBusinessTierCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class SetBusinessTierCommand : IRequest<int>
     {

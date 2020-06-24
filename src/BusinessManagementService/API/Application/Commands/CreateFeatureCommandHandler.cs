@@ -13,14 +13,12 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     public class CreateFeatureCommandHandler : IRequestHandler<CreateFeatureCommand, FeatureDTO>
     {
         private readonly IFeatureRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateFeatureCommandHandler(IFeatureRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public CreateFeatureCommandHandler(IFeatureRepository repository, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _integrationEventService = integrationEventService;
         }
@@ -29,10 +27,10 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
         {
             var feature = new Feature(message.Name, message.Description, message.Price);
             _repository.Add(feature);
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             var featureDTO = _mapper.Map<FeatureDTO>(feature);
-
             var integrationEvent = new FeatureCreatedEvent(featureDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
 

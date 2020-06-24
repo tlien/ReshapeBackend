@@ -4,6 +4,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to create a new <c>Feature</c> through the <c>CreateFeatureCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class CreateFeatureCommand : IRequest<FeatureDTO>
     {

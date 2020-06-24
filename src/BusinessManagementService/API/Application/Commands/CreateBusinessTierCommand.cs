@@ -4,6 +4,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.BusinessManagementService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to create a new <c>BusinessTier</c> through the <c>CreateBusinessTierCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class CreateBusinessTierCommand : IRequest<BusinessTierDTO>
     {

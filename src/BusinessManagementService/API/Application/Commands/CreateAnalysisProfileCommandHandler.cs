@@ -13,24 +13,23 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
     public class CreateAnalysisProfileCommandHandler : IRequestHandler<CreateAnalysisProfileCommand, AnalysisProfileDTO>
     {
         private readonly IAnalysisProfileRepository _repository;
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public CreateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMediator mediator, IMapper mapper, IIntegrationEventService integrationEventService)
+        public CreateAnalysisProfileCommandHandler(IAnalysisProfileRepository repository, IMapper mapper, IIntegrationEventService integrationEventService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _integrationEventService = integrationEventService;
+            _integrationEventService = integrationEventService ?? throw new ArgumentNullException(nameof(integrationEventService));
         }
 
         public async Task<AnalysisProfileDTO> Handle(CreateAnalysisProfileCommand message, CancellationToken cancellationToken)
         {
             var analysisProfile = new AnalysisProfile(message.Name, message.Description, message.Price);
+
             analysisProfile.SetMediaType(_repository.AddMediaType(
-                new MediaType(message.MediaType.Id, message.MediaType.Name))
-            );
+                 new MediaType(message.MediaType.Id, message.MediaType.Name))
+             );
             analysisProfile.SetScriptFile(_repository.AddScriptFile(
                 new ScriptFile(message.ScriptFile.Id, message.ScriptFile.Name, message.ScriptFile.Description, message.ScriptFile.Script)
                 )
@@ -41,12 +40,12 @@ namespace Reshape.BusinessManagementService.API.Application.Commands
             );
 
             _repository.Add(analysisProfile);
-            await _repository.UnitOfWork.SaveChangesAsync();
 
             var analysisProfileDTO = _mapper.Map<AnalysisProfileDTO>(analysisProfile);
-
             var integrationEvent = new AnalysisProfileCreatedEvent(analysisProfileDTO);
             await _integrationEventService.AddAndSaveEventAsync(integrationEvent);
+
+            await _repository.UnitOfWork.SaveChangesAsync();
 
             return analysisProfileDTO;
         }

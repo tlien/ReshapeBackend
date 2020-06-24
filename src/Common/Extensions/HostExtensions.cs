@@ -22,7 +22,6 @@ namespace Reshape.Common.Extensions
         ///     outlined at: https://github.com/dotnet/efcore/issues/19587
         /// </summary>
         /// <typeparam name="TDbContext">The type containing the database context.</typeparam>
-        /// <returns>The same instance of the Microsoft.Extensions.Hosting.IHostBuilder for chaining.</returns>
         public static IHost MigrateDatabase<TDbContext>(this IHost host) where TDbContext : DbContext
         {
             return MigrateDatabase<TDbContext, SqlException>(host);
@@ -39,14 +38,13 @@ namespace Reshape.Common.Extensions
         /// </summary>
         /// <typeparam name="TDbContext">The type containing the database context.</typeparam>
         /// <typeparam name="TException">The type containing the exception thrown when migration fails due to the database container not being ready.</typeparam>
-        /// <returns>The same instance of the Microsoft.Extensions.Hosting.IHostBuilder for chaining.</returns>
         public static IHost MigrateDatabase<TDbContext, TException>(this IHost host) where TDbContext : DbContext where TException : DbException
         {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Throws exception if service is not registered
-                var context = services.GetService<TDbContext>(); // Returns null if service is not registered
+                var logger = services.GetRequiredService<ILogger<TDbContext>>(); // Note: Throws exception if service is not registered
+                var context = services.GetService<TDbContext>(); // Note: Returns null if service is not registered
                 var contextName = context.GetType().Name;
 
                 try
@@ -83,7 +81,6 @@ namespace Reshape.Common.Extensions
         /// </summary>
         /// <param name="cond">Condition to check.</param>
         /// <param name="method">Method to run if <paramref name="cond"/> is True.</param>
-        /// <returns>The same instance of T for further chaining.</returns>
         public static T If<T>(this T t, bool cond, Func<T, T> method)
         {
             if (cond)

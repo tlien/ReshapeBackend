@@ -5,6 +5,10 @@ using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfileAggregate
 {
+    /// <summary>
+    /// Domain entity that will be used to provide parameters
+    /// (arguments) for <c>AnalysisProfile.ScriptFile</c>.
+    /// </summary>
     public class ScriptParametersFile : Entity
     {
         public string Name { get; private set; }
@@ -24,6 +28,21 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.AnalysisProfi
         {
             Name = name;
             Description = description;
+            ScriptParameters = scriptParameters;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetScriptParameters(string scriptParameters)
+        {
             ScriptParameters = scriptParameters;
         }
     }

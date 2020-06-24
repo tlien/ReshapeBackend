@@ -6,6 +6,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reshape.AccountService.API.Application.Commands
 {
+    /// <summary>
+    /// Models the data needed to add one or more <c>AnalysisProfiles</c> to an existing <c>Account</c> through the <c>AddAnalysisProfilesCommandHandler</c>
+    /// </summary>
     [DataContract]
     public class AddAnalysisProfilesCommand : IRequest<int>
     {

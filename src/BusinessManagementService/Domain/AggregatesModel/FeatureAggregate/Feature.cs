@@ -1,7 +1,13 @@
+using System;
+
 using Reshape.Common.SeedWork;
 
 namespace Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggregate
 {
+    /// <summary>
+    /// Feature domain aggregate.
+    /// Inherits from <c>Entity</c> base class and implements the <c>IAggregateRoot</c> interface.
+    /// </summary>
     public class Feature : Entity, IAggregateRoot
     {
         public string Name { get; private set; }
@@ -12,6 +18,27 @@ namespace Reshape.BusinessManagementService.Domain.AggregatesModel.FeatureAggreg
         {
             Name = name;
             Description = description;
+            Price = price;
+        }
+
+        // ctor used for seeding don't put this in production.
+        public Feature(Guid id, string name, string description, decimal price) : this(name, description, price)
+        {
+            base.Id = id;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetPrice(decimal price)
+        {
             Price = price;
         }
     }

@@ -2,8 +2,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Reshape.Common.DevelopmentTools
 {
-    public interface ISeeder<T> where T : DbContext
+    /// <summary>
+    /// A contract to be implemented by any DbContext based class with an associated database seeder.
+    ///
+    /// **THIS IS ONLY FOR DEVELOPMENT USE!**
+    /// </summary>
+    /// <typeparam name="TDbContext">The DbContext to be seeded</typeparam>
+    public interface ISeeder<TDbContext> where TDbContext : DbContext
     {
-        T AddSeedData();
+        /// <summary>
+        /// Seed database with predefined data.
+        /// </summary>
+        TDbContext AddSeedData();
     }
 }

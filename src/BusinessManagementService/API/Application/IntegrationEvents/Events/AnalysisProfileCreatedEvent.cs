@@ -6,6 +6,9 @@ using Reshape.BusinessManagementService.API.Application.Commands;
 
 namespace Reshape.BusinessManagementService.API.Application.IntegrationEvents.Events
 {
+    /// <summary>
+    /// Integration event to inform subscribers that a new <c>AnalysisProfile</c> has been created.
+    /// </summary>
     public class AnalysisProfileCreatedEvent : AnalysisProfileCreated
     {
         public Guid Id { get; }

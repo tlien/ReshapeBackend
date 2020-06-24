@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Reshape.AccountService.API.Application.Queries.AccountQueries
 {
+    /// <summary>
+    /// Represents an <c>Account</c> aggregate.
+    /// </summary>
     public class AccountViewModel
     {
         public Guid Id { get; set; }
@@ -17,6 +20,9 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         public List<AnalysisProfileViewModel> AnalysisProfiles { get; set; }
     }
 
+    /// <summary>
+    /// Represents an <c>Address</c> value object.
+    /// </summary>
     public class AddressViewModel
     {
         public string Street1 { get; set; }
@@ -26,6 +32,9 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         public string Country { get; set; }
     }
 
+    /// <summary>
+    /// Represents a <c>ContactDetails</c> value object.
+    /// </summary>
     public class ContactDetailsViewModel
     {
         public string ContactPersonFullName { get; set; }
@@ -33,6 +42,9 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         public string Email { get; set; }
     }
 
+    /// <summary>
+    /// Represents a <c>Feature</c> entity.
+    /// </summary>
     public class FeatureViewModel
     {
         public Guid Id { get; set; }
@@ -40,6 +52,9 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         public string Description { get; set; }
     }
 
+    /// <summary>
+    /// Represents a <c>BusinessTier</c> entity.
+    /// </summary>
     public class BusinessTierViewModel
     {
         public Guid Id { get; set; }
@@ -47,6 +62,9 @@ namespace Reshape.AccountService.API.Application.Queries.AccountQueries
         public string Description { get; set; }
     }
 
+    /// <summary>
+    /// Represents a <c>AnalysisProfile</c> entity.
+    /// </summary>
     public class AnalysisProfileViewModel
     {
         public Guid Id { get; set; }
