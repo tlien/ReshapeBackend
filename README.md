@@ -28,10 +28,10 @@ the following features will be available:
 > `reshapebackend_acc.api_1` | `localhost:5002`
 
 **Same as above except it's the business management API.**
-> `<reshapebackend_bm.api_1>` | `localhost:5001`
+> `reshapebackend_bm.api_1` | `localhost:5001`
 
 **The API gateway. It exposes a aggregated Swagger UI, unfortunately authentication hasn't been setup for it yet, meaning only anonymous endpoints can be called - of which there are none.**
-> `<reshapebackend_bm.api_1>` | `localhost:5000`
+> `reshapebackend_bm.api_1` | `localhost:5000`
 
 <br />
 
