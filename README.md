@@ -13,7 +13,7 @@ Some day in the far-future when this is production ready, run production mode wi
 `docker-compose -f docker-compose.yml -f docker-compose.prod.yml up`
 
 ### How to use
-Once the docker-compose up command has been run for both the backend and frontend projects (found [here](https://github.com/tlien/ReshapeFrontend/))
+Once the docker-compose up command has been run for both the backend and frontend projects (frontend found [here](https://github.com/tlien/ReshapeFrontend/))
 the following features will be available:
 
 > \<container name> | \<url>
