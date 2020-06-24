@@ -63,3 +63,7 @@ Otherwise basic syntax, e.g: `select * from <table_name>;`
 The RabbitMQ instance can be found here:\
 **Exposes a UI for managing and monitoring the RabbitMQ instance (user/pwd: guest/guest).**
 > `reshapebackend_rabbitmq_1` | `localhost:5100`
+
+### Developing
+VS Code is recommend for developing. Instead of opening the src folder in VS Code directly, it is recommended to use the included _Workspace_-file as it sets up the workspace along with some useful _tasks_ and recommended _extensions_.
+To see the available development tasks, have a look at the _tasks_ section of the [ReshapeBackend.code-workspace](ReshapeBackend.code-workspace)-file
