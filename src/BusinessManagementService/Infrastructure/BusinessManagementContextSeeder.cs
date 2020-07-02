@@ -15,9 +15,8 @@ namespace Reshape.BusinessManagementService.Infrastructure
             if (!context.BusinessTiers.Any())
             {
                 var businessTiers = new List<BusinessTier>() {
-                    new BusinessTier(Guid.Parse("0c69921b-afa7-4eba-a69f-aaef3a5c3f5b"), "BusinessTier1", "Long and informative description full of details and stuff woah!", 100.00m),
-                    new BusinessTier(Guid.Parse("2992a45a-9b79-4eee-aa30-240ccefe4ec2"), "BusinessTier2", "Long and informative description full of details and stuff woah!", 100.00m),
-                    new BusinessTier(Guid.Parse("af22db79-9f91-4a0f-b50a-5e935dab6c55"), "BusinessTier3", "Long and informative description full of details and stuff woah!", 100.00m)
+                    new BusinessTier(Guid.Parse("0c69921b-afa7-4eba-a69f-aaef3a5c3f5b"), "Paid", "Long and informative description full of details and stuff woah!", 100.00m),
+                    new BusinessTier(Guid.Parse("2992a45a-9b79-4eee-aa30-240ccefe4ec2"), "Free", "Long and informative description full of details and stuff woah!", 0.00m)
                 };
                 context.AddRange(businessTiers);
             }
