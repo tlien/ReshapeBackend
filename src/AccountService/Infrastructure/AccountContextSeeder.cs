@@ -11,9 +11,8 @@ namespace Reshape.AccountService.Infrastructure
         internal static AccountContext AddSeedData(this AccountContext context)
         {
             var businessTiers = new List<BusinessTier>() {
-                new BusinessTier(Guid.Parse("0c69921b-afa7-4eba-a69f-aaef3a5c3f5b"), "BusinessTier1", "Long and informative description full of details and stuff woah!", 100.00m),
-                new BusinessTier(Guid.Parse("2992a45a-9b79-4eee-aa30-240ccefe4ec2"), "BusinessTier2", "Long and informative description full of details and stuff woah!", 100.00m),
-                new BusinessTier(Guid.Parse("af22db79-9f91-4a0f-b50a-5e935dab6c55"), "BusinessTier3", "Long and informative description full of details and stuff woah!", 100.00m)
+                new BusinessTier(Guid.Parse("0c69921b-afa7-4eba-a69f-aaef3a5c3f5b"), "Paid", "Long and informative description full of details and stuff woah!", 100.00m),
+                new BusinessTier(Guid.Parse("2992a45a-9b79-4eee-aa30-240ccefe4ec2"), "Free", "Long and informative description full of details and stuff woah!", 0.00m)
             };
 
             // Check (naively) if BusinessTiers have already been seeded
@@ -56,7 +55,7 @@ namespace Reshape.AccountService.Infrastructure
                 var account1 = new Account(Guid.Parse("bec823e4-aced-4b92-9442-70c2f32c65f9"));
                 account1.SetAddress(new Address("One Haxxor Way", "1337", "Heidelberg", "69118", "Germany"));
                 account1.SetContactDetails(new ContactDetails("Don Keigh", "818727", "DoKeigh@email.com"));
-                account1.SetBusinessTier(businessTiers[2]);
+                account1.SetBusinessTier(businessTiers[1]);
                 account1.AddFeature(features[2]);
                 account1.AddFeature(features[3]);
                 account1.AddAnalysisProfile(analysisProfiles[1]);
