@@ -60,7 +60,6 @@ namespace Reshape.AccountService.Infrastructure
         /// Save changes made to all tracked entities to the database.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             // DO STUFF WITH DOMAIN EVENTS HERE!
@@ -71,8 +70,8 @@ namespace Reshape.AccountService.Infrastructure
 
         /// <summary>
         /// Begins a new database transaction unless a transaction is already tracked in the <c>AccountContext</c>.
-        /// The transaction has <c>IsolationLevel.ReadCommitted</c>, allowing outside transactions to read (but not write to)
-        /// the volatile data (data affected during the transaction).
+        /// The transaction has <c>IsolationLevel.ReadCommitted</c>, this ensures reads are always the latest in-memory version
+        /// during an active transaction.
         /// </summary>
         /// <returns>A <c>Task</c> that returns the transaction once awaited.</returns>
         public async Task<IDbContextTransaction> BeginTransactionAsync()
@@ -91,7 +90,6 @@ namespace Reshape.AccountService.Infrastructure
         /// See <c>AccountContext.RollbackTransaction()</c> for more info.
         /// </summary>
         /// <param name="transaction">The transaction to commit</param>
-        /// <returns></returns>
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
